@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HomeFaq } from "@/components/HomeFaq";
 import { JsonLd } from "@/components/JsonLd";
 import { ShippingResponsibilityNotice } from "@/components/LegalNotice";
 import { SizeChecker } from "@/components/tools/SizeChecker";
@@ -72,6 +73,10 @@ export default function Home() {
 
       <section className="mx-auto max-w-6xl px-6 py-10">
         <ShippingResponsibilityNotice />
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-14">
+        <HomeFaq />
       </section>
     </main>
   );
