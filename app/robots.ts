@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://shippinglabelhelper.com/sitemap.xml",
+    sitemap: "https://labelhelper.com/sitemap.xml",
   };
 }

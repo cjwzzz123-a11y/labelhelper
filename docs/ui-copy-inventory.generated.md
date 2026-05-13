@@ -1449,7 +1449,7 @@ Total entries: 4006
 | 6 | short UI label | Mixed/unspecified | @/components/SiteHeader | Keep wording factual; avoid claiming unimplemented features. |
 | 7 | short UI label | Mixed/unspecified | @/lib/i18n | Keep wording factual; avoid claiming unimplemented features. |
 | 8 | short UI label | Mixed/unspecified | ./globals.css | Keep wording factual; avoid claiming unimplemented features. |
-| 14 | body copy | Mixed/unspecified | https://shippinglabelhelper.com | Keep wording factual; avoid claiming unimplemented features. |
+| 14 | body copy | Mixed/unspecified | https://labelhelper.com | Keep wording factual; avoid claiming unimplemented features. |
 | 16 | short UI label | Mixed/unspecified | Shipping Label Helper | Keep wording factual; avoid claiming unimplemented features. |
 | 17 | short UI label | Mixed/unspecified | %s \| Shipping Label Helper | Keep wording factual; avoid claiming unimplemented features. |
 | 19 | copy constant | Free | Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers. | Keep wording factual; avoid claiming unimplemented features. |
@@ -1667,7 +1667,7 @@ Total entries: 4006
 
 | Line | Role | Access | Text / Expression | Maintainer note |
 |---:|---|---|---|---|
-| 9 | body copy | Mixed/unspecified | https://shippinglabelhelper.com/sitemap.xml | Keep wording factual; avoid claiming unimplemented features. |
+| 9 | body copy | Mixed/unspecified | https://labelhelper.com/sitemap.xml | Keep wording factual; avoid claiming unimplemented features. |
 
 ## app/sitemap.ts
 
@@ -1675,7 +1675,7 @@ Total entries: 4006
 |---:|---|---|---|---|
 | 2 | short UI label | Mixed/unspecified | @/data/seo-pages | Keep wording factual; avoid claiming unimplemented features. |
 | 3 | short UI label | Mixed/unspecified | @/lib/i18n | Keep wording factual; avoid claiming unimplemented features. |
-| 5 | body copy | Mixed/unspecified | https://shippinglabelhelper.com | Keep wording factual; avoid claiming unimplemented features. |
+| 5 | body copy | Mixed/unspecified | https://labelhelper.com | Keep wording factual; avoid claiming unimplemented features. |
 | 9 | short UI label | Mixed/unspecified | /tools | Keep wording factual; avoid claiming unimplemented features. |
 | 10 | short UI label | Mixed/unspecified | /tools/scale-calculator | Keep wording factual; avoid claiming unimplemented features. |
 | 11 | short UI label | Mixed/unspecified | /tools/calibration-sheet | Keep wording factual; avoid claiming unimplemented features. |

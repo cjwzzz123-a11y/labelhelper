@@ -11,7 +11,7 @@ const analyticsHost = process.env.NEXT_PUBLIC_UMAMI_HOST;
 const analyticsWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shippinglabelhelper.com"),
+  metadataBase: new URL("https://labelhelper.com"),
   title: {
     default: "Shipping Label Helper",
     template: "%s | Shipping Label Helper",

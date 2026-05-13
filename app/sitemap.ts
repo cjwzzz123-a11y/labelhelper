@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getImplementedSeoLocales, seoPages } from "@/data/seo-pages";
 import { alternateLanguages, availableLocalesForPath, localizedPath, locales, type Locale } from "@/lib/i18n";
 
-const baseUrl = "https://shippinglabelhelper.com";
+const baseUrl = "https://labelhelper.com";
 
 const staticRoutes = [
   "",
