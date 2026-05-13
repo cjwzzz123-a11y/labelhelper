@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Shipping Label Helper",
+    "language": "Idioma",
+    "comingSoon": "próximamente",
+    "tagline": "Comprobar tamaño y escala de impresión",
+    "ctaSize": "Empezar revisión"
+  },
+  "nav": {
+    "checkLabel": "Comprobar etiqueta",
+    "tools": "Diagnóstico",
+    "testPrint": "Prueba de impresión",
+    "guides": "Guías",
+    "pricing": "Suscripción"
+  },
+  "locales": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "home": {
+    "badge": "No requiere registro",
+    "heroTitle": "Imprime el tamaño correcto de etiqueta antes de comprar el envío.",
+    "heroDescription": "Elige marketplace, transportista, papel e impresora. Obtén una recomendación clara para 4×6, Letter o A4 con escala, orientación y ajustes de impresión.",
+    "primaryCta": "Comprobar mi etiqueta",
+    "secondaryCta": "Arreglar una impresión",
+    "trustNote": "Herramienta gratuita primero. Sin cuenta ni carga de etiquetas.",
+    "featuresHeading": "Correcciones, plantillas y herramientas populares",
+    "problemStatement": "Resuelve problemas de tamaño de etiqueta, escala de impresión y ajustes de impresora antes de comprar el envío o reimprimir una etiqueta."
+  },
+  "pricing": {
+    "metaTitle": "Precios | Shipping Label Helper",
+    "metaDescription": "Precios de Shipping Label Helper para comprobaciones gratuitas, herramientas PDF locales y soporte de flujo de trabajo.",
+    "breadcrumb": "Precios",
+    "eyebrow": "Precios simples",
+    "h1": "Empieza gratis. Actualiza solo si las vistas previas encajan con tu flujo.",
+    "intro": "El comprobador de tamaño, las plantillas y las guías siguen siendo gratis. Las herramientas avanzadas son primero vistas previas mientras se conecta checkout, entrega de licencia e informes guardados.",
+    "honestyTitle": "Estado actual del checkout",
+    "honestyText": "El acceso de pago se muestra con claridad: usa las vistas previas ahora y desbloquea salidas sin marca de agua cuando checkout y licencias estén conectados.",
+    "opensEnglish": "herramienta en inglés",
+    "secureCheckout": "Ir al checkout seguro",
+    "checkoutReadyNote": "El checkout seguro está listo. Después del pago, introduce la licencia enviada por email.",
+    "status": {
+      "available": "Disponible",
+      "preview": "Vista previa",
+      "planned": "Planificado",
+      "checkoutReady": "Checkout listo"
+    },
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "note": "Para vendedores que necesitan decidir rápido el tamaño antes de imprimir.",
+        "cta": "Empezar gratis",
+        "feature1": "Comprobar marketplace, transportista, papel e impresora",
+        "feature2": "Calcular escala para etiquetas pequeñas o grandes",
+        "feature3": "Descargar plantillas en blanco",
+        "feature4": "Leer guías antes de reimprimir"
+      },
+      "pro": {
+        "name": "Pro Toolkit",
+        "note": "Para comparar vistas previas de PDF, código de barras y calibración antes de comprar envío.",
+        "cta": "Ver vistas Pro",
+        "feature1": "Previsualizar tamaño de página PDF y escala",
+        "feature2": "Generar hojas de calibración con marca de agua",
+        "feature3": "Descargar paquetes de prueba con marca de agua",
+        "feature4": "Revisar zonas blancas del código de barras"
+      }
+    },
+    "nextTitle": "¿Necesitas más que el comprobador gratuito?",
+    "nextText": "Empieza con las herramientas gratuitas. Usa las vistas avanzadas para decidir si los checks de PDF, código de barras o flujo de equipo resuelven tu problema real.",
+    "freeToolsLink": "Empezar con herramientas gratuitas",
+    "compareLink": "Comparar PDF y código de barras"
+  }
+}

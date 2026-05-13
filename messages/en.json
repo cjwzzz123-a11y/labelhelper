@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Shipping Label Helper",
+    "language": "Language",
+    "comingSoon": "coming soon",
+    "tagline": "Check label size and print scale",
+    "ctaSize": "Start check"
+  },
+  "nav": {
+    "checkLabel": "Check Label",
+    "tools": "Problem finder",
+    "testPrint": "Test Print",
+    "guides": "Guides",
+    "pricing": "Subscribe"
+  },
+  "locales": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "home": {
+    "badge": "No signup required",
+    "heroTitle": "Print the right shipping label size before you buy postage.",
+    "heroDescription": "Pick your marketplace, carrier, paper and printer. Get a clear 4×6, Letter or A4 recommendation with the exact scale, orientation and print-dialog settings to avoid cut-off, tiny or unscannable labels.",
+    "primaryCta": "Check my label size",
+    "secondaryCta": "Fix a bad print",
+    "trustNote": "Free checker first. No account, dashboard or label upload needed.",
+    "featuresHeading": "Popular fixes, templates and tools",
+    "problemStatement": "Solve shipping label size, print scale and printer-setting problems before you buy postage or reprint a carrier label."
+  },
+  "pricing": {
+    "metaTitle": "Pricing | Shipping Label Helper",
+    "metaDescription": "Shipping Label Helper pricing for free label checks and local PDF tools.",
+    "breadcrumb": "Pricing",
+    "eyebrow": "Simple pricing",
+    "h1": "Start free. Upgrade only when the preview tools fit your workflow.",
+    "intro": "The size checker, templates and troubleshooting guidance stay free. Paid features are the preview tools: PDF page-size checks, calibration sheets, barcode image review and test-print packs.",
+    "honestyTitle": "Current checkout status",
+    "honestyText": "Paid access uses Creem license keys. Keep your key safe because this site does not store user accounts.",
+    "opensEnglish": "English tool",
+    "secureCheckout": "Go to secure checkout",
+    "checkoutReadyNote": "Secure checkout is ready. After payment, enter the Creem license key from your receipt or customer portal.",
+    "status": {
+      "available": "Available now",
+      "preview": "Paid preview",
+      "planned": "Planned",
+      "checkoutReady": "Checkout ready"
+    },
+    "plans": {
+      "free": {
+        "name": "Free",
+        "note": "Good for sellers who need one quick label-size decision before printing.",
+        "cta": "Start free size check",
+        "feature1": "Check marketplace, carrier, paper and printer",
+        "feature2": "Calculate scale for tiny or oversized labels",
+        "feature3": "Download blank label templates",
+        "feature4": "Read troubleshooting guides before reprinting"
+      },
+      "pro": {
+        "name": "Pro Toolkit",
+        "note": "Unlock clean local outputs for sellers comparing PDF, barcode and calibration output before buying paid postage.",
+        "cta": "Review paid previews",
+        "feature1": "Preview PDF page size and estimated scale",
+        "feature2": "Generate clean calibration sheets after unlock",
+        "feature3": "Download clean test print packs after unlock",
+        "feature4": "Review barcode quiet zones from an image"
+      }
+    },
+    "nextTitle": "Need more than the free checker?",
+    "nextText": "Start with the free label-size tools. Use advanced preview sections to decide whether PDF page-size checks, barcode image review or team workflow planning solve your actual print problem.",
+    "freeToolsLink": "Start with free label tools",
+    "compareLink": "Compare PDF and barcode checks"
+  }
+}

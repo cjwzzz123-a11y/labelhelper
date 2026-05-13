@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Shipping Label Helper",
+    "language": "言語",
+    "comingSoon": "近日公開",
+    "tagline": "ラベルサイズと印刷倍率を確認",
+    "ctaSize": "チェック開始"
+  },
+  "nav": {
+    "checkLabel": "ラベル確認",
+    "tools": "問題診断",
+    "testPrint": "テスト印刷",
+    "guides": "ガイド",
+    "pricing": "購読"
+  },
+  "locales": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "home": {
+    "badge": "登録不要",
+    "heroTitle": "送料を購入する前に、正しい送り状サイズで印刷しましょう。",
+    "heroDescription": "マーケットプレイス、配送会社、用紙、プリンターを選ぶだけで、4×6、Letter、A4 の推奨サイズ、倍率、向き、印刷設定を確認できます。",
+    "primaryCta": "ラベルを確認",
+    "secondaryCta": "印刷を修正",
+    "trustNote": "まずは無料チェック。アカウント作成やラベルのアップロードは不要です。",
+    "featuresHeading": "人気の修正、テンプレート、ツール",
+    "problemStatement": "送料を購入したり配送ラベルを再印刷したりする前に、ラベルサイズ、印刷倍率、プリンター設定の問題を確認します。"
+  },
+  "pricing": {
+    "metaTitle": "料金 | Shipping Label Helper",
+    "metaDescription": "Shipping Label Helper の料金。無料ラベルチェック、ローカル PDF ツール、販売者ワークフロー向け。",
+    "breadcrumb": "料金",
+    "eyebrow": "シンプルな料金",
+    "h1": "まず無料で開始。プレビューツールが合う場合だけアップグレード。",
+    "intro": "サイズチェック、テンプレート、トラブルシューティングは無料のままです。高度なツールは、決済・ライセンス配信・保存レポートの接続中はプレビューとして提供します。",
+    "honestyTitle": "現在の決済ステータス",
+    "honestyText": "有料アクセスは正直に表示します。今はプレビューを使い、決済とライセンスが接続された後に透かしなし出力を解除できます。",
+    "opensEnglish": "英語ツール",
+    "secureCheckout": "安全な決済へ",
+    "checkoutReadyNote": "安全な決済が利用できます。支払い後、メールのライセンスキーを入力してください。",
+    "status": {
+      "available": "利用可能",
+      "preview": "プレビュー",
+      "planned": "予定",
+      "checkoutReady": "決済準備済み"
+    },
+    "plans": {
+      "free": {
+        "name": "無料",
+        "note": "印刷前にラベルサイズをすばやく判断したい販売者向け。",
+        "cta": "無料でチェック",
+        "feature1": "マーケット、配送会社、用紙、プリンターを確認",
+        "feature2": "小さすぎる/大きすぎるラベルの倍率を計算",
+        "feature3": "空白テンプレートをダウンロード",
+        "feature4": "再印刷前にガイドを確認"
+      },
+      "pro": {
+        "name": "Pro Toolkit",
+        "note": "送料購入前に PDF、バーコード、キャリブレーションのプレビューを比較したい販売者向け。",
+        "cta": "Pro プレビューを見る",
+        "feature1": "PDF ページサイズと推定倍率を確認",
+        "feature2": "透かし付きキャリブレーションシートを生成",
+        "feature3": "透かし付きテスト印刷パックをダウンロード",
+        "feature4": "画像からバーコード余白を確認"
+      }
+    },
+    "nextTitle": "無料チェック以上が必要ですか？",
+    "nextText": "まず無料ツールから始めましょう。PDF、バーコード、チームワークフローのプレビューが実際の印刷問題を解決するか確認できます。",
+    "freeToolsLink": "無料ツールから開始",
+    "compareLink": "PDF とバーコードを比較"
+  }
+}

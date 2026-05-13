@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Shipping Label Helper",
+    "language": "Langue",
+    "comingSoon": "bientôt disponible",
+    "tagline": "Vérifier taille et échelle d’impression",
+    "ctaSize": "Commencer"
+  },
+  "nav": {
+    "checkLabel": "Vérifier",
+    "tools": "Diagnostic",
+    "testPrint": "Test d’impression",
+    "guides": "Guides",
+    "pricing": "Abonnement"
+  },
+  "locales": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "home": {
+    "badge": "Sans inscription",
+    "heroTitle": "Imprimez la bonne taille d’étiquette avant d’acheter l’affranchissement.",
+    "heroDescription": "Choisissez votre marketplace, transporteur, papier et imprimante. Obtenez une recommandation claire pour 4×6, Letter ou A4 avec l’échelle, l’orientation et les réglages d’impression.",
+    "primaryCta": "Vérifier mon étiquette",
+    "secondaryCta": "Corriger une impression",
+    "trustNote": "Outil gratuit d’abord. Aucun compte ni téléversement d’étiquette.",
+    "featuresHeading": "Corrections, modèles et outils populaires",
+    "problemStatement": "Résolvez les problèmes de taille d’étiquette, d’échelle d’impression et de réglages d’imprimante avant d’acheter l’affranchissement ou de réimprimer une étiquette."
+  },
+  "pricing": {
+    "metaTitle": "Tarifs | Shipping Label Helper",
+    "metaDescription": "Tarifs Shipping Label Helper pour les vérifications gratuites, outils PDF locaux et workflows vendeurs.",
+    "breadcrumb": "Tarifs",
+    "eyebrow": "Tarifs simples",
+    "h1": "Commencez gratuitement. Passez à Pro seulement si les aperçus conviennent à votre workflow.",
+    "intro": "Le vérificateur de taille, les modèles et les guides restent gratuits. Les outils avancés sont en aperçu pendant la connexion du paiement, des licences et des rapports sauvegardés.",
+    "honestyTitle": "État actuel du paiement",
+    "honestyText": "L’accès payant est présenté clairement : utilisez les aperçus maintenant, puis débloquez les sorties sans filigrane quand le paiement et les licences seront connectés.",
+    "opensEnglish": "outil en anglais",
+    "secureCheckout": "Aller au paiement sécurisé",
+    "checkoutReadyNote": "Le paiement sécurisé est prêt. Après paiement, saisissez la clé envoyée par email.",
+    "status": {
+      "available": "Disponible",
+      "preview": "Aperçu",
+      "planned": "Prévu",
+      "checkoutReady": "Paiement prêt"
+    },
+    "plans": {
+      "free": {
+        "name": "Gratuit",
+        "note": "Pour décider rapidement de la bonne taille avant impression.",
+        "cta": "Commencer gratuitement",
+        "feature1": "Vérifier marketplace, transporteur, papier et imprimante",
+        "feature2": "Calculer l’échelle des étiquettes trop petites ou grandes",
+        "feature3": "Télécharger des modèles vierges",
+        "feature4": "Lire les guides avant de réimprimer"
+      },
+      "pro": {
+        "name": "Pro Toolkit",
+        "note": "Pour comparer les aperçus PDF, code-barres et calibration avant d’acheter l’affranchissement.",
+        "cta": "Voir les aperçus Pro",
+        "feature1": "Prévisualiser taille PDF et échelle estimée",
+        "feature2": "Générer des feuilles de calibration avec filigrane",
+        "feature3": "Télécharger des packs de test avec filigrane",
+        "feature4": "Vérifier les zones blanches du code-barres"
+      }
+    },
+    "nextTitle": "Besoin de plus que le vérificateur gratuit ?",
+    "nextText": "Commencez avec les outils gratuits. Utilisez les aperçus avancés pour voir si les contrôles PDF, code-barres ou workflow résolvent votre vrai problème.",
+    "freeToolsLink": "Commencer avec les outils gratuits",
+    "compareLink": "Comparer PDF et code-barres"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "common": {
+    "siteName": "Shipping Label Helper",
+    "language": "Sprache",
+    "comingSoon": "demnächst",
+    "tagline": "Etikettgröße und Druckskalierung prüfen",
+    "ctaSize": "Prüfung starten"
+  },
+  "nav": {
+    "checkLabel": "Etikett prüfen",
+    "tools": "Diagnose",
+    "testPrint": "Testdruck",
+    "guides": "Ratgeber",
+    "pricing": "Abo"
+  },
+  "locales": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "de": "Deutsch",
+    "ja": "日本語",
+    "zh": "中文"
+  },
+  "home": {
+    "badge": "Keine Anmeldung nötig",
+    "heroTitle": "Drucken Sie die richtige Versandetikettgröße, bevor Sie Porto kaufen.",
+    "heroDescription": "Wählen Sie Marktplatz, Versanddienst, Papier und Drucker. Erhalten Sie eine klare Empfehlung für 4×6, Letter oder A4 mit Skalierung, Ausrichtung und Druckeinstellungen.",
+    "primaryCta": "Etikett prüfen",
+    "secondaryCta": "Druckproblem beheben",
+    "trustNote": "Kostenloser Check zuerst. Kein Konto und kein Etiketten-Upload nötig.",
+    "featuresHeading": "Beliebte Korrekturen, Vorlagen und Tools",
+    "problemStatement": "Löse Probleme mit Versandetikett-Größe, Druckskalierung und Druckereinstellungen, bevor du Porto kaufst oder ein Etikett erneut druckst."
+  },
+  "pricing": {
+    "metaTitle": "Preise | Shipping Label Helper",
+    "metaDescription": "Shipping Label Helper Preise für kostenlose Etikett-Checks, lokale PDF-Tools und Verkäufer-Workflows.",
+    "breadcrumb": "Preise",
+    "eyebrow": "Einfache Preise",
+    "h1": "Kostenlos starten. Upgrade nur, wenn die Vorschau-Tools zu Ihrem Workflow passen.",
+    "intro": "Größencheck, Vorlagen und Hilfen bleiben kostenlos. Erweiterte Tools sind zuerst Vorschauen, während Checkout, Lizenzversand und gespeicherte Berichte verbunden werden.",
+    "honestyTitle": "Aktueller Checkout-Status",
+    "honestyText": "Bezahlzugang wird ehrlich angezeigt: Vorschauen jetzt nutzen, wasserzeichenfreie Ausgabe nach Checkout- und Lizenz-Anbindung freischalten.",
+    "opensEnglish": "englisches Tool",
+    "secureCheckout": "Zum sicheren Checkout",
+    "checkoutReadyNote": "Sicherer Checkout ist bereit. Geben Sie nach Zahlung den Lizenzschlüssel aus der E-Mail ein.",
+    "status": {
+      "available": "Verfügbar",
+      "preview": "Vorschau",
+      "planned": "Geplant",
+      "checkoutReady": "Checkout bereit"
+    },
+    "plans": {
+      "free": {
+        "name": "Kostenlos",
+        "note": "Für Verkäufer, die vor dem Drucken schnell die richtige Größe entscheiden müssen.",
+        "cta": "Kostenlos prüfen",
+        "feature1": "Marktplatz, Versanddienst, Papier und Drucker prüfen",
+        "feature2": "Skalierung für zu kleine oder große Etiketten berechnen",
+        "feature3": "Leere Etikettvorlagen herunterladen",
+        "feature4": "Ratgeber vor dem erneuten Druck lesen"
+      },
+      "pro": {
+        "name": "Pro Toolkit",
+        "note": "Für Verkäufer, die PDF-, Barcode- und Kalibrierungsvorschauen vor dem Portokauf vergleichen.",
+        "cta": "Pro-Vorschauen ansehen",
+        "feature1": "PDF-Seitengröße und geschätzte Skalierung ansehen",
+        "feature2": "Kalibrierungsseiten mit Wasserzeichen erstellen",
+        "feature3": "Testdruck-Packs mit Wasserzeichen herunterladen",
+        "feature4": "Barcode-Ruhezonen aus einem Bild prüfen"
+      }
+    },
+    "nextTitle": "Mehr als der kostenlose Check nötig?",
+    "nextText": "Starten Sie mit kostenlosen Tools. Nutzen Sie erweiterte Vorschauen, um zu entscheiden, ob PDF-, Barcode- oder Team-Workflows Ihr echtes Druckproblem lösen.",
+    "freeToolsLink": "Mit kostenlosen Tools starten",
+    "compareLink": "PDF und Barcode vergleichen"
+  }
+}
