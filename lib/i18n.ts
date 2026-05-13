@@ -36,7 +36,7 @@ const openGraphLocales: Record<Locale, string> = {
 };
 
 const localizedPaths = new Map<Locale, Set<string>>(
-  locales.map((locale) => [locale, new Set<string>(["/", "/tools", "/tools/scale-calculator", "/tools/pdf-analyzer", "/tools/barcode-quiet-zone-checker", "/tools/calibration-sheet", "/tools/test-print-pack", "/test-print", "/guides", "/templates", "/pricing", "/thanks", "/unlock", "/privacy", "/terms", "/refunds"])]),
+  locales.map((locale) => [locale, new Set<string>(["/", "/tools", "/tools/scale-calculator", "/tools/pdf-analyzer", "/tools/barcode-quiet-zone-checker", "/tools/calibration-sheet", "/tools/test-print-pack", "/test-print", "/guides", "/templates", "/pricing", "/thanks", "/unlock", "/privacy", "/terms", "/refunds", "/contact"])]),
 );
 
 export function isSupportedLocale(value: unknown): value is Locale {

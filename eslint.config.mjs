@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "_local_not_for_github/**",
+    ".planning/**",
+    "international-label-splitter-data-bundle/**",
   ]),
 ]);
 

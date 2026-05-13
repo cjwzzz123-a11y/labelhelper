@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
+const contactEmail = "cjwzzz123@gmail.com";
+
 export const metadata: Metadata = {
   title: "Refund Policy | Shipping Label Helper",
-  description: "Refund policy for Shipping Label Helper Pro Toolkit and paid label troubleshooting tools.",
+  description: "14-day refund policy for Shipping Label Helper Pro Toolkit purchases made through Creem.",
+  alternates: { canonical: "/refunds" },
 };
 
 export default function RefundsPage() {
@@ -14,31 +17,47 @@ export default function RefundsPage() {
         <Breadcrumb items={[{ name: "Refunds", href: "/refunds" }]} />
         <div className="mt-8 rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-sky-100 sm:p-8">
           <p className="text-sm font-black uppercase tracking-[0.18em] text-sky-700">Refund policy</p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#12324A]">14-day refund, clear responsibility boundary</h1>
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#12324A]">14-day refund policy</h1>
           <p className="mt-4 text-lg leading-8 text-slate-700">
-            If you bought Pro Toolkit or another paid Shipping Label Helper feature and it did not work for you, email refund@shippinglabelhelper.com within 14 days of purchase. We will refund the purchase price first and keep the process simple.
+            Effective date: 2026-05-13. Shipping Label Helper Pro Toolkit is a digital product delivered by license key. Refund eligibility depends on whether the license key has already been used to unlock paid features.
           </p>
         </div>
 
         <div className="mt-8 grid gap-5">
-          <PolicySection title="14-day no-questions refund">
-            <p>Request a refund within 14 days from the same email used to purchase. Include the purchase receipt or license key. Refunds are returned to the original payment method through the payment processor.</p>
+          <PolicySection title="Refund window">
+            <p>You may request a refund within 14 days from the purchase date.</p>
+            <p>A full refund is available before the activation code or license key has been used.</p>
           </PolicySection>
-          <PolicySection title="Tool failure goodwill review">
-            <p>If a tool output was incorrect and you used it in good faith, contact refund@shippinglabelhelper.com with the license key, the failed label, carrier notice or fee receipt, and a short description. We review these cases within 5 business days.</p>
-            <p>This goodwill review does not create coverage for shipping costs, returned packages, customs holds, penalties, marketplace sanctions, lost sales, or other consequential losses.</p>
+
+          <PolicySection title="When a purchase is not refundable">
+            <p>Once a license key has been entered on the unlock page and paid Pro Toolkit features have been unlocked, the digital product is considered delivered and is not refundable.</p>
+            <p>Refunds are also not available for purchases outside the 14-day window, purchases made with an email address you cannot verify, or issues caused by unsupported files, printer settings, paper, carrier rules, or marketplace changes outside our control.</p>
           </PolicySection>
-          <PolicySection title="Your responsibility before shipping">
-            <p>Before applying any label to a package, test-scan the barcode, verify all addresses and customs declarations, and confirm the printed size. If the output looks wrong, do not ship with it.</p>
+
+          <PolicySection title="How to request a refund">
+            <p>
+              Email{" "}
+              <a className="font-bold text-[#12324A] underline" href={`mailto:${contactEmail}`}>
+                {contactEmail}
+              </a>{" "}
+              with the subject line <span className="font-semibold">[Refund Request] Order No. XXX</span>.
+            </p>
+            <p>Include the purchase email address and Creem order number. We process eligible refund requests within 5-10 business days.</p>
           </PolicySection>
-          <PolicySection title="Statutory rights">
-            <p>This policy does not limit non-waivable consumer rights that apply in your jurisdiction. If local law gives you stronger rights, those rights apply.</p>
+
+          <PolicySection title="Refund method">
+            <p>Approved refunds are returned to the original Creem payment source. Your bank or card issuer may need additional time to post the refund after Creem processes it.</p>
+          </PolicySection>
+
+          <PolicySection title="Before shipping">
+            <p>Always test-scan barcodes, verify addresses and customs information, and confirm print size before applying a label to a package. Do not ship with an output that looks wrong.</p>
           </PolicySection>
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/terms" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-[#12324A] hover:bg-white">Terms of Service</Link>
-          <Link href="/privacy" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-[#12324A] hover:bg-white">Privacy Policy</Link>
+          <Link href="/terms" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-[#12324A] hover:bg-white">Terms</Link>
+          <Link href="/privacy" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-[#12324A] hover:bg-white">Privacy</Link>
+          <Link href="/contact" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-[#12324A] hover:bg-white">Contact</Link>
         </div>
       </section>
     </main>
