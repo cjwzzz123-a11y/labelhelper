@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ShippingResponsibilityNotice } from "@/components/LegalNotice";
 import { REFERENCE_DOWNLOADS } from "@/data/label-templates";
 import { pageMetadata, softwareApplicationSchema } from "@/lib/seo";
-import { InternationalLabelSplitter } from "./Splitter";
+import { InternationalLabelSplitter } from "@/app/tools/international-label-splitter/Splitter";
 
 const title = "Verified eBay USPS International Label Splitter";
 const description = "Extract the verified eBay USPS PS Form 2976 label/customs block from a Letter PDF into a 4x6 PDF in your browser.";
