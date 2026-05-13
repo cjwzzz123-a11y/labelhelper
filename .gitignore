@@ -10,6 +10,7 @@ out/
 coverage/
 .vitest/
 .mcp.json
+.claude/
 _local_not_for_github/
 .planning/
 KYC_NEXTJS_COMPLIANCE_PLAN.md
