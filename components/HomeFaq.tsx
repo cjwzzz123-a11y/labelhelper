@@ -19,7 +19,7 @@ const homeFaqItems: FAQItem[] = [
   },
   {
     question: "What if I lose my license key or do not receive the email?",
-    answer: "First check your spam or promotions folder. If you still cannot find it, contact cjwzzz123@gmail.com with your purchase email and Creem order number.",
+    answer: "First check your spam or promotions folder. If you still cannot find it, contact support@labelhelper.com with your purchase email and Creem order number.",
   },
   {
     question: "Can I request a refund?",
@@ -31,7 +31,7 @@ const homeFaqItems: FAQItem[] = [
   },
   {
     question: "What if my carrier, marketplace or file format is not supported?",
-    answer: "Use the free checks and templates where they fit, and contact cjwzzz123@gmail.com with the unsupported platform, carrier, paper size and a description of the issue. Do not send sensitive label files unless support specifically asks for an example.",
+    answer: "Use the free checks and templates where they fit, and contact support@labelhelper.com with the unsupported platform, carrier, paper size and a description of the issue. Do not send sensitive label files unless support specifically asks for an example.",
   },
 ];
 

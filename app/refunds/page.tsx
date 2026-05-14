@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
-const contactEmail = "cjwzzz123@gmail.com";
+const contactEmail = "support@labelhelper.com";
 
 export const metadata: Metadata = {
   title: "Refund Policy | Shipping Label Helper",
