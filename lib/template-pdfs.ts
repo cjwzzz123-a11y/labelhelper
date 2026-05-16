@@ -107,7 +107,7 @@ function drawSyntheticBarcode(page: PDFPage, x: number, y: number, width: number
   }
 }
 
-export async function createBlankTemplatePdf(spec: TemplateSpec) {
+export async function createBlankTemplatePdf(spec: TemplateSpec, options: { watermark?: boolean } = {}) {
   const pdf = await PDFDocument.create();
   const page = pdf.addPage([spec.widthIn * 72, spec.heightIn * 72]);
   const font = await pdf.embedFont(StandardFonts.Helvetica);
@@ -131,6 +131,8 @@ export async function createBlankTemplatePdf(spec: TemplateSpec) {
   page.drawText(`${spec.widthMm} × ${spec.heightMm} mm · ${spec.widthIn} × ${spec.heightIn} in`, { x: margin, y: height - margin - 32, size: 8, font, color: muted });
   page.drawText("Print at 100% / Actual Size. Do not use Fit to Page.", { x: margin, y: margin + 22, size: 8, font: boldFont, color: slate });
   page.drawText("After printing: measure the 100 mm line, confirm all corner marks are visible, then print real postage.", { x: margin, y: margin + 10, size: 6.5, font, color: muted });
+
+  if (options.watermark) drawCenteredText(page, "FREE PREVIEW", centerY - 8, boldFont, 20, rgb(0.7, 0.74, 0.8));
 
   return pdf.save();
 }
