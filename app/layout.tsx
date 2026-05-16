@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -39,6 +40,7 @@ export default async function RootLayout({
           {children}
           <SiteFooter />
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
