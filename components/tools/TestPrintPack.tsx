@@ -160,9 +160,9 @@ export function TestPrintPack({ locale = defaultLocale }: { locale?: Locale }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key: licenseKey, instanceId: storedLicense.instanceId }),
       });
-      const result = (await response.json()) as { valid?: boolean; configured?: boolean; reason?: string; verifiedUntil?: string; instanceId?: string };
+      const result = (await response.json()) as { valid?: boolean; configured?: boolean; reason?: string; verifiedUntil?: string; instanceId?: string; token?: string };
       setLicenseActive(Boolean(result.valid));
-      if (result.valid) saveVerifiedLicense(licenseKey.trim(), result.verifiedUntil, result.instanceId);
+      if (result.valid) saveVerifiedLicense(licenseKey.trim(), result.verifiedUntil, result.instanceId, result.token);
       setLicenseMessage(result.valid ? pageCopy.accepted : `${result.reason ?? "License is not active."} ${pageCopy.inactiveSuffix}`);
     } catch {
       setLicenseActive(false);

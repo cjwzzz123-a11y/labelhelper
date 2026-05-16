@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createHmac } from "crypto";
 import { createSignedActivationCode, getLicenseServiceStatus, handleCreemWebhook, issueLicense, resetInMemoryLicensesForTests, verifyLicense, verifyLicensePlaceholder } from "./license";
+import { issueLicenseToken, verifyLicenseToken } from "./license-token";
 
 describe("license placeholders", () => {
   afterEach(() => {
@@ -47,6 +48,15 @@ describe("license placeholders", () => {
     expect(result.active).toBe(true);
     expect(result.record?.key).toBe(code);
     expect(result.record?.source).toBe("manual");
+  });
+
+  it("signs short-lived license tokens with the license signing secret", () => {
+    vi.stubEnv("LICENSE_SIGNING_SECRET", "token-secret");
+    const token = issueLicenseToken("license_123", new Date("2026-05-16T00:00:00.000Z"));
+
+    expect(token).toBeTruthy();
+    expect(verifyLicenseToken(token ?? "", new Date("2026-05-16T00:00:01.000Z"))).toBe("license_123");
+    expect(verifyLicenseToken(token ?? "", new Date("2026-05-17T00:00:01.000Z"))).toBeNull();
   });
 
   it("issues and verifies a local test license by checkout session", async () => {

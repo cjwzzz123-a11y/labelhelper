@@ -108,10 +108,10 @@ export function UnlockLicenseForm({ locale = defaultLocale }: { locale?: Locale 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ key: trimmedKey, instanceId: license.instanceId }),
       });
-      const result = await response.json() as { valid?: boolean; reason?: string; verifiedUntil?: string; instanceId?: string };
+      const result = await response.json() as { valid?: boolean; reason?: string; verifiedUntil?: string; instanceId?: string; token?: string };
 
       if (result.valid) {
-        saveVerifiedLicense(trimmedKey, result.verifiedUntil, result.instanceId);
+        saveVerifiedLicense(trimmedKey, result.verifiedUntil, result.instanceId, result.token);
         setMessage(result.reason ?? pageCopy.verified);
       } else {
         setMessage(result.reason ?? pageCopy.fallback);
