@@ -4,7 +4,6 @@ import { useState } from "react";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell } from "@/components/MembershipBadge";
 import { useStoredLicense } from "@/lib/client-license";
-import { createCalibrationPdf, getTemplateSpec } from "@/lib/template-pdfs";
 import { defaultLocale, type Locale } from "@/lib/i18n";
 
 const copy = {
@@ -46,12 +45,13 @@ export function CalibrationSheetGenerator({ locale = defaultLocale }: { locale?:
   const [busy, setBusy] = useState(false);
 
   async function downloadPreview() {
-    const spec = getTemplateSpec(paper);
-    if (!spec) return;
     setBusy(true);
     try {
-      const bytes = await createCalibrationPdf(spec, printer, !license.verified);
-      const blob = new Blob([bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer], { type: "application/pdf" });
+      const response = await fetch(`/api/calibration-sheet?paper=${encodeURIComponent(paper)}&printer=${encodeURIComponent(printer)}`, {
+        headers: license.token ? { Authorization: `Bearer ${license.token}` } : undefined,
+      });
+      if (!response.ok) throw new Error("Calibration sheet download failed.");
+      const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;

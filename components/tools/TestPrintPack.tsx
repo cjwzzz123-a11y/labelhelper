@@ -7,7 +7,7 @@ import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell } from "@/components/MembershipBadge";
 import { saveVerifiedLicense, useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
-import { createBlankTemplatePdf, createTestPrintPdf, getTemplateSpec, testPrintPackItems, type TestPrintPackItem } from "@/lib/template-pdfs";
+import { testPrintPackItems, type TestPrintPackItem } from "@/lib/template-pdfs";
 
 const previewItems = testPrintPackItems.slice(0, 3);
 
@@ -129,24 +129,39 @@ export function TestPrintPack({ locale = defaultLocale }: { locale?: Locale }) {
     URL.revokeObjectURL(url);
   }
 
+  function authHeaders() {
+    return storedLicense.token ? { Authorization: `Bearer ${storedLicense.token}` } : undefined;
+  }
+
+  async function fetchPdfBytes(url: string) {
+    const response = await fetch(url, { headers: authHeaders() });
+    if (!response.ok) throw new Error("Download failed.");
+    return {
+      bytes: new Uint8Array(await response.arrayBuffer()),
+      disposition: response.headers.get("content-disposition") ?? "",
+    };
+  }
+
+  async function downloadResponse(url: string, fallbackFilename: string, type = "application/pdf") {
+    const { bytes, disposition } = await fetchPdfBytes(url);
+    const filename = disposition.match(/filename="([^"]+)"/)?.[1] ?? fallbackFilename;
+    downloadBytes(bytes, filename, type);
+    return bytes;
+  }
+
   async function downloadPreview(item: TestPrintPackItem) {
     setBusyAction(item.id);
     try {
-      const bytes = await createTestPrintPdf(item, true);
-      downloadBytes(bytes, item.filename.replace(".pdf", "-preview.pdf"));
+      await downloadResponse(`/api/test-print-pack/${encodeURIComponent(item.id)}?preview=true`, item.filename.replace(".pdf", "-preview.pdf"));
     } finally {
       setBusyAction("");
     }
   }
 
   async function downloadBlankTemplate(slug: string) {
-    const spec = getTemplateSpec(slug);
-    if (!spec) return;
-
     setBusyAction(slug);
     try {
-      const bytes = await createBlankTemplatePdf(spec);
-      downloadBytes(bytes, `slh-test-print-${slug}-blank.pdf`);
+      await downloadResponse(`/api/test-print-pack/blank-${encodeURIComponent(slug)}`, `slh-test-print-${slug}-blank.pdf`);
     } finally {
       setBusyAction("");
     }
@@ -177,7 +192,7 @@ export function TestPrintPack({ locale = defaultLocale }: { locale?: Locale }) {
     try {
       const zip = new JSZip();
       for (const item of testPrintPackItems) {
-        const bytes = await createTestPrintPdf(item, !isVip);
+        const { bytes } = await fetchPdfBytes(`/api/test-print-pack/${encodeURIComponent(item.id)}?preview=false`);
         const folder = zip.folder(item.sheet.slug);
         folder?.file(isVip ? item.filename : item.filename.replace(".pdf", "-evaluation.pdf"), bytes);
       }
