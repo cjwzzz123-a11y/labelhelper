@@ -8,6 +8,7 @@ import { FAQ } from "@/components/FAQ";
 import { JsonLd } from "@/components/JsonLd";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { RelatedLinks } from "@/components/RelatedLinks";
+import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { SizeChecker } from "@/components/tools/SizeChecker";
 import LocaleHome, { generateMetadata as generateHomeMetadata } from "../LocaleHome";
 import { getLocalizedSeoPage, getSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
@@ -252,9 +253,9 @@ function TemplateDownloads({ slug, locale }: { slug: string; locale: Locale }) {
         <DownloadResponsibilityNotice locale={locale} compact />
       </div>
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link href={`/api/templates/${templateSlug}`} className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">
+        <TemplateDownloadButton slug={templateSlug} locale={locale} className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">
           {ui.downloadPdf}
-        </Link>
+        </TemplateDownloadButton>
         <Link href={safeLocalizedPath("/tools/scale-calculator", locale)} className="rounded-full border border-slate-600 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-900">
           {ui.fixScale}{scaleCalculatorLabel}
         </Link>

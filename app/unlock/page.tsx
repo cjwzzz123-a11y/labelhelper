@@ -26,11 +26,11 @@ export default function UnlockPage() {
           <aside className="space-y-6">
             <LicenseStatusPanel />
             <section className="rounded-3xl border border-amber-200 bg-[#fffdf7] p-6 sm:p-8">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-700">Before checkout is live</p>
-              <h2 className="mt-3 text-2xl font-black tracking-tight">Free tools still work</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-600">If you do not have a key yet, use the free size checker, scale calculator and watermarked preview tools first.</p>
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-700">Need a key?</p>
+              <h2 className="mt-3 text-2xl font-black tracking-tight">Tools unlock after payment</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">Guides, SEO pages and reference material stay free. Interactive tools and generated downloads require Pro Toolkit.</p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/#checker" className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">Start free check</Link>
+                <Link href="/guides" className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">Read free guides</Link>
                 <Link href="/pricing" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-white">Compare access</Link>
               </div>
             </section>

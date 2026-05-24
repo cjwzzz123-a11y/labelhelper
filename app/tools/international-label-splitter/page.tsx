@@ -17,7 +17,7 @@ const faq = [
   ["Does it support Etsy, Royal Mail, Australia Post or Canada Post?", "Not as splitter templates yet. The project includes reference downloads, but those are not claimed as working splitter templates until real PDFs are measured."],
   ["Is the output always 4x6?", "Default output is 4x6 portrait. Other output-size toggles exist, but the verified measurement is for the bundled 4x6 workflow."],
   ["Will it preserve vector quality?", "The export uses pdf-lib page embedding rather than screenshots, so the tool does not intentionally rasterize the PDF."],
-  ["Can free users use it?", "Free users can try the verified sample with a watermark. Uploaded-file clean exports are part of Pro Toolkit."],
+  ["Can visitors use it without Pro?", "No. The verified sample, uploaded-file exports and clean PDFs are part of Pro Toolkit. Reference downloads on this page remain free."],
   ["Does it verify barcode scan quality?", "No. Barcode scanning verification is not implemented yet. You must test-scan the printed output before shipping."],
   ["What if my marketplace layout is different?", "Do not assume it is supported. A new template needs a real sample PDF and measured coordinates before it is added."],
 ];

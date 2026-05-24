@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
 
 type Symptom = "too_small" | "too_large" | "cut_off" | "not_centered" | "barcode";
@@ -80,7 +81,8 @@ export function ScaleCalculator({ locale = defaultLocale }: { locale?: Locale })
   const guidance = pageCopy.guidance[symptom];
 
   return (
-    <section className="rounded-[2rem] bg-white p-6 shadow-xl shadow-sky-900/10 ring-1 ring-sky-100 sm:p-8">
+    <PaidToolGate feature={locale === "zh" ? "比例计算器" : "Scale calculator"} locale={locale}>
+      <section className="rounded-[2rem] bg-white p-6 shadow-xl shadow-sky-900/10 ring-1 ring-sky-100 sm:p-8">
       <div>
         <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">{pageCopy.eyebrow}</p>
         <h2 className="mt-2 text-2xl font-black tracking-tight text-[#12324A]">{pageCopy.title}</h2>
@@ -124,6 +126,7 @@ export function ScaleCalculator({ locale = defaultLocale }: { locale?: Locale })
           {guidance.cta}
         </Link>
       </div>
-    </section>
+      </section>
+    </PaidToolGate>
   );
 }

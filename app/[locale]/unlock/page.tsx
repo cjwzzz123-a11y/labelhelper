@@ -20,10 +20,10 @@ const copy = {
     badge: "License access",
     h1: "Unlock Pro Tools",
     intro: "Enter the key from your purchase email to unlock watermark-free reports and downloads on this browser.",
-    beforeBadge: "Before checkout is live",
-    beforeTitle: "Free tools still work",
-    beforeText: "If you do not have a key yet, use the free size checker, scale calculator and watermarked preview tools first.",
-    freeCta: "Start free check",
+    beforeBadge: "Need a key?",
+    beforeTitle: "Tools unlock after payment",
+    beforeText: "Guides, SEO pages and reference material stay free. Interactive tools and generated downloads require Pro Toolkit.",
+    freeCta: "Read free guides",
     pricingCta: "Compare access",
   },
   zh: {
@@ -33,10 +33,10 @@ const copy = {
     badge: "许可证访问",
     h1: "解锁 Pro 工具",
     intro: "输入购买邮件中的密钥，在此浏览器解锁无水印报告和下载。",
-    beforeBadge: "结账上线前",
-    beforeTitle: "免费工具仍可使用",
-    beforeText: "如果你还没有密钥，请先使用免费的尺寸检查器、比例计算器和带水印预览工具。",
-    freeCta: "开始免费检查",
+    beforeBadge: "需要密钥？",
+    beforeTitle: "工具付款后解锁",
+    beforeText: "指南、SEO 页面和参考资料继续免费。交互工具和生成下载需要 Pro Toolkit。",
+    freeCta: "阅读免费指南",
     pricingCta: "比较访问权限",
   },
 } satisfies Record<"en" | "zh", {
@@ -94,7 +94,7 @@ export default async function LocaleUnlockPage({ params }: PageProps) {
               <h2 className="mt-3 text-2xl font-black tracking-tight">{pageCopy.beforeTitle}</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">{pageCopy.beforeText}</p>
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link href={safeLocalizedPath("/#checker", locale)} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">{pageCopy.freeCta}</Link>
+                <Link href={safeLocalizedPath("/guides", locale)} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">{pageCopy.freeCta}</Link>
                 <Link href={safeLocalizedPath("/pricing", locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-white">{pageCopy.pricingCta}</Link>
               </div>
             </section>

@@ -21,7 +21,7 @@ export default function CalibrationSheetPage() {
             <div>
               <p className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">Print a blank test first</p>
               <h1 className="mt-5 text-4xl font-black tracking-tight text-[#12324A] sm:text-5xl">Calibration Sheet Generator</h1>
-              <p className="mt-5 text-lg leading-8 text-slate-700">Generate a watermarked preview PDF with corner guides, a 100 mm reference line, center crosshair and quiet-zone reference. Use it before printing real postage.</p>
+              <p className="mt-5 text-lg leading-8 text-slate-700">Generate a Pro calibration PDF with corner guides, a 100 mm reference line, center crosshair and quiet-zone reference. Use it before printing real postage.</p>
               <div className="mt-6 grid gap-3 text-sm sm:grid-cols-3">
                 <MiniStep number="1" title="Choose setup" text="Pick paper and printer type." />
                 <MiniStep number="2" title="Print at 100%" text="Disable Fit to Page in the dialog." />
@@ -41,9 +41,9 @@ export default function CalibrationSheetPage() {
             <p className="mt-3 text-sm leading-6 text-slate-600">Measure the 100 mm reference line. If it is short or long, fix print scale before printing a carrier barcode. If the center crosshair is shifted, check paper size, margins and roll alignment.</p>
           </div>
           <div className="rounded-3xl border border-amber-200 bg-[#fffdf7] p-6 sm:p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-700">Preview boundary</p>
-            <h2 className="mt-3 text-2xl font-black tracking-tight text-[#12324A]">Free downloads are watermarked</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">The current generator creates browser-local watermarked previews. Watermark-free downloads and saved printer profiles are part of the paid flow once checkout and license delivery are connected.</p>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-700">Paid tool boundary</p>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-[#12324A]">Calibration downloads require Pro</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600">The generator creates browser-local calibration PDFs after the license is unlocked. Guides and reference pages remain free.</p>
           </div>
         </div>
         <div className="mt-8"><Paywall feature="watermark-free calibration sheets and saved printer profiles" /></div>

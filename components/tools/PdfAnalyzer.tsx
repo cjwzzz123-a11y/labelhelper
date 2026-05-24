@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell, MemberLockedCallout } from "@/components/MembershipBadge";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import {
@@ -47,8 +48,8 @@ const copy = {
     unlockReport: "Unlock summary PDF",
     vipDownload: "Download VIP summary PDF",
     vipTitle: "VIP diagnostic summary",
-    vipText: "The summary PDF packages the page-size check, scale estimate, manual-review warnings and next steps. The on-screen preview stays free.",
-    lockedReport: "The on-screen preview stays free. Unlock VIP to download or save this diagnostic summary.",
+    vipText: "The Pro analyzer packages the page-size check, scale estimate, manual-review warnings and next steps.",
+    lockedReport: "Unlock Pro Toolkit to run this diagnostic and download or save the summary.",
     nextStep: "Next best step",
     file: "File",
     pagesSize: "Pages / file size",
@@ -133,8 +134,8 @@ const copy = {
     unlockReport: "解锁摘要 PDF",
     vipDownload: "下载 VIP 摘要 PDF",
     vipTitle: "VIP 诊断摘要",
-    vipText: "摘要 PDF 会打包页面尺寸检查、比例估算、人工复核提醒和下一步建议。屏幕预览仍然免费。",
-    lockedReport: "屏幕上的预览仍然免费。开通 VIP 后可下载或保存此诊断摘要。",
+    vipText: "Pro 分析器会打包页面尺寸检查、比例估算、人工复核提醒和下一步建议。",
+    lockedReport: "解锁 Pro Toolkit 后可运行此诊断，并下载或保存摘要。",
     nextStep: "最佳下一步",
     file: "文件",
     pagesSize: "页数 / 文件大小",
@@ -403,7 +404,8 @@ export function PdfAnalyzer({ locale = defaultLocale }: { locale?: Locale }) {
   }
 
   return (
-    <MemberFeatureShell locale={locale} unlocked={license.verified} title={pageCopy.vipTitle} description={pageCopy.vipText}>
+    <PaidToolGate feature={locale === "zh" ? "PDF 页面尺寸分析器" : "PDF Analyzer"} locale={locale}>
+      <MemberFeatureShell locale={locale} unlocked={license.verified} title={pageCopy.vipTitle} description={pageCopy.vipText}>
       <div className="rounded-2xl bg-emerald-50 p-4 text-sm font-medium text-emerald-800 ring-1 ring-emerald-100">
         <p className="font-bold">{pageCopy.privacyTitle}</p>
         <p className="mt-1 text-emerald-700">{pageCopy.privacyText}</p>
@@ -534,6 +536,7 @@ export function PdfAnalyzer({ locale = defaultLocale }: { locale?: Locale }) {
           </dl>
         )}
       </div>
-    </MemberFeatureShell>
+      </MemberFeatureShell>
+    </PaidToolGate>
   );
 }

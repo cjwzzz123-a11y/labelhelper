@@ -7,14 +7,14 @@ import { alternateLanguages } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Pricing | Shipping Label Helper",
-  description: "Shipping Label Helper pricing for free label checks and local PDF tools.",
+  description: "Shipping Label Helper pricing for free guides and paid local PDF tools.",
   alternates: { canonical: "/pricing", languages: alternateLanguages("/pricing") },
 };
 
 const proCheckout = getCheckoutPlan("pro_lifetime", "Pro Toolkit", "$9");
 const plans = [
-  { name: "Free", price: "$0", note: "For quick no-signup label-size checks.", cta: "Start free size check", href: "/#checker", status: "Always available", features: ["Size checker", "Scale calculator", "Blank template pages", "Troubleshooting guides"] },
-  { name: proCheckout.name, price: proCheckout.price, note: getCheckoutStatusMessage(proCheckout.configured), cta: proCheckout.configured ? "Go to secure checkout" : "Review paid previews", href: proCheckout.configured ? proCheckout.checkoutUrl : "/tools", status: proCheckout.configured ? "Checkout ready" : "Preview only", features: ["PDF page-size preview", "Watermark-free calibration sheets", "Watermark-free test print PDFs", "Barcode quiet-zone image checker"] },
+  { name: "Free", price: "$0", note: "For reading setup guides, SEO pages and reference material.", cta: "Read free guides", href: "/guides", status: "Always available", features: ["Setup guides", "SEO landing pages", "Reference downloads", "Template explanation pages"] },
+  { name: proCheckout.name, price: proCheckout.price, note: getCheckoutStatusMessage(proCheckout.configured), cta: proCheckout.configured ? "Go to secure checkout" : "Review paid tools", href: proCheckout.configured ? proCheckout.checkoutUrl : "/tools", status: proCheckout.configured ? "Checkout ready" : "Paid tools", features: ["Size checker and scale calculator", "PDF page-size analyzer", "Calibration and test-print PDF generation", "Barcode quiet-zone image checker"] },
 ];
 
 export default function PricingPage() {
@@ -26,7 +26,7 @@ export default function PricingPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">Pricing</p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight">Simple pricing for label troubleshooting</h1>
           <p className="mt-4 text-lg leading-8 text-slate-600">
-            The core promise stays free: check the right shipping label size before printing, without signup. Paid features are the preview tools: PDF page-size preview, calibration sheets, barcode image review and test-print packs.
+            Guides, SEO pages and reference material stay free. Every interactive tool and generated download is part of Pro Toolkit, unlocked by checkout and a license key.
           </p>
         </div>
 
@@ -49,11 +49,11 @@ export default function PricingPage() {
         </div>
 
         <section className="mt-10 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:p-8">
-          <h2 id="pro-interest" className="text-2xl font-bold tracking-tight">Need paid preview tools?</h2>
+          <h2 id="pro-interest" className="text-2xl font-bold tracking-tight">Need the paid tools?</h2>
           <p className="mt-3 leading-7 text-slate-600">
-            Start with the free label-size tools. Paid tools are for previewing PDF page size, calibration output, barcode image quiet zones and bundled test-print packs before you print real postage.
+            Use the free guides to decide what to check, then unlock Pro Toolkit to run size checks, PDF analysis, calibration output, barcode review and bundled test-print packs.
           </p>
-          <Link href="/#checker" className="mt-5 inline-block text-sm font-semibold text-slate-950 hover:underline">Start with the free size checker</Link>
+          <Link href="/guides" className="mt-5 inline-block text-sm font-semibold text-slate-950 hover:underline">Read free guides</Link>
           <Link href="/tools/pdf-analyzer" className="ml-5 mt-5 inline-block text-sm font-semibold text-slate-950 hover:underline">Compare PDF label checks</Link>
           <Link href="/unlock" className="ml-5 mt-5 inline-block text-sm font-semibold text-slate-950 hover:underline">Already have a license key?</Link>
           <Link href="/privacy" className="ml-5 mt-5 inline-block text-sm font-semibold text-slate-950 hover:underline">Read the privacy policy</Link>

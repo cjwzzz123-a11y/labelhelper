@@ -14,7 +14,7 @@ const copy = {
     button: "Check delivery status",
     busy: "Checking...",
     initial: "No lookup has been requested yet.",
-    failed: "Could not check license delivery right now. Use free tools and previews for now.",
+    failed: "Could not check license delivery right now. Read the free guides or contact support if you already paid.",
     testKey: "Local test key",
   },
   es: {
@@ -79,7 +79,7 @@ const copy = {
     button: "检查发送状态",
     busy: "正在检查...",
     initial: "尚未发起查询。",
-    failed: "暂时无法检查许可证发送状态。现在仍可使用免费工具和预览。",
+    failed: "暂时无法检查许可证发送状态。可先阅读免费指南；如果你已经付款，请联系支持。",
     testKey: "本地测试密钥",
   },
 } satisfies Record<Locale, Record<string, string>>;

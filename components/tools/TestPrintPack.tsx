@@ -5,6 +5,7 @@ import Link from "next/link";
 import JSZip from "jszip";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell } from "@/components/MembershipBadge";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { saveVerifiedLicense, useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { testPrintPackItems, type TestPrintPackItem } from "@/lib/template-pdfs";
@@ -13,11 +14,11 @@ const previewItems = testPrintPackItems.slice(0, 3);
 
 const copy = {
   en: {
-    initialMessage: "The bundled ZIP is for VIP members. Free users can still download single watermarked preview PDFs below.",
+    initialMessage: "The test print pack is a paid Pro Toolkit feature.",
     localTitle: "Browser-local PDF generator",
     localText: "PDFs are generated on this device only when you click download. No label upload or account is required for the preview pack.",
     primaryEyebrow: "Best first action",
-    primaryTitle: "Preview first, unlock the bundled ZIP when needed",
+    primaryTitle: "Unlock the test print pack",
     primaryVipTitle: "Generate the VIP ZIP",
     primaryText: (count: number) => `Download ${count} test PDFs grouped by 4×6, A4 and Letter. Use them to check scale, alignment and barcode whitespace before real postage.`,
     primaryVipText: (count: number) => `Your license is active. Download ${count} test PDFs without evaluation watermarks.`,
@@ -27,18 +28,18 @@ const copy = {
     whatYouGet: "What you’ll get",
     getItems: ["Border and center crosshair", "100 mm reference line", "Barcode sample and quiet-zone reference"],
     licenseTitle: "Have a license key?",
-    licenseText: "A valid key unlocks the bundled ZIP and removes the evaluation watermark. If licensing is not connected yet, single previews still work for free.",
+    licenseText: "A valid key unlocks the bundled ZIP and member PDF outputs.",
     unlockedText: "VIP is active on this browser. ZIP downloads and member outputs are generated without the evaluation watermark.",
-    lockedZipText: "The bundled ZIP is a member feature. Free users can still download the single watermarked preview PDFs below.",
+    lockedZipText: "The bundled ZIP and sample PDF downloads are member features.",
     license: "License key",
     placeholder: "Enter license key for unwatermarked pack",
     checking: "Checking...",
     check: "Check license",
     accepted: "License accepted. Downloads will be generated without evaluation watermark.",
-    inactiveSuffix: "You can still generate watermarked preview PDFs without payment.",
-    failed: "License check failed. You can still generate watermarked preview PDFs without payment.",
+    inactiveSuffix: "Unlock Pro Toolkit to generate test PDFs.",
+    failed: "License check failed. Unlock Pro Toolkit to generate test PDFs.",
     quickTitle: "Quick sample previews",
-    freePreview: "Free preview",
+    freePreview: "Paid sample",
     previewText: "Watermarked single PDF for a fast 100% scale and alignment check.",
     generating: "Generating...",
     downloadPreview: "Download preview PDF",
@@ -59,11 +60,11 @@ const copy = {
     ],
   },
   zh: {
-    initialMessage: "打包 ZIP 属于 VIP 会员功能。免费用户仍可下载下方单个带水印预览 PDF。",
+    initialMessage: "测试打印包属于付费 Pro Toolkit 功能。",
     localTitle: "浏览器本地 PDF 生成器",
     localText: "只有点击下载时才会在本设备生成 PDF。预览测试包不需要上传标签，也不需要账户。",
     primaryEyebrow: "建议先做",
-    primaryTitle: "先预览，必要时解锁打包 ZIP",
+    primaryTitle: "解锁测试打印包",
     primaryVipTitle: "生成 VIP 测试 ZIP",
     primaryText: (count: number) => `下载 ${count} 个测试 PDF，按 4×6、A4 和 Letter 分组。先检查比例、对齐和条码空白区，再打印真实运费。`,
     primaryVipText: (count: number) => `你的许可证已生效。可下载 ${count} 个不带评估水印的测试 PDF。`,
@@ -73,18 +74,18 @@ const copy = {
     whatYouGet: "包含内容",
     getItems: ["边框和中心十字线", "100 mm 参考线", "条码样例和空白区参考"],
     licenseTitle: "已有许可证密钥？",
-    licenseText: "有效密钥会解锁打包 ZIP 并移除评估水印。如果许可证系统尚未接入，单个免费预览仍可使用。",
+    licenseText: "有效密钥会解锁打包 ZIP 和会员 PDF 输出。",
     unlockedText: "此浏览器已启用 VIP。ZIP 下载和会员输出将不带评估水印。",
-    lockedZipText: "打包 ZIP 是会员功能。免费用户仍可下载下方单个带水印预览 PDF。",
+    lockedZipText: "打包 ZIP 和单个样例 PDF 下载都属于会员功能。",
     license: "许可证密钥",
     placeholder: "输入许可证密钥以生成无水印测试包",
     checking: "正在检查...",
     check: "检查许可证",
     accepted: "许可证已接受。下载内容将不带评估水印。",
-    inactiveSuffix: "你仍可免费生成带水印预览 PDF。",
-    failed: "许可证检查失败。你仍可免费生成带水印预览 PDF。",
+    inactiveSuffix: "请解锁 Pro Toolkit 后生成测试 PDF。",
+    failed: "许可证检查失败。请解锁 Pro Toolkit 后生成测试 PDF。",
     quickTitle: "快速单页预览",
-    freePreview: "免费预览",
+    freePreview: "付费样例",
     previewText: "带水印单个 PDF，用于快速检查 100% 比例和对齐。",
     generating: "正在生成...",
     downloadPreview: "下载预览 PDF",
@@ -204,7 +205,8 @@ export function TestPrintPack({ locale = defaultLocale }: { locale?: Locale }) {
   }
 
   return (
-    <MemberFeatureShell locale={locale} unlocked={isVip} title={isVip ? pageCopy.zipUnlocked : pageCopy.zipPreview} description={isVip ? pageCopy.unlockedText : pageCopy.initialMessage}>
+    <PaidToolGate feature={locale === "zh" ? "测试打印包" : "Test print pack"} locale={locale}>
+      <MemberFeatureShell locale={locale} unlocked={isVip} title={isVip ? pageCopy.zipUnlocked : pageCopy.zipPreview} description={isVip ? pageCopy.unlockedText : pageCopy.initialMessage}>
       <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="rounded-3xl bg-slate-950 p-6 text-white">
           <p className="text-sm font-black uppercase tracking-[0.18em] text-amber-200">{pageCopy.primaryEyebrow}</p>
@@ -334,6 +336,7 @@ export function TestPrintPack({ locale = defaultLocale }: { locale?: Locale }) {
           </div>
         </div>
       </div>
-    </MemberFeatureShell>
+      </MemberFeatureShell>
+    </PaidToolGate>
   );
 }

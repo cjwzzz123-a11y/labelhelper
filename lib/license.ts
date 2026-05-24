@@ -214,7 +214,7 @@ export function getLicenseServiceStatus(): LicenseServiceStatus {
         ? "License verification is in local test mode. Real Creem purchase lookup is not connected yet."
         : licenseConfigured
           ? "License verification is partially configured."
-          : "Creem license verification is not connected yet. Free tools and watermarked previews are still available.",
+          : "Creem license verification is not connected yet. Guides and reference pages remain available; paid tools require a license.",
   };
 }
 
@@ -255,7 +255,7 @@ export function verifyLicensePlaceholder(key: string): LicenseCheckResult {
   }
 
   if (!isLicenseServiceConfigured()) {
-    return { configured: false, active: false, message: "Creem license verification is not connected yet. Free tools and watermarked previews are still available." };
+    return { configured: false, active: false, message: "Creem license verification is not connected yet. Guides and reference pages remain available; paid tools require a license." };
   }
 
   return { configured: true, active: false, message: "Creem license verification is configured, but this key has not been accepted yet." };
@@ -285,7 +285,7 @@ function createCreemRecord(key: string, response: CreemLicenseResponse): License
 async function requestCreemLicense(endpoint: "activate" | "validate", payload: Record<string, string>): Promise<LicenseCheckResult> {
   const apiKey = process.env.CREEM_API_KEY;
   if (!apiKey) {
-    return { configured: false, active: false, message: "Creem API key is not configured. Free tools and watermarked previews are still available." };
+    return { configured: false, active: false, message: "Creem API key is not configured. Guides and reference pages remain available; paid tools require a license." };
   }
 
   const response = await fetch(`${getCreemApiBaseUrl()}/v1/licenses/${endpoint}`, {
@@ -351,7 +351,7 @@ export async function issueLicense(input: { checkoutSessionId?: string; email?: 
     return {
       configured: false,
       issued: false,
-      message: "Checkout/license delivery is not connected yet. Use the free tools for now; paid unlock will appear here when credentials are added.",
+      message: "Checkout/license delivery is not connected yet. Read the free guides for now; paid tool unlock will appear here when credentials are added.",
       nextAction: "use_free_tools",
       delivery: "not_available",
     };
@@ -418,7 +418,7 @@ export function issueLicensePlaceholder(input: { checkoutSessionId?: string; ema
     return {
       configured: false,
       issued: false,
-      message: "Checkout/license delivery is not connected yet. Use the free tools for now; paid unlock will appear here when credentials are added.",
+      message: "Checkout/license delivery is not connected yet. Read the free guides for now; paid tool unlock will appear here when credentials are added.",
       nextAction: "use_free_tools",
       delivery: "not_available",
     };

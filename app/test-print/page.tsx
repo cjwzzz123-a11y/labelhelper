@@ -3,11 +3,12 @@ import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { JsonLd } from "@/components/JsonLd";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
+import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { alternateLanguages } from "@/lib/i18n";
 import { templateSpecs } from "@/lib/template-pdfs";
 
 const title = "Test Print Center | Shipping Label Helper";
-const description = "Print free blank templates and calibration sheets, then use the paid watermarked test print pack only when you need a larger preview set.";
+const description = "Use free test-print guides, then unlock paid template, calibration and test-print PDF generation.";
 
 export const metadata: Metadata = {
   title,
@@ -20,19 +21,19 @@ const sections = [
     title: "Blank templates",
     text: "Download a 4×6, A4 or Letter blank PDF and print at 100% / Actual Size to confirm paper size and scale.",
     href: "/templates",
-    cta: "Free · Choose blank template",
+    cta: "Open template guides",
   },
   {
     title: "Calibration sheet",
     text: "Print a ruler and alignment sheet to check scale, margins and center position before paid postage.",
     href: "/tools/calibration-sheet",
-    cta: "Free preview · Generate sheet",
+    cta: "Paid · Generate sheet",
   },
   {
     title: "Test print pack",
-    text: "Paid preview: generate watermarked test PDFs for thermal and sheet printers when one blank template is not enough.",
+    text: "Generate paid test PDFs for thermal and sheet printers when one blank template is not enough.",
     href: "/tools/test-print-pack",
-    cta: "Paid preview · Build pack",
+    cta: "Paid · Build pack",
   },
 ];
 
@@ -46,7 +47,7 @@ export default function TestPrintPage() {
           <div>
             <p className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">Test before postage</p>
             <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">Print a safe test before the real carrier label.</h1>
-            <p className="mt-5 text-lg leading-8 text-slate-700">Blank templates and calibration sheets are free. The test print pack is a paid preview for sellers who need a larger set before buying or reprinting postage.</p>
+            <p className="mt-5 text-lg leading-8 text-slate-700">Guides explain the test flow for free. Template downloads, calibration generation and test print packs unlock with Pro Toolkit.</p>
           </div>
           <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-sky-100 sm:p-6">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">Use this order</p>
@@ -76,9 +77,9 @@ export default function TestPrintPage() {
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {templateSpecs.map((template) => (
-              <Link key={template.slug} href={`/api/templates/${template.slug}`} className="rounded-2xl border border-sky-100 bg-[#f7fbff] p-4 font-bold text-[#12324A] hover:bg-sky-50">
+              <TemplateDownloadButton key={template.slug} slug={template.slug} className="rounded-2xl border border-sky-100 bg-[#f7fbff] p-4 text-left font-bold text-[#12324A] hover:bg-sky-50">
                 {template.label} blank PDF · {template.widthMm} × {template.heightMm} mm
-              </Link>
+              </TemplateDownloadButton>
             ))}
           </div>
         </section>

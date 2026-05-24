@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { carrierOptions, paperOptions, platformOptions, printerOptions, type Carrier, type Paper, type Platform, type Printer, type Rule } from "@/data/rules";
 import { defaultLocale, hasLocalizedPath, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { lookup } from "@/lib/rules-engine";
@@ -208,7 +209,8 @@ export function SizeChecker({
   }
 
   return (
-    <div className="grid gap-4">
+    <PaidToolGate feature={locale === "zh" ? "尺寸检查器" : "Size checker"} locale={locale}>
+      <div className="grid gap-4">
         <section className={stepCardClass}>
           <p className="text-sm font-black uppercase tracking-[0.18em] text-sky-700">{copy.steps[0]}</p>
           <div className="grid gap-4 md:grid-cols-2">
@@ -369,7 +371,8 @@ export function SizeChecker({
             </a>
           </p>
         ) : null}
-    </div>
+      </div>
+    </PaidToolGate>
   );
 }
 

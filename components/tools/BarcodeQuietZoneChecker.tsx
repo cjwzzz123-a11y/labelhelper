@@ -3,6 +3,7 @@
 import { type ChangeEvent, type ClipboardEvent, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { MemberFeatureShell, MemberLockedCallout } from "@/components/MembershipBadge";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
 
@@ -92,7 +93,7 @@ const copy = {
     waitingText: "This checker will show a risk estimate only after you upload, paste, run a demo, or edit the manual quiet-zone measurements.",
     pending: "Waiting for input",
     vipTitle: "VIP advanced barcode workflow",
-    vipText: "Basic quiet-zone checks stay free. Saved reports and advanced barcode checks are member features.",
+    vipText: "Quiet-zone analysis, saved reports and advanced barcode checks are member features.",
     lockedReport: "Unlock VIP to save this quiet-zone report and access the advanced barcode-check workflow as it is added.",
   },
   zh: {
@@ -151,7 +152,7 @@ const copy = {
     waitingText: "上传、粘贴、运行演示或编辑手动空白区测量值后，此检查器才会显示风险估算。",
     pending: "等待输入",
     vipTitle: "VIP 高级条码流程",
-    vipText: "基础空白区检查保持免费。保存报告和高级条码检查属于会员功能。",
+    vipText: "空白区分析、保存报告和高级条码检查都属于会员功能。",
     lockedReport: "开通 VIP 后可保存此空白区报告，并在高级条码检查流程上线后使用。",
   },
 };
@@ -522,7 +523,8 @@ export function BarcodeQuietZoneChecker({ locale = defaultLocale }: { locale?: L
     : undefined;
 
   return (
-    <MemberFeatureShell locale={locale} unlocked={license.verified} title={c.vipTitle} description={c.vipText} onPaste={handlePaste}>
+    <PaidToolGate feature={locale === "zh" ? "条码空白区检查器" : "Barcode quiet-zone checker"} locale={locale}>
+      <MemberFeatureShell locale={locale} unlocked={license.verified} title={c.vipTitle} description={c.vipText} onPaste={handlePaste}>
       <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr] lg:items-start">
         <div>
           <div className="rounded-2xl bg-emerald-50 p-4 text-sm font-medium text-emerald-800 ring-1 ring-emerald-100">
@@ -700,7 +702,8 @@ export function BarcodeQuietZoneChecker({ locale = defaultLocale }: { locale?: L
           </div>
         )}
       </div>
-    </MemberFeatureShell>
+      </MemberFeatureShell>
+    </PaidToolGate>
   );
 }
 

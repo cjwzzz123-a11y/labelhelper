@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Download, FileUp, ShieldAlert } from "lucide-react";
 import { DownloadResponsibilityNotice, RefundBoundaryNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell, MemberLockedCallout, VipBadge } from "@/components/MembershipBadge";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { LABEL_TEMPLATES, OUTPUT_SIZES, type LabelOutputSize } from "@/data/label-templates";
@@ -15,21 +16,21 @@ const CONSENT_KEY = "slh_splitter_legal_ack_v1";
 const copy = {
   en: {
     vipTitle: "VIP clean PDF export",
-    vipText: "The verified sample can be tried for free with a watermark. Uploaded files and clean downloads are Pro Toolkit features.",
+    vipText: "The verified sample, uploaded files and clean downloads are Pro Toolkit features.",
     dropTitle: "Upload a PDF",
     dropText: "PDF only, up to 20 MB and 4 pages. Current verified support is the eBay / USPS Letter PS Form 2976 sample below.",
     samples: "Verified sample",
     output: "Output format",
     processing: "Splitting locally...",
     success: (seconds: string) => `Done in ${seconds}s. Review the output before printing.`,
-    empty: "Try the verified sample or upload a paid-file PDF after unlocking Pro.",
+    empty: "Unlock Pro to try the verified sample or upload a paid-file PDF.",
     matched: "Matched verified layout",
     confidence: "Confidence",
     region: "Detected combined region",
     warnings: "Important limits",
     downloadCombined: "Download combined 4x6 PDF",
     manual: "Manual crop and additional marketplace templates are not enabled yet. New templates require real PDFs and measured coordinates.",
-    paywall: "Free users can run the verified sample with a watermark. Uploaded files and clean PDFs require Pro Toolkit.",
+    paywall: "The verified sample, uploaded files and clean PDFs require Pro Toolkit.",
     errorType: "Please upload a PDF file.",
     legalTitle: "Before you use this tool",
     legalBody: "This tool reformats a shipping label PDF you already purchased. It does not generate postage and cannot confirm that your printer, paper, customs declaration, or carrier acceptance is correct.",
@@ -40,21 +41,21 @@ const copy = {
   },
   zh: {
     vipTitle: "VIP 干净 PDF 导出",
-    vipText: "已验证样本可免费试用但会带水印。上传真实文件和无水印下载属于 Pro Toolkit 功能。",
+    vipText: "已验证样本、上传真实文件和无水印下载都属于 Pro Toolkit 功能。",
     dropTitle: "上传 PDF",
     dropText: "仅支持 PDF，最大 20 MB、最多 4 页。当前真实验证支持仅限下方 eBay / USPS Letter PS Form 2976 样本。",
     samples: "已验证样本",
     output: "输出格式",
     processing: "正在本地拆分...",
     success: (seconds: string) => `已在 ${seconds}s 内完成。打印前请检查输出。`,
-    empty: "先试用已验证样本；解锁 Pro 后可上传付费文件 PDF。",
+    empty: "解锁 Pro 后可试用已验证样本或上传付费文件 PDF。",
     matched: "匹配已验证布局",
     confidence: "置信度",
     region: "识别到的合并区域",
     warnings: "重要限制",
     downloadCombined: "下载合并 4x6 PDF",
     manual: "手动裁剪和更多平台模板尚未启用。新增模板必须基于真实 PDF 和人工测量坐标。",
-    paywall: "免费用户可运行带水印的已验证样本。上传文件和干净 PDF 需要 Pro Toolkit。",
+    paywall: "已验证样本、上传文件和干净 PDF 都需要 Pro Toolkit。",
     errorType: "请上传 PDF 文件。",
     legalTitle: "使用本工具前请知悉",
     legalBody: "本工具只重新排版你已经购买的运单 PDF，不生成邮资，也无法确认你的打印机、纸张、海关申报或承运商收件规则是否正确。",
@@ -154,7 +155,8 @@ export function InternationalLabelSplitter({ locale = defaultLocale }: { locale?
   }
 
   return (
-    <MemberFeatureShell locale={locale} unlocked={license.verified} title={c.vipTitle} description={c.vipText}>
+    <PaidToolGate feature={locale === "zh" ? "国际标签拆分器" : "International label splitter"} locale={locale}>
+      <MemberFeatureShell locale={locale} unlocked={license.verified} title={c.vipTitle} description={c.vipText}>
       <div className="grid gap-5">
         <div className="block rounded-3xl border border-dashed border-sky-300 bg-white p-6 text-center ring-1 ring-sky-50 transition hover:bg-sky-50">
           <FileUp className="mx-auto h-8 w-8 text-sky-700" aria-hidden="true" />
@@ -270,6 +272,7 @@ export function InternationalLabelSplitter({ locale = defaultLocale }: { locale?
           </section>
         </div>
       ) : null}
-    </MemberFeatureShell>
+      </MemberFeatureShell>
+    </PaidToolGate>
   );
 }

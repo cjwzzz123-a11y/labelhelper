@@ -24,5 +24,5 @@ export function getCheckoutPlan(sku: PaidLicenseTier, name: string, price: strin
 export function getCheckoutStatusMessage(configured: boolean) {
   return configured
     ? "Secure checkout is ready. After payment, enter the license key sent to your email."
-    : "Checkout is not connected yet. You can still use the free tools and preview advanced workflows.";
+    : "Checkout is not connected yet. Guides and reference pages stay available; tools unlock after license setup.";
 }

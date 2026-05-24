@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
+import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { alternateLanguages } from "@/lib/i18n";
 import { templateSpecs } from "@/lib/template-pdfs";
 
@@ -56,7 +57,7 @@ export default function TemplatesPage() {
                 <DownloadResponsibilityNotice compact />
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link href={`/api/templates/${template.slug}`} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">Download blank PDF</Link>
+                <TemplateDownloadButton slug={template.slug} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">Download blank PDF</TemplateDownloadButton>
                 <Link href={`/${template.slug}-shipping-label-template`} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-sky-50">Open setup guide</Link>
               </div>
             </article>

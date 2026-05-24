@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
+import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { templateSpecs } from "@/lib/template-pdfs";
@@ -149,7 +150,7 @@ export default async function LocaleTemplatesPage({ params }: PageProps) {
                   <DownloadResponsibilityNotice locale={locale} compact />
                 </div>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <Link href={`/api/templates/${template.slug}`} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">{pageCopy.downloadCta}</Link>
+                  <TemplateDownloadButton slug={template.slug} locale={locale} className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">{pageCopy.downloadCta}</TemplateDownloadButton>
                   <Link href={safeLocalizedPath(href, locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-sky-50">{pageCopy.cardCta}{fallback ? ` · ${fallback}` : ""}</Link>
                 </div>
               </article>

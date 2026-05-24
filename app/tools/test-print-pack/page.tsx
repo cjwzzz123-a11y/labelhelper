@@ -5,7 +5,7 @@ import { TestPrintPack } from "@/components/tools/TestPrintPack";
 import { pageMetadata, softwareApplicationSchema } from "@/lib/seo";
 
 const title = "Shipping Label Test Print Pack";
-const description = "VIP tool: unlock a local ZIP with 30+ shipping-label test PDFs for printer alignment, barcode quiet zones and 100% scale checks. Single watermarked previews stay free.";
+const description = "VIP tool: unlock a local ZIP with 30+ shipping-label test PDFs for printer alignment, barcode quiet zones and 100% scale checks.";
 
 export const metadata = pageMetadata({ title, description, path: "/tools/test-print-pack" });
 
@@ -27,7 +27,7 @@ export default function TestPrintPackPage() {
           <div className="relative mt-5 grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-end">
             <div>
               <h1 className="text-4xl font-black tracking-tight text-[#12324A] sm:text-5xl">Shipping Label Test Print Pack</h1>
-              <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Download single watermarked previews for free, then unlock the bundled ZIP when you need the full printer test set without evaluation watermarks.</p>
+              <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">Unlock Pro Toolkit to generate single test PDFs or the bundled ZIP for the full printer test set.</p>
             </div>
             <div className="rounded-3xl bg-white/80 p-4 shadow-sm ring-1 ring-sky-100 backdrop-blur">
               <p className="text-sm font-black uppercase tracking-[0.18em] text-sky-700">Safe test flow</p>

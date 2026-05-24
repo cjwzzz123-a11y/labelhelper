@@ -18,7 +18,7 @@ export default function ThanksPage() {
           <div className="rounded-[2rem] bg-white p-6 shadow-xl shadow-sky-900/10 ring-1 ring-sky-100 sm:p-8">
             <p className="inline-flex rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-900 ring-1 ring-emerald-200">Payment return</p>
             <h1 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">Thanks for trying Shipping Label Helper</h1>
-            <p className="mt-4 text-lg leading-8 text-slate-700">When checkout is connected, this page will confirm your order and send the license key to your email. For now, the free tools and watermarked previews remain available.</p>
+            <p className="mt-4 text-lg leading-8 text-slate-700">When checkout is connected, this page will confirm your order and send the license key to your email. Guides and reference pages remain available while paid tool access waits for a license.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/unlock" className="rounded-full bg-[#12324A] px-5 py-3 text-sm font-bold text-white hover:bg-[#1d4d70]">Enter license key</Link>
               <Link href="/tools" className="rounded-full border border-slate-300 px-5 py-3 text-sm font-bold hover:bg-sky-50">Back to tools</Link>

@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { JsonLd } from "@/components/JsonLd";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
+import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { templateSpecs } from "@/lib/template-pdfs";
@@ -157,9 +158,9 @@ export default async function LocaleTestPrintPage({ params }: PageProps) {
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {templateSpecs.map((template) => (
-              <Link key={template.slug} href={`/api/templates/${template.slug}`} className="rounded-2xl border border-sky-100 bg-[#f7fbff] p-4 font-bold text-[#12324A] hover:bg-sky-50">
+              <TemplateDownloadButton key={template.slug} slug={template.slug} locale={locale} className="rounded-2xl border border-sky-100 bg-[#f7fbff] p-4 text-left font-bold text-[#12324A] hover:bg-sky-50">
                 {template.label} {pageCopy.downloadSuffix} · {template.widthMm} × {template.heightMm} mm
-              </Link>
+              </TemplateDownloadButton>
             ))}
           </div>
         </section>

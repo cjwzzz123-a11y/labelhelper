@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DownloadResponsibilityNotice } from "@/components/LegalNotice";
 import { MemberFeatureShell } from "@/components/MembershipBadge";
+import { PaidToolGate } from "@/components/PaidToolGate";
 import { useStoredLicense } from "@/lib/client-license";
 import { defaultLocale, type Locale } from "@/lib/i18n";
 
@@ -16,7 +17,7 @@ const copy = {
     includes: "Preview PDF includes",
     bullets: ["100 mm reference line for scale checks", "Center crosshair for alignment checks", "Barcode quiet-zone reference box"],
     generating: "Generating...",
-    download: "Download watermarked preview PDF",
+    download: "Unlock Pro to download PDF",
     downloadVip: "Download VIP watermark-free PDF",
     vipTitle: "VIP output",
     vipText: "Members get the same browser-local calibration sheet without the FREE PREVIEW watermark.",
@@ -64,7 +65,8 @@ export function CalibrationSheetGenerator({ locale = defaultLocale }: { locale?:
   }
 
   return (
-    <MemberFeatureShell locale={locale} unlocked={license.verified} title={pageCopy.vipTitle} description={pageCopy.vipText}>
+    <PaidToolGate feature={locale === "zh" ? "校准页生成器" : "Calibration sheet generator"} locale={locale}>
+      <MemberFeatureShell locale={locale} unlocked={license.verified} title={pageCopy.vipTitle} description={pageCopy.vipText}>
       <div className="rounded-2xl bg-emerald-50 p-4 text-sm font-medium text-emerald-800 ring-1 ring-emerald-100">
         <p className="font-bold">{pageCopy.privacyTitle}</p>
         <p className="mt-1 text-emerald-700">{pageCopy.privacyText}</p>
@@ -99,6 +101,7 @@ export function CalibrationSheetGenerator({ locale = defaultLocale }: { locale?:
       <button onClick={downloadPreview} disabled={busy} className="mt-6 rounded-full bg-[#12324A] px-5 py-3 text-sm font-bold text-white hover:bg-[#1d4d70] disabled:opacity-60">
         {busy ? pageCopy.generating : license.verified ? pageCopy.downloadVip : pageCopy.download}
       </button>
-    </MemberFeatureShell>
+      </MemberFeatureShell>
+    </PaidToolGate>
   );
 }
