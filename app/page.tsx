@@ -12,9 +12,9 @@ const description = "Check shipping label size, print scale, paper, carrier and 
 export const metadata = pageMetadata({ title, description, path: "/" });
 
 const decisionPaths = [
-  { title: "I’m setting up a label", text: "Choose marketplace, carrier, paper and printer.", href: "/#checker", cta: "Start setup check" },
-  { title: "My print already failed", text: "Tiny, cut off or blurry? Diagnose the symptom next.", href: "/shipping-label-printing-too-small", cta: "Fix a bad print" },
-  { title: "I want a safe test", text: "Choose a blank template, calibration sheet or test pack.", href: "/test-print", cta: "Open Test Print" },
+  { title: "I’m setting up a label", text: "Unlock the Pro checker for marketplace, carrier, paper and printer setup.", href: "/pricing", cta: "Unlock setup check" },
+  { title: "My print already failed", text: "Read the troubleshooting guide first, then unlock the matching tool.", href: "/shipping-label-printing-too-small", cta: "Read the guide" },
+  { title: "I want a safe test", text: "Learn the test flow, then unlock template, calibration or test-pack downloads.", href: "/test-print", cta: "Open Test Print" },
 ];
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="relative grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div>
-              <p className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">Free shipping label tools</p>
+              <p className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">Pro shipping label tools</p>
               <h1 className="mt-5 text-4xl font-black tracking-tight text-[#12324A] sm:text-6xl">Print the right shipping label size before you buy postage.</h1>
               <p className="mt-5 text-lg leading-8 text-slate-700">
                 Pick your marketplace, carrier, paper and printer. Get a clear recommended label size, scale, orientation and print-dialog checklist before printing paid labels.
@@ -46,7 +46,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <p className="mt-4 text-sm text-slate-500">Free checker first. No account, dashboard or label upload needed.</p>
+              <p className="mt-4 text-sm text-slate-500">Guides stay free. Interactive checks and generated PDFs unlock with Pro Toolkit.</p>
             </div>
             <div className="rounded-[2rem] bg-white/80 p-3 shadow-xl shadow-sky-900/10 ring-1 ring-sky-100 backdrop-blur">
               <SizeChecker initialRule={defaultRule} variant="hero" />
@@ -58,9 +58,9 @@ export default function Home() {
       <section className="border-y border-sky-100 bg-white">
         <div className="mx-auto grid max-w-6xl gap-6 px-6 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">After the check</p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-[#12324A]">Use the result to choose one next step.</h2>
-            <p className="mt-3 leading-7 text-slate-600">Most print problems come from the same setup chain: paper size, print scale, orientation, margins, then barcode whitespace. Start with the checker above, then move only to the tool that matches the result.</p>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">Tool workflow</p>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-[#12324A]">Unlock only the workflow you need.</h2>
+            <p className="mt-3 leading-7 text-slate-600">Most print problems come from the same setup chain: paper size, print scale, orientation, margins, then barcode whitespace. Read the free guide first, then use the paid tool that matches the problem.</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <NextStep href="/test-print" title="Setup looks right" text="Print a blank template before paid postage." />

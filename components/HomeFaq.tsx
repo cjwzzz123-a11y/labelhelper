@@ -3,7 +3,7 @@ import { FAQ, type FAQItem } from "@/components/FAQ";
 const homeFaqItems: FAQItem[] = [
   {
     question: "What is Shipping Label Helper for?",
-    answer: "Shipping Label Helper is a browser-based toolkit for small ecommerce sellers who need to check shipping label size, print scale, paper setup, PDF page size and barcode quiet zones before printing paid postage.",
+    answer: "Shipping Label Helper combines free shipping-label guides with paid browser-based tools for sellers who need size checks, print-scale calculations, PDF diagnostics, calibration sheets and barcode quiet-zone review.",
   },
   {
     question: "Which platforms and label formats does it support?",
@@ -31,7 +31,7 @@ const homeFaqItems: FAQItem[] = [
   },
   {
     question: "What if my carrier, marketplace or file format is not supported?",
-    answer: "Use the free checks and templates where they fit, and contact support@labelhelper.com with the unsupported platform, carrier, paper size and a description of the issue. Do not send sensitive label files unless support specifically asks for an example.",
+    answer: "Read the free guides first, then contact support@labelhelper.com with the unsupported platform, carrier, paper size and a description of the issue. Do not send sensitive label files unless support specifically asks for an example.",
   },
 ];
 

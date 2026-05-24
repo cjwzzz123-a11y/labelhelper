@@ -33,45 +33,45 @@
   },
   "pricing": {
     "metaTitle": "Preise | Shipping Label Helper",
-    "metaDescription": "Shipping Label Helper Preise für kostenlose Etikett-Checks, lokale PDF-Tools und Verkäufer-Workflows.",
+    "metaDescription": "Shipping Label Helper Preise für kostenlose Guides und bezahlte lokale PDF-Tools.",
     "breadcrumb": "Preise",
     "eyebrow": "Einfache Preise",
-    "h1": "Kostenlos starten. Upgrade nur, wenn die Vorschau-Tools zu Ihrem Workflow passen.",
-    "intro": "Größencheck, Vorlagen und Hilfen bleiben kostenlos. Erweiterte Tools sind zuerst Vorschauen, während Checkout, Lizenzversand und gespeicherte Berichte verbunden werden.",
+    "h1": "Kostenlose Guides. Bezahlte Tools.",
+    "intro": "Guides, SEO-Seiten und Referenzen bleiben kostenlos. Jeder Checker, Rechner, Diagnoseablauf und generierte PDF gehört zum Pro Toolkit.",
     "honestyTitle": "Aktueller Checkout-Status",
-    "honestyText": "Bezahlzugang wird ehrlich angezeigt: Vorschauen jetzt nutzen, wasserzeichenfreie Ausgabe nach Checkout- und Lizenz-Anbindung freischalten.",
+    "honestyText": "Bezahlzugang nutzt Creem-Lizenzschlüssel. Bewahre deinen Schlüssel gut auf, da diese Website keine Benutzerkonten speichert.",
     "opensEnglish": "englisches Tool",
     "secureCheckout": "Zum sicheren Checkout",
     "checkoutReadyNote": "Sicherer Checkout ist bereit. Geben Sie nach Zahlung den Lizenzschlüssel aus der E-Mail ein.",
     "status": {
       "available": "Verfügbar",
-      "preview": "Vorschau",
+      "preview": "Bezahlte Tools",
       "planned": "Geplant",
       "checkoutReady": "Checkout bereit"
     },
     "plans": {
       "free": {
-        "name": "Kostenlos",
-        "note": "Für Verkäufer, die vor dem Drucken schnell die richtige Größe entscheiden müssen.",
-        "cta": "Kostenlos prüfen",
-        "feature1": "Marktplatz, Versanddienst, Papier und Drucker prüfen",
-        "feature2": "Skalierung für zu kleine oder große Etiketten berechnen",
-        "feature3": "Leere Etikettvorlagen herunterladen",
-        "feature4": "Ratgeber vor dem erneuten Druck lesen"
+        "name": "Kostenlose Inhalte",
+        "note": "Für Verkäufer, die Etikettgrößen, Drucker-Setup und Fehlerbehebung recherchieren.",
+        "cta": "Kostenlose Guides lesen",
+        "feature1": "Setup- und Fehlerbehebungs-Guides lesen",
+        "feature2": "SEO-Seiten zu häufigen Etikettproblemen ansehen",
+        "feature3": "Referenz-PDFs und Vorlagenseiten öffnen",
+        "feature4": "Entscheiden, welches Bezahltool passt"
       },
       "pro": {
         "name": "Pro Toolkit",
-        "note": "Für Verkäufer, die PDF-, Barcode- und Kalibrierungsvorschauen vor dem Portokauf vergleichen.",
-        "cta": "Pro-Vorschauen ansehen",
-        "feature1": "PDF-Seitengröße und geschätzte Skalierung ansehen",
-        "feature2": "Kalibrierungsseiten mit Wasserzeichen erstellen",
-        "feature3": "Testdruck-Packs mit Wasserzeichen herunterladen",
+        "note": "Lokale Tools für Größe, Skalierung, PDF, Barcode-Ruhezone und Kalibrierung vor dem Portokauf freischalten.",
+        "cta": "Bezahlte Tools ansehen",
+        "feature1": "Größenchecker und Skalierungsrechner ausführen",
+        "feature2": "PDF-Seitengröße und geschätzte Skalierung analysieren",
+        "feature3": "Kalibrierungsseiten und Testdruck-Packs erstellen",
         "feature4": "Barcode-Ruhezonen aus einem Bild prüfen"
       }
     },
-    "nextTitle": "Mehr als der kostenlose Check nötig?",
-    "nextText": "Starten Sie mit kostenlosen Tools. Nutzen Sie erweiterte Vorschauen, um zu entscheiden, ob PDF-, Barcode- oder Team-Workflows Ihr echtes Druckproblem lösen.",
-    "freeToolsLink": "Mit kostenlosen Tools starten",
+    "nextTitle": "Bereit für die bezahlten Tools?",
+    "nextText": "Lies zuerst die kostenlosen Guides und schalte dann Pro Toolkit für Größenchecks, PDF-Diagnosen, Barcode-Prüfung und Test-PDFs frei.",
+    "freeToolsLink": "Bezahltools öffnen",
     "compareLink": "PDF und Barcode vergleichen"
   }
 }

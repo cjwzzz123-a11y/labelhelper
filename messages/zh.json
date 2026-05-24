@@ -3,11 +3,11 @@
     "siteName": "Shipping Label Helper",
     "language": "语言",
     "comingSoon": "即将推出",
-    "tagline": "检查运单尺寸和打印比例",
-    "ctaSize": "开始检查"
+    "tagline": "Pro 运单检查和打印工具",
+    "ctaSize": "Pro 检查"
   },
   "nav": {
-    "checkLabel": "检查标签",
+    "checkLabel": "Pro 检查",
     "tools": "问题定位",
     "testPrint": "测试打印",
     "guides": "指南",
@@ -22,22 +22,22 @@
     "zh": "中文"
   },
   "home": {
-    "badge": "无需注册",
-    "heroTitle": "购买运费前，先确认运单标签尺寸是否正确。",
-    "heroDescription": "选择销售平台、承运商、纸张和打印机，获得清晰的 4×6、Letter 或 A4 建议，包括比例、方向和打印对话框设置。",
-    "primaryCta": "检查标签尺寸",
+    "badge": "Pro Toolkit",
+    "heroTitle": "购买运费前，先解锁付费运单检查。",
+    "heroDescription": "使用 Pro 工具检查销售平台、承运商、纸张和打印机设置，获得 4×6、Letter 或 A4 建议，以及比例、方向和打印对话框设置。",
+    "primaryCta": "解锁标签检查",
     "secondaryCta": "修复打印问题",
-    "trustNote": "先使用免费检查器。无需账号、后台或上传标签文件。",
+    "trustNote": "指南继续免费；交互检查和生成 PDF 通过 Pro Toolkit 解锁。",
     "featuresHeading": "常用修复、模板和工具",
     "problemStatement": "在购买运费或重打承运商标签前，先解决运单标签尺寸、打印比例和打印机设置问题。"
   },
   "pricing": {
     "metaTitle": "价格 | Shipping Label Helper",
-    "metaDescription": "Shipping Label Helper 价格：免费标签检查和本地 PDF 工具。",
+    "metaDescription": "Shipping Label Helper 价格：免费指南和付费本地 PDF 工具。",
     "breadcrumb": "价格",
     "eyebrow": "简单价格",
-    "h1": "先免费使用。只有当预览工具适合你的流程时再升级。",
-    "intro": "尺寸检查器、模板和排错指南保持免费。付费功能就是这些预览工具：PDF 页面尺寸检查、校准页、条码图片复核和测试打印包。",
+    "h1": "指南免费，工具付费。",
+    "intro": "指南、SEO 页面和参考资料继续免费。所有交互检查、计算器、诊断和生成 PDF 都属于 Pro Toolkit。",
     "honestyTitle": "当前支付状态",
     "honestyText": "付费访问使用 Creem 许可证密钥。本站不保存用户账号，请你自己妥善保存密钥。",
     "opensEnglish": "英文工具",
@@ -51,27 +51,27 @@
     },
     "plans": {
       "free": {
-        "name": "免费版",
-        "note": "适合在打印前快速确认标签尺寸的卖家。",
-        "cta": "开始免费检查",
-        "feature1": "检查平台、承运商、纸张和打印机",
-        "feature2": "计算过小或过大标签的打印比例",
-        "feature3": "下载空白标签模板",
-        "feature4": "重打前阅读排错指南"
+        "name": "免费内容",
+        "note": "适合研究标签尺寸、打印机设置和排错步骤的卖家。",
+        "cta": "阅读免费指南",
+        "feature1": "阅读设置和排错指南",
+        "feature2": "浏览常见标签问题的 SEO 页面",
+        "feature3": "打开参考 PDF 和模板说明页",
+        "feature4": "判断哪个付费工具适合当前打印问题"
       },
       "pro": {
         "name": "Pro 工具包",
-        "note": "解锁干净的本地输出，适合在购买真实运费前对比 PDF、条码和校准输出。",
-        "cta": "查看付费预览",
-        "feature1": "预览 PDF 页面尺寸和估算比例",
-        "feature2": "解锁后生成无水印校准页",
-        "feature3": "解锁后下载无水印测试打印包",
+        "note": "解锁本地工具，在购买真实运费前检查尺寸、比例、PDF、条码空白区和打印机校准。",
+        "cta": "查看付费工具",
+        "feature1": "运行尺寸检查器和比例计算器",
+        "feature2": "分析 PDF 页面尺寸和估算比例",
+        "feature3": "生成校准页和测试打印包",
         "feature4": "通过图片复核条码空白区"
       }
     },
-    "nextTitle": "需要超过免费检查器的能力？",
-    "nextText": "先从免费的标签尺寸工具开始。再用高级预览区判断 PDF 页面尺寸检查、条码图片复核或团队流程规划是否真的解决你的打印问题。",
-    "freeToolsLink": "从免费标签工具开始",
+    "nextTitle": "准备使用付费工具？",
+    "nextText": "先阅读免费指南了解可能原因，再解锁 Pro Toolkit 使用尺寸检查、PDF 诊断、条码复核和生成测试 PDF。",
+    "freeToolsLink": "打开付费工具",
     "compareLink": "比较 PDF 和条码检查"
   }
 }

@@ -33,45 +33,45 @@
   },
   "pricing": {
     "metaTitle": "Precios | Shipping Label Helper",
-    "metaDescription": "Precios de Shipping Label Helper para comprobaciones gratuitas, herramientas PDF locales y soporte de flujo de trabajo.",
+    "metaDescription": "Precios de Shipping Label Helper para guías gratuitas y herramientas PDF locales de pago.",
     "breadcrumb": "Precios",
     "eyebrow": "Precios simples",
-    "h1": "Empieza gratis. Actualiza solo si las vistas previas encajan con tu flujo.",
-    "intro": "El comprobador de tamaño, las plantillas y las guías siguen siendo gratis. Las herramientas avanzadas son primero vistas previas mientras se conecta checkout, entrega de licencia e informes guardados.",
+    "h1": "Guías gratis. Herramientas de pago.",
+    "intro": "Las guías, páginas SEO y material de referencia siguen siendo gratis. Cada comprobador, calculadora, diagnóstico y PDF generado pertenece a Pro Toolkit.",
     "honestyTitle": "Estado actual del checkout",
-    "honestyText": "El acceso de pago se muestra con claridad: usa las vistas previas ahora y desbloquea salidas sin marca de agua cuando checkout y licencias estén conectados.",
+    "honestyText": "El acceso de pago usa claves de licencia de Creem. Guarda tu clave porque este sitio no almacena cuentas de usuario.",
     "opensEnglish": "herramienta en inglés",
     "secureCheckout": "Ir al checkout seguro",
     "checkoutReadyNote": "El checkout seguro está listo. Después del pago, introduce la licencia enviada por email.",
     "status": {
       "available": "Disponible",
-      "preview": "Vista previa",
+      "preview": "Herramientas de pago",
       "planned": "Planificado",
       "checkoutReady": "Checkout listo"
     },
     "plans": {
       "free": {
-        "name": "Gratis",
-        "note": "Para vendedores que necesitan decidir rápido el tamaño antes de imprimir.",
-        "cta": "Empezar gratis",
-        "feature1": "Comprobar marketplace, transportista, papel e impresora",
-        "feature2": "Calcular escala para etiquetas pequeñas o grandes",
-        "feature3": "Descargar plantillas en blanco",
-        "feature4": "Leer guías antes de reimprimir"
+        "name": "Contenido gratis",
+        "note": "Para investigar tamaños de etiqueta, configuración de impresora y pasos de solución.",
+        "cta": "Leer guías gratis",
+        "feature1": "Leer guías de configuración y solución",
+        "feature2": "Consultar páginas SEO sobre problemas comunes",
+        "feature3": "Abrir PDFs de referencia y páginas de plantillas",
+        "feature4": "Decidir qué herramienta de pago encaja con el problema"
       },
       "pro": {
         "name": "Pro Toolkit",
-        "note": "Para comparar vistas previas de PDF, código de barras y calibración antes de comprar envío.",
-        "cta": "Ver vistas Pro",
-        "feature1": "Previsualizar tamaño de página PDF y escala",
-        "feature2": "Generar hojas de calibración con marca de agua",
-        "feature3": "Descargar paquetes de prueba con marca de agua",
+        "note": "Desbloquea herramientas locales para revisar tamaño, escala, PDF, códigos de barras y calibración antes de comprar envío.",
+        "cta": "Ver herramientas de pago",
+        "feature1": "Ejecutar comprobador de tamaño y calculadora de escala",
+        "feature2": "Analizar tamaño de página PDF y escala estimada",
+        "feature3": "Generar hojas de calibración y paquetes de prueba",
         "feature4": "Revisar zonas blancas del código de barras"
       }
     },
-    "nextTitle": "¿Necesitas más que el comprobador gratuito?",
-    "nextText": "Empieza con las herramientas gratuitas. Usa las vistas avanzadas para decidir si los checks de PDF, código de barras o flujo de equipo resuelven tu problema real.",
-    "freeToolsLink": "Empezar con herramientas gratuitas",
+    "nextTitle": "¿Listo para usar herramientas de pago?",
+    "nextText": "Lee las guías gratuitas para entender la causa probable y luego desbloquea Pro Toolkit para diagnósticos de tamaño, PDF, código de barras y PDFs de prueba.",
+    "freeToolsLink": "Abrir herramientas de pago",
     "compareLink": "Comparar PDF y código de barras"
   }
 }

@@ -27,7 +27,7 @@ const copy = {
     button: "Comprobar estado",
     busy: "Comprobando...",
     initial: "Aún no se ha solicitado ninguna consulta.",
-    failed: "No se pudo comprobar la entrega de licencia ahora. Usa las herramientas gratuitas y las vistas previas por ahora.",
+    failed: "No se pudo comprobar la entrega de licencia ahora. Lee las guías gratuitas o contacta con soporte si ya pagaste.",
     testKey: "Clave local de prueba",
   },
   fr: {
@@ -40,7 +40,7 @@ const copy = {
     button: "Vérifier le statut",
     busy: "Vérification...",
     initial: "Aucune vérification demandée pour le moment.",
-    failed: "Impossible de vérifier la livraison de licence maintenant. Utilisez les outils gratuits et les aperçus pour le moment.",
+    failed: "Impossible de vérifier la livraison de licence maintenant. Lisez les guides gratuits ou contactez le support si vous avez déjà payé.",
     testKey: "Clé de test locale",
   },
   de: {
@@ -53,7 +53,7 @@ const copy = {
     button: "Status prüfen",
     busy: "Prüfung läuft...",
     initial: "Es wurde noch keine Abfrage gestartet.",
-    failed: "Die Lizenzzustellung konnte gerade nicht geprüft werden. Nutze vorerst kostenlose Tools und Vorschauen.",
+    failed: "Die Lizenzzustellung konnte gerade nicht geprüft werden. Lies die kostenlosen Guides oder kontaktiere den Support, wenn du bereits bezahlt hast.",
     testKey: "Lokaler Testschlüssel",
   },
   ja: {
@@ -66,7 +66,7 @@ const copy = {
     button: "配信状況を確認",
     busy: "確認中...",
     initial: "まだ確認は実行されていません。",
-    failed: "現在ライセンス配信を確認できません。無料ツールとプレビューを利用してください。",
+    failed: "現在ライセンス配信を確認できません。購入済みの場合はサポートへ連絡し、それ以外は無料ガイドを参照してください。",
     testKey: "ローカルテストキー",
   },
   zh: {

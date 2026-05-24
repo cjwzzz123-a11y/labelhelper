@@ -17,11 +17,11 @@ interface PageProps {
 const copy = {
   en: {
     title: "Test Print Center | Shipping Label Helper",
-    description: "Print blank templates, calibration sheets and paid watermarked test packs before using shipping labels.",
+    description: "Read the test-print flow, then unlock paid template, calibration and test-pack PDF generation before using shipping labels.",
     breadcrumb: "Test Print",
     eyebrow: "Test before postage",
     h1: "Print a safe test before the real carrier label.",
-    intro: "Use blank templates and calibration sheets for free. Use the paid watermarked test pack only when you need a larger preview set before buying or reprinting postage.",
+    intro: "Guides explain the test-print flow for free. Template downloads, calibration generation and test print packs unlock with Pro Toolkit.",
     orderTitle: "Use this order",
     steps: [
       ["1 · Match the paper", "Pick the size loaded in the printer: 4×6, A4 or Letter."],
@@ -29,9 +29,9 @@ const copy = {
       ["3 · Measure the output", "Fix scale or alignment before printing live postage."],
     ],
     sections: [
-      { title: "Blank templates", text: "Download a 4×6, A4 or Letter blank PDF and print at 100% / Actual Size to confirm paper size and scale.", href: "/templates", cta: "Choose blank template" },
-      { title: "Calibration sheet", text: "Print a ruler and alignment sheet to check scale, margins and center position before paid postage.", href: "/tools/calibration-sheet", cta: "Generate calibration sheet" },
-      { title: "Test print pack", text: "Paid preview: generate watermarked test PDFs for thermal and sheet printers when one blank template is not enough.", href: "/tools/test-print-pack", cta: "Build test print pack" },
+      { title: "Blank templates", text: "Unlock a 4×6, A4 or Letter blank PDF and print at 100% / Actual Size to confirm paper size and scale.", href: "/templates", cta: "Unlock blank template" },
+      { title: "Calibration sheet", text: "Generate a ruler and alignment sheet to check scale, margins and center position before paid postage.", href: "/tools/calibration-sheet", cta: "Generate calibration sheet" },
+      { title: "Test print pack", text: "Generate paid test PDFs for thermal and sheet printers when one blank template is not enough.", href: "/tools/test-print-pack", cta: "Build test print pack" },
     ],
     downloadsTitle: "Blank PDF downloads",
     downloadsText: "These PDFs contain borders and measurement guides only. They do not include carrier barcodes or postage.",
@@ -61,11 +61,11 @@ const copy = {
   },
   zh: {
     title: "测试打印中心 | Shipping Label Helper",
-    description: "在使用运单标签前，先打印空白模板、校准页和带水印测试打印包。",
+    description: "先阅读测试打印流程，再解锁付费模板、校准页和测试包 PDF 生成。",
     breadcrumb: "测试打印",
     eyebrow: "先测试再买运费",
     h1: "打印真实承运商标签前，先做一次安全测试。",
-    intro: "空白模板和校准页是免费的。只有在需要更大一组预览时，才使用带水印测试打印包这个付费功能，然后再购买或重打运费。",
+    intro: "指南免费解释测试打印流程。模板下载、校准页生成和测试打印包通过 Pro Toolkit 解锁。",
     orderTitle: "按这个顺序使用",
     steps: [
       ["1 · 匹配纸张", "选择打印机实际装入的尺寸：4×6、A4 或 Letter。"],
@@ -73,9 +73,9 @@ const copy = {
       ["3 · 测量输出", "在打印真实运费前，先修正比例或对齐。"],
     ],
     sections: [
-      { title: "空白模板", text: "下载 4×6、A4 或 Letter 空白 PDF，按 100% / 实际大小打印，确认纸张和比例。", href: "/templates", cta: "选择空白模板" },
+      { title: "空白模板", text: "解锁 4×6、A4 或 Letter 空白 PDF，按 100% / 实际大小打印，确认纸张和比例。", href: "/templates", cta: "解锁空白模板" },
       { title: "校准页", text: "打印尺规和对齐页，在购买运费前检查比例、边距和居中。", href: "/tools/calibration-sheet", cta: "生成校准页" },
-      { title: "测试打印包", text: "付费预览：当单个空白模板不够时，生成适合热敏和纸张打印机的带水印测试 PDF。", href: "/tools/test-print-pack", cta: "生成测试包" },
+      { title: "测试打印包", text: "当单个空白模板不够时，生成适合热敏和纸张打印机的付费测试 PDF。", href: "/tools/test-print-pack", cta: "生成测试包" },
     ],
     downloadsTitle: "空白 PDF 下载",
     downloadsText: "这些 PDF 只包含边框和测量参考，不包含承运商条码或真实运费。",

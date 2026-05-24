@@ -33,45 +33,45 @@
   },
   "pricing": {
     "metaTitle": "Tarifs | Shipping Label Helper",
-    "metaDescription": "Tarifs Shipping Label Helper pour les vérifications gratuites, outils PDF locaux et workflows vendeurs.",
+    "metaDescription": "Tarifs Shipping Label Helper pour guides gratuits et outils PDF locaux payants.",
     "breadcrumb": "Tarifs",
     "eyebrow": "Tarifs simples",
-    "h1": "Commencez gratuitement. Passez à Pro seulement si les aperçus conviennent à votre workflow.",
-    "intro": "Le vérificateur de taille, les modèles et les guides restent gratuits. Les outils avancés sont en aperçu pendant la connexion du paiement, des licences et des rapports sauvegardés.",
+    "h1": "Guides gratuits. Outils payants.",
+    "intro": "Les guides, pages SEO et références restent gratuits. Chaque vérificateur, calculateur, diagnostic et PDF généré fait partie de Pro Toolkit.",
     "honestyTitle": "État actuel du paiement",
-    "honestyText": "L’accès payant est présenté clairement : utilisez les aperçus maintenant, puis débloquez les sorties sans filigrane quand le paiement et les licences seront connectés.",
+    "honestyText": "L’accès payant utilise des clés de licence Creem. Conservez votre clé car ce site ne stocke pas de comptes utilisateur.",
     "opensEnglish": "outil en anglais",
     "secureCheckout": "Aller au paiement sécurisé",
     "checkoutReadyNote": "Le paiement sécurisé est prêt. Après paiement, saisissez la clé envoyée par email.",
     "status": {
       "available": "Disponible",
-      "preview": "Aperçu",
+      "preview": "Outils payants",
       "planned": "Prévu",
       "checkoutReady": "Paiement prêt"
     },
     "plans": {
       "free": {
-        "name": "Gratuit",
-        "note": "Pour décider rapidement de la bonne taille avant impression.",
-        "cta": "Commencer gratuitement",
-        "feature1": "Vérifier marketplace, transporteur, papier et imprimante",
-        "feature2": "Calculer l’échelle des étiquettes trop petites ou grandes",
-        "feature3": "Télécharger des modèles vierges",
-        "feature4": "Lire les guides avant de réimprimer"
+        "name": "Contenu gratuit",
+        "note": "Pour rechercher tailles d’étiquettes, réglages d’imprimante et étapes de dépannage.",
+        "cta": "Lire les guides gratuits",
+        "feature1": "Lire les guides de réglage et dépannage",
+        "feature2": "Consulter les pages SEO sur les problèmes courants",
+        "feature3": "Ouvrir les PDFs de référence et pages de modèles",
+        "feature4": "Choisir l’outil payant adapté au problème"
       },
       "pro": {
         "name": "Pro Toolkit",
-        "note": "Pour comparer les aperçus PDF, code-barres et calibration avant d’acheter l’affranchissement.",
-        "cta": "Voir les aperçus Pro",
-        "feature1": "Prévisualiser taille PDF et échelle estimée",
-        "feature2": "Générer des feuilles de calibration avec filigrane",
-        "feature3": "Télécharger des packs de test avec filigrane",
+        "note": "Débloque les outils locaux pour vérifier taille, échelle, PDF, code-barres et calibration avant l’affranchissement.",
+        "cta": "Voir les outils payants",
+        "feature1": "Utiliser le vérificateur de taille et le calculateur d’échelle",
+        "feature2": "Analyser taille de page PDF et échelle estimée",
+        "feature3": "Générer feuilles de calibration et packs de test",
         "feature4": "Vérifier les zones blanches du code-barres"
       }
     },
-    "nextTitle": "Besoin de plus que le vérificateur gratuit ?",
-    "nextText": "Commencez avec les outils gratuits. Utilisez les aperçus avancés pour voir si les contrôles PDF, code-barres ou workflow résolvent votre vrai problème.",
-    "freeToolsLink": "Commencer avec les outils gratuits",
+    "nextTitle": "Prêt à utiliser les outils payants ?",
+    "nextText": "Lisez les guides gratuits pour comprendre la cause probable, puis débloquez Pro Toolkit pour les diagnostics de taille, PDF, code-barres et PDFs de test.",
+    "freeToolsLink": "Ouvrir les outils payants",
     "compareLink": "Comparer PDF et code-barres"
   }
 }

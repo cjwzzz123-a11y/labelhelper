@@ -38,7 +38,7 @@ export default function TestPrintPackPage() {
             {steps.map(([stepTitle, text], index) => <MiniStep key={stepTitle} number={`${index + 1}`} title={stepTitle} text={text} />)}
           </div>
           <div className="relative mt-8"><TestPrintPack /></div>
-          <div className="relative mt-8"><Paywall feature="unwatermarked test print PDFs and bundled pack downloads" /></div>
+          <div className="relative mt-8"><Paywall feature="test print PDFs and bundled pack downloads" /></div>
         </div>
       </section>
     </main>

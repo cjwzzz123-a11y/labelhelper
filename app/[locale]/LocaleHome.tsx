@@ -24,13 +24,13 @@ type HomeCopy = {
 const enHomeCopy: HomeCopy = {
   decisionEyebrow: "Choose your path",
   decisionPaths: [
-    { title: "I’m setting up a label", text: "Choose marketplace, carrier, paper and printer.", href: "/#checker", cta: "Start setup check" },
-    { title: "My print already failed", text: "Tiny, cut off or blurry? Diagnose the symptom next.", href: "/shipping-label-printing-too-small", cta: "Fix a bad print" },
-    { title: "I want a safe test", text: "Choose a blank template, calibration sheet or test pack.", href: "/test-print", cta: "Open Test Print" },
+    { title: "I’m setting up a label", text: "Unlock the Pro checker for marketplace, carrier, paper and printer setup.", href: "/pricing", cta: "Unlock setup check" },
+    { title: "My print already failed", text: "Read the troubleshooting guide first, then unlock the matching tool.", href: "/shipping-label-printing-too-small", cta: "Read the guide" },
+    { title: "I want a safe test", text: "Learn the test flow, then unlock template, calibration or test-pack downloads.", href: "/test-print", cta: "Open Test Print" },
   ],
-  nextEyebrow: "After the check",
-  nextTitle: "Use the result to choose one next step.",
-  nextText: "Most print problems come from the same setup chain: paper size, print scale, orientation, margins, then barcode whitespace. Start with the checker above, then move only to the tool that matches the result.",
+  nextEyebrow: "Tool workflow",
+  nextTitle: "Unlock only the workflow you need.",
+  nextText: "Most print problems come from the same setup chain: paper size, print scale, orientation, margins, then barcode whitespace. Read the free guide first, then use the paid tool that matches the problem.",
   nextSteps: [
     { href: "/test-print", title: "Setup looks right", text: "Print a blank template before paid postage.", kind: "tool" },
     { href: "/tools/scale-calculator", title: "Printed size is wrong", text: "Calculate the corrected print percentage.", kind: "tool" },
@@ -42,13 +42,13 @@ const enHomeCopy: HomeCopy = {
 const zhHomeCopy: HomeCopy = {
   decisionEyebrow: "选择你的路径",
   decisionPaths: [
-    { title: "我要设置标签", text: "选择平台、承运商、纸张和打印机。", href: "/#checker", cta: "开始设置检查" },
-    { title: "我已经打印失败", text: "太小、被裁切或模糊？先诊断症状。", href: "/shipping-label-printing-too-small", cta: "修复打印问题" },
-    { title: "我想先安全测试", text: "选择空白模板、校准页或测试打印包。", href: "/test-print", cta: "打开测试打印" },
+    { title: "我要设置标签", text: "解锁 Pro 检查器，检查平台、承运商、纸张和打印机设置。", href: "/pricing", cta: "解锁设置检查" },
+    { title: "我已经打印失败", text: "先阅读排错指南，再解锁对应工具。", href: "/shipping-label-printing-too-small", cta: "阅读指南" },
+    { title: "我想先安全测试", text: "先了解测试流程，再解锁模板、校准页或测试包下载。", href: "/test-print", cta: "打开测试打印" },
   ],
-  nextEyebrow: "检查后",
-  nextTitle: "根据结果只选择一个下一步。",
-  nextText: "多数打印问题都来自同一条设置链：纸张尺寸、打印比例、方向、边距，然后才是条码空白区。先用上方检查器，再进入最匹配结果的工具。",
+  nextEyebrow: "工具流程",
+  nextTitle: "只解锁你需要的流程。",
+  nextText: "多数打印问题都来自同一条设置链：纸张尺寸、打印比例、方向、边距，然后才是条码空白区。先阅读免费指南，再使用匹配问题的付费工具。",
   nextSteps: [
     { href: "/test-print", title: "设置看起来正确", text: "购买运费前先打印空白模板。", kind: "tool" },
     { href: "/tools/scale-calculator", title: "打印尺寸不对", text: "计算需要修正到的打印百分比。", kind: "tool" },

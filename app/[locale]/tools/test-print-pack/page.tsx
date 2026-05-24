@@ -22,7 +22,7 @@ const copy = {
     h1: "Shipping Label Test Print Pack",
     intro: "Unlock Pro Toolkit to generate single test PDFs or the bundled ZIP for the full printer test set.",
     steps: [["Pick baseline", "Start with a blank template or preview PDF."], ["Print at 100%", "Keep Fit to Page disabled."], ["Fix before postage", "Use scale and quiet-zone tools if the test fails."]],
-    paywallFeature: "unwatermarked test print PDFs and bundled pack downloads",
+    paywallFeature: "test print PDFs and bundled pack downloads",
   },
   zh: {
     title: "运单标签测试打印包",
