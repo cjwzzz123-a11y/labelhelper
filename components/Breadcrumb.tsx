@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { JsonLd } from "./JsonLd";
+import { absoluteUrl } from "@/lib/seo";
 
 export interface BreadcrumbItem {
   name: string;
@@ -15,7 +16,7 @@ export function Breadcrumb({ items, homeLabel = "Home", homeHref = "/" }: { item
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: item.href,
+      item: absoluteUrl(item.href),
     })),
   };
 

@@ -14,8 +14,9 @@ import LocaleHome, { generateMetadata as generateHomeMetadata } from "../LocaleH
 import { getLocalizedSeoPage, getSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
 import { esSeoPageKinds } from "@/data/seo-pages.es";
 import { zhSeoPageKinds } from "@/data/seo-pages.zh";
-import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, localizedPath, safeLocalizedPath, type Locale } from "@/lib/i18n";
+import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { lookup } from "@/lib/rules-engine";
+import { articleSchema, pageMetadata } from "@/lib/seo";
 
 const pageUi = {
   en: {
@@ -142,13 +143,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const page = getLocalizedSeoPage(slug, locale);
   if (!page) return {};
 
-  return {
-    title: page.title,
-    description: page.description,
-    alternates: { canonical: localizedPath(`/${page.slug}`, locale) },
-    openGraph: { title: page.title, description: page.description, url: localizedPath(`/${page.slug}`, locale), type: "article" },
-    twitter: { card: "summary", title: page.title, description: page.description },
-  };
+  return pageMetadata({ title: page.title, description: page.description, path: `/${page.slug}`, locale, type: "article" });
 }
 
 export default async function LocaleSeoPage({ params }: PageProps) {
@@ -168,13 +163,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
   const combo = page.defaultCombo;
   const rule = combo ? lookup(combo.platform, combo.carrier, "4x6", "thermal") : null;
   const isTemplate = page.kind === "template";
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: page.h1,
-    description: page.description,
-    mainEntityOfPage: localizedPath(`/${page.slug}`, locale),
-  };
+  const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale });
   const fallbackLabel = (path: string, label: string) => (locale !== defaultLocale && !hasLocalizedPath(path, locale) ? label : null);
   const nextStepText = isTemplate ? ui.templateNext : page.kind === "troubleshooter" ? ui.troubleshooterNext : ui.checkerNext;
 

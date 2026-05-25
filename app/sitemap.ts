@@ -1,11 +1,33 @@
 import type { MetadataRoute } from "next";
 import { getImplementedSeoLocales, seoPages } from "@/data/seo-pages";
 import { alternateLanguages, availableLocalesForPath, localizedPath, locales, type Locale } from "@/lib/i18n";
-
-const baseUrl = "https://labelhelper.com";
+import { siteUrl } from "@/lib/seo";
 
 const staticRoutes = [
   "",
+  "/tools",
+  "/tools/scale-calculator",
+  "/tools/calibration-sheet",
+  "/tools/pdf-analyzer",
+  "/tools/test-print-pack",
+  "/tools/barcode-quiet-zone-checker",
+  "/tools/international-label-splitter",
+  "/test-print",
+  "/guides",
+  "/templates",
+  "/pricing",
+  "/thanks",
+  "/unlock",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/refunds",
+  "/terms",
+];
+
+const localizedStaticRoutes = new Set([
+  "",
+  "/",
   "/tools",
   "/tools/scale-calculator",
   "/tools/calibration-sheet",
@@ -18,12 +40,7 @@ const staticRoutes = [
   "/pricing",
   "/thanks",
   "/unlock",
-  "/about",
-  "/privacy",
-  "/terms",
-];
-
-const localizedStaticRoutes = new Set(["", "/", "/tools", "/test-print", "/guides", "/templates", "/pricing", "/thanks", "/unlock"]);
+]);
 const seoRoutes = seoPages.map((page) => `/${page.slug}`);
 const seoLocales = new Set<Locale>(getImplementedSeoLocales());
 
@@ -38,13 +55,13 @@ function sitemapEntry(path: string, locale: Locale, lastModified: Date): Metadat
       };
 
   return {
-    url: `${baseUrl}${route}`,
+    url: `${siteUrl}${route}`,
     lastModified,
     changeFrequency: path === "" || path === "/" ? "weekly" : "monthly",
     priority: path === "" || path === "/" ? 1 : 0.8,
     alternates: {
       languages: Object.fromEntries(
-        Object.entries(languages).map(([language, href]) => [language, `${baseUrl}${href}`]),
+        Object.entries(languages).map(([language, href]) => [language, `${siteUrl}${href}`]),
       ),
     },
   };

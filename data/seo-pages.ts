@@ -267,6 +267,16 @@ export const seoPages: SeoPage[] = [
   troublePage("shipping-label-keeps-getting-cropped", "Every Time I Print a Shipping Label It Gets Cropped", "Recurring cropping is almost always a print dialog setting: paper size, scale, orientation or margin. Check paper size first, then confirm Actual Size is set, then confirm orientation. Print from a PDF viewer rather than a browser."),
   troublePage("can-you-trim-fold-tape-shipping-label", "Can You Trim, Fold or Tape Over a Shipping Label Without Causing Scan Problems?", "Trimming outside the barcode quiet zone is usually fine. Folding through the barcode or applying glossy tape over it can reduce scan reliability. If the label needs significant repair, reprint it."),
   troublePage("shipping-label-preflight-checklist", "Pre-Flight Checklist: 7 Things to Verify Before Dropping Off at USPS, UPS or FedEx", "Before any handoff: confirm barcode is sharp and complete, address is readable, tracking number is visible, label is not cropped, format matched the printer and paper used, orientation is correct, and shipment data matches the package."),
+  troublePage("mercari-shipping-label-4x6-vs-8x11", "Mercari Shipping Label Size: 4×6 vs 8.5×11", "Mercari sellers should match the label format to the printer before printing. Use the 4×6 format for thermal printers and the 8.5×11 format for regular inkjet or laser printers. Do not force one format into the other with Fit to Page."),
+  troublePage("mercari-label-prints-too-small", "Mercari Shipping Label Prints Too Small", "A tiny Mercari label is usually caused by printing the wrong label format, browser scaling, or Fit to Page. Choose the label size that matches your printer, download the PDF, then print at 100% / Actual Size."),
+  troublePage("pirate-ship-4x6-label-prints-on-letter-paper", "Pirate Ship 4×6 Label Prints on Letter Paper", "A Pirate Ship 4×6 label can print on Letter paper if it stays actual size and the barcode is intact, but it should not be stretched to fill the sheet. Print at 100%, then cut or fold outside the barcode and address block."),
+  troublePage("pirate-ship-label-too-small-thermal-printer", "Pirate Ship Label Prints Too Small on a Thermal Printer", "Pirate Ship thermal label problems usually come from a mismatched printer paper size, browser scaling, or a driver preset that is not set to 4×6. Set the printer media to 4×6 and print the downloaded PDF at Actual Size."),
+  troublePage("shipstation-label-too-small-or-too-large", "ShipStation Label Prints Too Small or Too Large", "ShipStation label size issues usually mean the document option, printer workstation setting, DPI, or paper size does not match the physical printer. Confirm the label layout first, then test one 4×6 or Letter output at 100%."),
+  troublePage("rollo-printer-label-too-small", "Rollo Printer Shipping Label Prints Too Small", "When a Rollo label prints too small, check that the source label is a 4×6 format, the printer driver media size is 4×6, and the print dialog is set to 100% / Actual Size instead of Fit to Page."),
+  troublePage("zebra-printer-4x6-label-cut-off-or-shrunk", "Zebra Printer 4×6 Shipping Label Is Cut Off or Shrunk", "Zebra 4×6 label problems are usually caused by driver media size, calibration, orientation, or scaling settings. Calibrate the roll, set media to 4×6, and print one template before sending live postage."),
+  troublePage("dymo-4xl-label-prints-too-small", "DYMO 4XL Label Prints Too Small", "A DYMO 4XL shipping label that prints small is usually receiving the wrong page size or a scaled PDF. Use a 4×6 label file, select the 4XL/4×6 paper size, and disable Fit to Page before reprinting."),
+  troublePage("print-4x6-shipping-label-on-regular-printer", "How to Print a 4×6 Shipping Label on a Regular Printer", "You can print a 4×6 shipping label on a regular printer by keeping the label at Actual Size on Letter or A4 paper. Do not enlarge it to fill the page, and only cut or fold outside the barcode and address area."),
+  troublePage("convert-letter-shipping-label-to-4x6-thermal", "Convert a Letter Shipping Label to 4×6 Thermal Size Safely", "Before converting a Letter label to 4×6 thermal size, confirm whether the PDF already contains a true 4×6 label area. Crop or extract the label without shrinking the barcode, then test-print before shipping."),
 ];
 
 const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
@@ -277,7 +287,7 @@ const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
 for (const [locale, pages] of Object.entries(localizedSeoPages) as [Locale, SeoPage[]][]) {
   registerLocalizedPaths(pages.map((page) => `/${page.slug}`), [locale]);
 }
-registerLocalizedPaths(allSeoRoutePaths(), locales);
+registerLocalizedPaths([...allSeoRoutePaths(), ...seoPages.map((page) => `/${page.slug}`)], locales);
 
 export function getSeoPage(slug: string) {
   return seoPages.find((page) => page.slug === slug);

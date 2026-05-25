@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ShippingResponsibilityNotice } from "@/components/LegalNotice";
 import { SizeChecker } from "@/components/tools/SizeChecker";
 import { lookup } from "@/lib/rules-engine";
-import { pageMetadata, softwareApplicationSchema } from "@/lib/seo";
+import { organizationSchema, pageMetadata, softwareApplicationSchema, websiteSchema } from "@/lib/seo";
 
 const title = "Shipping Label Size Checker | Print 4×6 Labels Correctly";
 const description = "Check shipping label size, print scale, paper, carrier and printer settings for Etsy, Shopify, eBay, USPS, UPS, FedEx and DHL labels.";
@@ -22,6 +22,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#f7fbff] text-slate-950">
+      <JsonLd data={organizationSchema()} />
+      <JsonLd data={websiteSchema()} />
       <JsonLd data={softwareApplicationSchema({ title, description, path: "/" })} />
       <section id="checker" className="relative scroll-mt-28 overflow-hidden px-6 py-12 sm:py-16">
         <div className="absolute left-8 top-10 h-24 w-24 rounded-full bg-sky-200/60 blur-3xl" />
