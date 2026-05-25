@@ -287,7 +287,8 @@ const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
 for (const [locale, pages] of Object.entries(localizedSeoPages) as [Locale, SeoPage[]][]) {
   registerLocalizedPaths(pages.map((page) => `/${page.slug}`), [locale]);
 }
-registerLocalizedPaths([...allSeoRoutePaths(), ...seoPages.map((page) => `/${page.slug}`)], locales);
+registerLocalizedPaths(allSeoRoutePaths(), locales);
+registerLocalizedPaths(seoPages.map((page) => `/${page.slug}`), [defaultLocale]);
 
 export function getSeoPage(slug: string) {
   return seoPages.find((page) => page.slug === slug);
