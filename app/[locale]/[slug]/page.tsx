@@ -11,7 +11,7 @@ import { RelatedLinks } from "@/components/RelatedLinks";
 import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { SizeChecker } from "@/components/tools/SizeChecker";
 import LocaleHome, { generateMetadata as generateHomeMetadata } from "../LocaleHome";
-import { getLocalizedSeoPage, getSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
+import { getLocalizedSeoPage, getStaticSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
 import { esSeoPageKinds } from "@/data/seo-pages.es";
 import { zhSeoPageKinds } from "@/data/seo-pages.zh";
 import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
@@ -133,7 +133,7 @@ function getKindLabel(kind: SeoPageKind, locale: Locale) {
 
 export function generateStaticParams() {
   return locales
-    .flatMap((locale) => [{ locale, slug: "__home" }, ...getSeoPages(locale).map((page) => ({ locale, slug: page.slug }))]);
+    .flatMap((locale) => [{ locale, slug: "__home" }, ...getStaticSeoPages(locale).map((page) => ({ locale, slug: page.slug }))]);
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

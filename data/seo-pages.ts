@@ -435,6 +435,10 @@ export function getSeoPages(locale: Locale = defaultLocale): SeoPage[] {
   return localizedSeoPages[locale] ?? seoPages;
 }
 
+export function getStaticSeoPages(locale: Locale = defaultLocale): SeoPage[] {
+  return locale === defaultLocale || hasTranslatedSeoPages(locale) ? getSeoPages(locale) : [];
+}
+
 export function getImplementedSeoLocales() {
   return locales.filter(hasTranslatedSeoPages);
 }
