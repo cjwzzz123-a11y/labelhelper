@@ -6,7 +6,7 @@ import { ShippingResponsibilityNotice } from "@/components/LegalNotice";
 import { SizeChecker } from "@/components/tools/SizeChecker";
 import { defaultLocale, hasLocalizedPath, isSupportedLocale, safeLocalizedPath, locales, type Locale } from "@/lib/i18n";
 import { lookup } from "@/lib/rules-engine";
-import { pageMetadata, softwareApplicationSchema } from "@/lib/seo";
+import { organizationSchema, pageMetadata, softwareApplicationSchema, websiteSchema } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -89,6 +89,8 @@ export default async function LocaleHome({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#f7fbff] text-slate-950">
+      <JsonLd data={organizationSchema()} />
+      <JsonLd data={websiteSchema(requestedLocale)} />
       <JsonLd data={softwareApplicationSchema({ title, description, path: "/", locale: requestedLocale })} />
       <section id="checker" className="relative scroll-mt-28 overflow-hidden px-6 py-12 sm:py-16">
         <div className="absolute left-8 top-10 h-24 w-24 rounded-full bg-sky-200/60 blur-3xl" />
