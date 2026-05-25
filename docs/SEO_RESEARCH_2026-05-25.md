@@ -55,8 +55,30 @@ Watch Search Console for:
 
 ## Next Candidates
 
-- "TikTok Shop shipping label prints too small"
-- "Vinted shipping label prints too small"
-- "Poshmark shipping label 4x6 thermal printer"
 - "What size should a return label be"
 - "Royal Mail label prints too small"
+
+## Follow-Up Research - Marketplace and Return Labels
+
+Additional research focused on resale/mobile marketplaces and UK/EU-oriented label workflows. The strongest new intent clusters were:
+
+- Vinted sellers asking how to print marketplace labels on 4x6 thermal printers, especially when the source file is A4 or a sheet-style PDF.
+- Depop sellers needing to resize or print downloaded labels without shrinking the barcode.
+- Poshmark sellers using 4x6 thermal printers and seeing labels split across two stickers or print with the wrong media size.
+- TikTok Shop sellers searching for "label too small" and "4x6 thermal printer" workflows as the marketplace grows.
+- Royal Mail and return-label users dealing with A4/Letter sheet labels, QR codes, and barcode/QR scan risk.
+
+Added another English-only batch:
+
+- `vinted-shipping-label-4x6-thermal-printer`
+- `vinted-label-prints-too-small`
+- `depop-shipping-label-too-small`
+- `depop-label-4x6-thermal-printer`
+- `poshmark-shipping-label-4x6-thermal-printer`
+- `poshmark-label-prints-across-two-labels`
+- `tiktok-shop-shipping-label-too-small`
+- `royal-mail-label-prints-too-small`
+- `return-shipping-label-prints-too-small`
+- `shipping-label-qr-code-too-small`
+
+These pages remain English-only until Search Console shows enough demand to justify translated pages.

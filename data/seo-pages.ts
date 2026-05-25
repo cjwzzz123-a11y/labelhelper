@@ -186,6 +186,23 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
   };
 }
 
+function specificTroublePage(
+  slug: string,
+  symptom: string,
+  fix: string,
+  sections: SeoPage["sections"],
+  faq: SeoPage["faq"] = [],
+): SeoPage {
+  const base = troublePage(slug, symptom, fix);
+
+  return {
+    ...base,
+    description: `Fix ${symptom.toLowerCase()} without shrinking, cropping or blurring the barcode. Check paper size, scale, orientation and printer setup before shipping.`,
+    sections,
+    faq: faq.length ? faq : base.faq,
+  };
+}
+
 export const seoPages: SeoPage[] = [
   platformPage("etsy-shipping-label-size", "Etsy", "etsy"),
   platformPage("shopify-shipping-label-size", "Shopify", "shopify"),
@@ -277,6 +294,122 @@ export const seoPages: SeoPage[] = [
   troublePage("dymo-4xl-label-prints-too-small", "DYMO 4XL Label Prints Too Small", "A DYMO 4XL shipping label that prints small is usually receiving the wrong page size or a scaled PDF. Use a 4×6 label file, select the 4XL/4×6 paper size, and disable Fit to Page before reprinting."),
   troublePage("print-4x6-shipping-label-on-regular-printer", "How to Print a 4×6 Shipping Label on a Regular Printer", "You can print a 4×6 shipping label on a regular printer by keeping the label at Actual Size on Letter or A4 paper. Do not enlarge it to fill the page, and only cut or fold outside the barcode and address area."),
   troublePage("convert-letter-shipping-label-to-4x6-thermal", "Convert a Letter Shipping Label to 4×6 Thermal Size Safely", "Before converting a Letter label to 4×6 thermal size, confirm whether the PDF already contains a true 4×6 label area. Crop or extract the label without shrinking the barcode, then test-print before shipping."),
+  specificTroublePage(
+    "vinted-shipping-label-4x6-thermal-printer",
+    "Vinted Shipping Label on a 4×6 Thermal Printer",
+    "Vinted labels are often downloaded as sheet-style PDFs, so the safest first step is to identify the PDF page size before sending it to a 4×6 thermal printer. Extract or print the label area at Actual Size, then test one label before using paid postage.",
+    [
+      { heading: "Check the Vinted PDF before printing", body: "Open the downloaded Vinted label in a PDF viewer and confirm whether it is a full A4/Letter page, a half-page label, or a true 4×6 label. Do not assume the print dialog can safely shrink a sheet label into a 4×6 roll." },
+      { heading: "Set the thermal printer to 4×6 stock", body: "In the printer driver, choose 4×6 inch media, portrait orientation and 100% scale. If the preview shows the whole A4 page squeezed onto one label, stop and crop or extract the actual label area first." },
+      { heading: "Watch for barcode and QR-code shrink", body: "Marketplace and locker labels may include QR codes, barcodes and pickup instructions. If those codes are shrunk or clipped, the parcel may fail at drop-off even when the address still looks readable." },
+      { heading: "Run a blank 4×6 test first", body: "Print a 4×6 template, then print the Vinted label. Measure the output and confirm the code area is sharp, flat, complete and not touching the label edge before attaching it." },
+    ],
+    [
+      { question: "Can I print a Vinted label on a 4×6 thermal printer?", answer: "Yes if the label area fits 4×6 without shrinking or cropping required codes. Check the PDF page size first." },
+      { question: "Why does my Vinted label print tiny?", answer: "The print dialog may be fitting a full sheet PDF onto a 4×6 label. Extract the label area or use the correct paper format." },
+      { question: "Should I use Fit to Page?", answer: "No. Use 100% / Actual Size after the label area and printer media size match." },
+      { question: "What should I check before drop-off?", answer: "Make sure every barcode or QR code is sharp, complete and not folded around an edge." },
+    ],
+  ),
+  specificTroublePage(
+    "vinted-label-prints-too-small",
+    "Vinted Label Prints Too Small",
+    "A tiny Vinted label usually means the full sheet PDF was fitted onto the wrong paper size. Check the PDF dimensions, choose the correct printer media, and avoid Fit to Page before reprinting.",
+    [
+      { heading: "Start with the page size", body: "Use the PDF analyzer or your PDF viewer properties to see whether the Vinted file is A4, Letter, half-sheet or 4×6. A sheet-sized label sent directly to a label roll often prints as a miniature page." },
+      { heading: "Match paper before scale", body: "Choose A4/Letter for a regular printer or 4×6 for a thermal printer. Only after the correct paper size is selected should you print at 100% / Actual Size." },
+      { heading: "Do not enlarge blindly", body: "If the output is small, changing scale to 120% or 150% can crop the barcode. Find the source layout first, then crop or extract the label area intentionally." },
+      { heading: "Reprint the original label if allowed", body: "Do not buy another label just because the first print was small. Fix the print settings and reprint the original file if the marketplace still allows it." },
+    ],
+  ),
+  specificTroublePage(
+    "depop-shipping-label-too-small",
+    "Depop Shipping Label Prints Too Small",
+    "Depop label size problems usually come from browser preview scaling, wrong paper size, or sending a sheet label to a thermal printer. Download the label PDF, inspect the page size, then print at Actual Size.",
+    [
+      { heading: "Download instead of browser-printing", body: "If the label opened in a browser tab, download the PDF first. Browser previews can add margins, headers or auto-fit behavior that makes a label look centered but print smaller than expected." },
+      { heading: "Check whether it is sheet or 4×6", body: "Depop shipments may be printed from a phone or desktop workflow. Before choosing a thermal printer, confirm whether the file itself is a 4×6 label or a larger page containing the label." },
+      { heading: "Use Actual Size for the final print", body: "Once the page and printer media match, print at 100% / Actual Size. Avoid Fit to Page, Shrink Oversized Pages and driver presets inherited from previous print jobs." },
+      { heading: "Check the barcode before mailing", body: "A label that is readable to a person can still be risky if the barcode was compressed. Confirm the code has white space around it and is not covered by tape glare." },
+    ],
+  ),
+  specificTroublePage(
+    "depop-label-4x6-thermal-printer",
+    "Print a Depop Label on a 4×6 Thermal Printer",
+    "To print a Depop label on a 4×6 thermal printer, first confirm the label area is actually 4×6 or can be extracted without resizing the barcode. Then set the driver to 4×6 and print at Actual Size.",
+    [
+      { heading: "Identify the source layout", body: "Open the Depop label PDF and check the visible page. If the label sits on a larger sheet, the printer may try to scale the entire sheet down to 4×6 unless you crop or extract the label area first." },
+      { heading: "Use a 4×6 printer preset", body: "Set the thermal printer driver to 4×6 inch stock, portrait orientation and no automatic scaling. Save the preset only after one test label prints correctly." },
+      { heading: "Avoid phone print shortcuts for first setup", body: "Mobile print sheets can hide scale and paper controls. For the first working setup, use a desktop PDF viewer so you can see paper size, orientation and scale explicitly." },
+      { heading: "Measure the first label", body: "Measure the printed boundary and inspect the barcode quiet zone. If the label is slightly small, use the scale calculator before printing a live parcel label." },
+    ],
+  ),
+  specificTroublePage(
+    "poshmark-shipping-label-4x6-thermal-printer",
+    "Poshmark Shipping Label on a 4×6 Thermal Printer",
+    "Poshmark labels can be printed on a 4×6 thermal printer when the label format and printer driver match. Set the label size to 4×6, print at 100%, and test one label before shipping.",
+    [
+      { heading: "Choose the 4×6 label format first", body: "If your Poshmark account or label workflow lets you choose a 4×6 format, use that for a thermal printer. If the PDF is still Letter-sized, do not let the printer shrink the whole page onto one label." },
+      { heading: "Set the driver and browser consistently", body: "Choose 4×6 inch media in the system printer settings and again in the print dialog if both controls appear. Conflicting paper sizes are a common cause of tiny or cut-off labels." },
+      { heading: "Fix multi-label or split output", body: "If one Poshmark label prints across two labels or advances extra blank labels, recalibrate the printer, confirm 4×6 media size and disable any tiling or poster mode." },
+      { heading: "Verify scan-critical areas", body: "Before shipping, check that the barcode is not clipped, compressed, folded, taped over with glare, or shifted outside the printable area." },
+    ],
+  ),
+  specificTroublePage(
+    "poshmark-label-prints-across-two-labels",
+    "Poshmark Label Prints Across Two Labels",
+    "When a Poshmark label prints across two labels, the printer usually sees the wrong media size, a tiled page, or an uncalibrated roll. Set media to 4×6, turn off tiling, recalibrate, and print one blank template.",
+    [
+      { heading: "Turn off tiling or poster print", body: "A label split across two stickers often means the print dialog is tiling a larger page. Look for settings like Poster, Tile, Multiple pages per sheet, or scaling modes that split output." },
+      { heading: "Recalibrate the thermal printer", body: "Thermal printers need to detect label gaps. If calibration is off, the printer may start the next label too early or feed extra labels after each print." },
+      { heading: "Match the PDF to 4×6 stock", body: "If the source PDF is Letter-sized, a 4×6 printer may split or shrink it. Use a true 4×6 label format or extract the 4×6 label area from the page." },
+      { heading: "Test before using paid postage", body: "Print a blank 4×6 template and one test label. If the border does not fit one sticker, fix driver media size before reprinting the Poshmark label." },
+    ],
+  ),
+  specificTroublePage(
+    "tiktok-shop-shipping-label-too-small",
+    "TikTok Shop Shipping Label Prints Too Small",
+    "TikTok Shop shipping labels can print too small when a browser preview, PDF viewer, or printer driver scales the label to the wrong paper size. Download the label, match the media, and print at 100%.",
+    [
+      { heading: "Download the TikTok Shop label PDF", body: "Start from the downloaded PDF rather than a browser screenshot. Screenshots and browser previews can change the actual barcode size before the printer receives the job." },
+      { heading: "Choose the right printer workflow", body: "Use 4×6 media for a thermal printer, or Letter/A4 for an inkjet or laser printer. Do not send a full sheet layout to a 4×6 printer unless the label area has been extracted." },
+      { heading: "Avoid auto-fit settings", body: "Use 100% / Actual Size after the correct paper size is selected. Auto-fit settings can make the preview look neat while compressing the barcode." },
+      { heading: "Check marketplace and carrier text", body: "Confirm the tracking barcode, buyer address, return address, service text and any marketplace routing marks remain sharp and complete." },
+    ],
+  ),
+  specificTroublePage(
+    "royal-mail-label-prints-too-small",
+    "Royal Mail Label Prints Too Small",
+    "A Royal Mail label that prints too small is usually being scaled from an A4 page or browser preview. Print the PDF at Actual Size on the correct paper, and do not crop into the barcode or QR-code area.",
+    [
+      { heading: "Know whether the label is A4 or 4×6", body: "Royal Mail workflows often produce labels intended for sheet printing, label rolls, or integrated labels. Check the PDF page size before choosing the printer media." },
+      { heading: "Use A4 for sheet output", body: "For a regular printer, select A4 paper and 100% / Actual Size. Disable headers, footers, Fit to Printable Area and other settings that shrink the label block." },
+      { heading: "Use 4×6 only when the label area fits", body: "For a 4×6 thermal printer, make sure the label area can fit without shrinking the barcode or QR code. If the file is A4, extract the label area rather than scaling the full page." },
+      { heading: "Check codes and customs text", body: "International or tracked labels may include multiple codes and service marks. Do not fold, trim or tape through those areas." },
+    ],
+  ),
+  specificTroublePage(
+    "return-shipping-label-prints-too-small",
+    "Return Shipping Label Prints Too Small",
+    "Return labels print too small for the same reasons as outbound labels: wrong paper size, browser scaling, or Fit to Page. Reprint the original return label at Actual Size and check the barcode before mailing.",
+    [
+      { heading: "Do not request a new return label first", body: "A bad print usually does not mean the return label itself is invalid. Fix scale and paper settings, then reprint the same PDF if the retailer or carrier link still works." },
+      { heading: "Check the paper the retailer expected", body: "Some return labels are designed for Letter or A4 sheets, while others are 4×6. Match the printer paper to the PDF instead of forcing every return label through a thermal printer." },
+      { heading: "Keep the barcode unchanged", body: "Do not enlarge or shrink the return label just to fill the page. The barcode and quiet-zone whitespace matter more than whether the label looks visually centered." },
+      { heading: "Attach it flat", body: "Trim outside the label content only, then attach the return label flat. Avoid folds, wrinkles and glossy tape over the barcode." },
+    ],
+  ),
+  specificTroublePage(
+    "shipping-label-qr-code-too-small",
+    "Shipping Label QR Code Prints Too Small",
+    "If a shipping label QR code prints too small, the whole label or source page was probably scaled. Fix the paper size and print at 100% before changing QR-code size manually.",
+    [
+      { heading: "Treat QR size as a scale problem first", body: "A tiny QR code is usually a symptom of the entire label being fitted to the wrong paper size. Check the PDF page size and print scale before editing the image or screenshot." },
+      { heading: "Avoid screenshots", body: "Screenshots can lower resolution and remove the original PDF scale. Use the downloaded PDF whenever the marketplace, carrier or retailer provides one." },
+      { heading: "Check quiet zone around the code", body: "QR codes need clean whitespace around them. Do not crop the code close to the edge or cover it with glossy tape." },
+      { heading: "Test scan before shipping", body: "Use a phone or scanner to confirm the printed QR code reads clearly. If it fails, fix printer density, paper quality and scale before mailing." },
+    ],
+  ),
 ];
 
 const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
