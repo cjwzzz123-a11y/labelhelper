@@ -44,6 +44,12 @@ const commonRelated: RelatedLink[] = [
   { href: "/shipping-label-printing-too-small", title: "Label Printing Too Small", description: "Fix tiny labels, scaling problems and bad print settings." },
 ];
 
+const calibrationRelated: RelatedLink[] = [
+  { href: "/tools/calibration-sheet", title: "Calibration Sheet", description: "Print a blank scale and alignment sheet before using paid postage." },
+  { href: "/tools/scale-calculator", title: "Scale Calculator", description: "Calculate the corrected print percentage from a measured bad label." },
+  { href: "/shipping-label-not-centered", title: "Label Not Centered", description: "Separate printer offset, roll alignment and page margin problems." },
+];
+
 function platformPage(slug: string, name: string, platform: Platform, carrier: Carrier = "usps"): SeoPage {
   return {
     slug,
@@ -410,6 +416,38 @@ export const seoPages: SeoPage[] = [
       { heading: "Test scan before shipping", body: "Use a phone or scanner to confirm the printed QR code reads clearly. If it fails, fix printer density, paper quality and scale before mailing." },
     ],
   ),
+  {
+    slug: "thermal-printer-calibration-shipping-label",
+    kind: "troubleshooter",
+    title: "Thermal Printer Calibration for 4×6 Shipping Labels",
+    description: "Calibrate a thermal printer for 4×6 shipping labels before printing paid postage. Check scale, roll alignment, driver media size and barcode quiet zones.",
+    h1: "Thermal Printer Calibration for 4×6 Shipping Labels",
+    quickAnswer: "Print one blank 4×6 calibration sheet at 100% first. If the border is the wrong size, fix scale or media size; if it is shifted, fix roll guides, driver offsets or calibration before printing live postage.",
+    decisionTree: {
+      headline: "Calibrate before printing paid postage",
+      intro: "Use the failed test print symptom to decide whether the problem is scale, media size, roll alignment or print density.",
+      firstAction: "Run a blank 4×6 calibration sheet at 100% / Actual Size.",
+      steps: [
+        { title: "Border is too small or too large", symptom: "The printed 4×6 box does not measure 4×6 inches.", action: "Confirm the driver media size is 4×6, disable Fit to Page, then calculate a corrected scale only if the media size is already correct.", href: "/tools/scale-calculator", cta: "Calculate corrected scale" },
+        { title: "Border is shifted or clipped", symptom: "The size is close, but one edge starts too far left, right, high or low.", action: "Reload the roll, center the guides and run the printer's calibration/feed routine before changing marketplace settings.", href: "/tools/calibration-sheet", cta: "Print calibration sheet" },
+        { title: "Barcode looks faint or streaky", symptom: "Size and placement are correct, but dark bars are gray, broken or shiny under tape.", action: "Increase print density, clean the print head, try a fresh label roll and avoid glossy tape over the barcode.", href: "/shipping-label-barcode-not-scanning", cta: "Fix barcode scan risk" },
+      ],
+    },
+    sections: [
+      { heading: "Start with media size, not the marketplace", body: "Most thermal printer label failures come from the printer driver believing the roll is a different size. Set the system driver and the print dialog to 4×6 inch stock before changing Etsy, Shopify, eBay or carrier label settings." },
+      { heading: "Print a blank calibration sheet", body: "Use a blank test sheet or template before printing paid postage. Print at 100% / Actual Size, measure the outer border with a ruler and confirm the label feeds exactly one sticker at a time." },
+      { heading: "Fix scale and offset separately", body: "If every dimension is proportionally wrong, it is a scale problem. If the size is correct but the content is shifted, it is usually roll loading, printable area or driver offset. Do not solve offset by shrinking the whole label." },
+      { heading: "Check scan-critical areas last", body: "After the border is correct, inspect barcode quiet zone, print density and tape placement. A perfectly sized label can still fail if the barcode is faint, clipped, wrinkled or covered by glare." },
+    ],
+    faq: [
+      { question: "How often should I calibrate a thermal label printer?", answer: "Calibrate after installing a new printer, loading a new roll, changing label stock, updating drivers or seeing repeated drift/cropping." },
+      { question: "Should I change scale to fix a shifted label?", answer: "No. Fix roll alignment, media size or driver offset first. Scaling a shifted label can make the barcode too small." },
+      { question: "Why does my printer feed extra blank labels?", answer: "The printer may not be detecting label gaps correctly, or the driver media size may not match the roll. Run the printer calibration/feed routine and confirm 4×6 media." },
+      { question: "Can I use a live shipping label as the test?", answer: "Use a blank calibration sheet first when possible. It avoids wasting paid postage and isolates printer setup from label-file problems." },
+      { question: "What if calibration passes but the real label is tiny?", answer: "Then the source PDF or print dialog is likely being scaled. Analyze the PDF page size and print from a PDF viewer at Actual Size." },
+    ],
+    related: calibrationRelated,
+  },
 ];
 
 const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
