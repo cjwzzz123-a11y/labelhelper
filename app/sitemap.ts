@@ -68,7 +68,7 @@ function sitemapEntry(path: string, locale: Locale, lastModified: Date): Metadat
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-05-10");
+  const lastModified = new Date("2026-06-01");
 
   return [
     ...staticRoutes.map((route) => sitemapEntry(route, "en", lastModified)),
