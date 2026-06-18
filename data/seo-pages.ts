@@ -23,6 +23,9 @@ export interface SeoPage {
   description: string;
   h1: string;
   quickAnswer: string;
+  keywords?: string[];
+  updatedAt?: string;
+  reviewChecklist?: string[];
   defaultCombo?: {
     platform: Platform;
     carrier: Carrier;
@@ -209,7 +212,230 @@ function specificTroublePage(
   };
 }
 
-export const seoPages: SeoPage[] = [
+const seoContentUpdatedAt = "2026-06-15";
+
+const reviewChecklists: Record<Locale, Record<SeoPageKind, string[]>> = {
+  en: {
+    platform: ["Match the marketplace label format to the printer paper size.", "Print the first label at 100% / Actual Size.", "Confirm barcode quiet zone and address readability before drop-off."],
+    carrier: ["Use the carrier PDF format that matches the printer.", "Keep barcode, service text and tracking number sharp and uncut.", "Attach the label flat without folds or glossy tape over barcode areas."],
+    template: ["Print the blank template at 100% before paid postage.", "Measure the border with a ruler and compare it to the target size.", "Fix scale or margins before printing a real carrier label."],
+    troubleshooter: ["Identify whether the symptom is scale, paper size, offset or scan quality.", "Run a blank template before buying new postage.", "Reprint the original PDF after settings are corrected when the platform allows it."],
+  },
+  es: {
+    platform: ["Haz coincidir el formato del marketplace con el tamaño de papel.", "Imprime la primera etiqueta al 100% / Tamaño real.", "Confirma margen libre del código y dirección legible antes de entregar."],
+    carrier: ["Usa el formato PDF del transportista que coincide con la impresora.", "Mantén código, servicio y seguimiento nítidos y sin recortes.", "Pega la etiqueta plana, sin pliegues ni cinta brillante sobre códigos."],
+    template: ["Imprime la plantilla en blanco al 100% antes del franqueo pagado.", "Mide el borde con regla y compáralo con el tamaño objetivo.", "Corrige escala o márgenes antes de imprimir una etiqueta real."],
+    troubleshooter: ["Identifica si el síntoma es escala, papel, offset o calidad de escaneo.", "Ejecuta una plantilla en blanco antes de comprar nuevo franqueo.", "Reimprime el PDF original después de corregir ajustes cuando la plataforma lo permita."],
+  },
+  zh: {
+    platform: ["让平台标签格式匹配打印机纸张尺寸。", "第一张标签按 100% / 实际大小打印。", "投递前确认条码空白区和地址可读。"],
+    carrier: ["使用与打印机匹配的承运商 PDF 格式。", "确保条码、服务文字和追踪号清晰且未裁切。", "平整粘贴标签，不要在条码区域折叠或覆盖亮面胶带。"],
+    template: ["打印真实运费前，先按 100% 打印空白模板。", "用尺子测量边框，并与目标尺寸对比。", "打印真实承运商标签前，先修复比例或边距。"],
+    troubleshooter: ["先判断症状属于比例、纸张、偏移还是扫描质量。", "购买新运费前先运行空白模板。", "设置修复后，如平台允许，重打原始 PDF。"],
+  },
+  fr: {
+    platform: ["Match the marketplace label format to the printer paper size.", "Print the first label at 100% / Actual Size.", "Confirm barcode quiet zone and address readability before drop-off."],
+    carrier: ["Use the carrier PDF format that matches the printer.", "Keep barcode, service text and tracking number sharp and uncut.", "Attach the label flat without folds or glossy tape over barcode areas."],
+    template: ["Print the blank template at 100% before paid postage.", "Measure the border with a ruler and compare it to the target size.", "Fix scale or margins before printing a real carrier label."],
+    troubleshooter: ["Identify whether the symptom is scale, paper size, offset or scan quality.", "Run a blank template before buying new postage.", "Reprint the original PDF after settings are corrected when the platform allows it."],
+  },
+  de: {
+    platform: ["Match the marketplace label format to the printer paper size.", "Print the first label at 100% / Actual Size.", "Confirm barcode quiet zone and address readability before drop-off."],
+    carrier: ["Use the carrier PDF format that matches the printer.", "Keep barcode, service text and tracking number sharp and uncut.", "Attach the label flat without folds or glossy tape over barcode areas."],
+    template: ["Print the blank template at 100% before paid postage.", "Measure the border with a ruler and compare it to the target size.", "Fix scale or margins before printing a real carrier label."],
+    troubleshooter: ["Identify whether the symptom is scale, paper size, offset or scan quality.", "Run a blank template before buying new postage.", "Reprint the original PDF after settings are corrected when the platform allows it."],
+  },
+  ja: {
+    platform: ["Match the marketplace label format to the printer paper size.", "Print the first label at 100% / Actual Size.", "Confirm barcode quiet zone and address readability before drop-off."],
+    carrier: ["Use the carrier PDF format that matches the printer.", "Keep barcode, service text and tracking number sharp and uncut.", "Attach the label flat without folds or glossy tape over barcode areas."],
+    template: ["Print the blank template at 100% before paid postage.", "Measure the border with a ruler and compare it to the target size.", "Fix scale or margins before printing a real carrier label."],
+    troubleshooter: ["Identify whether the symptom is scale, paper size, offset or scan quality.", "Run a blank template before buying new postage.", "Reprint the original PDF after settings are corrected when the platform allows it."],
+  },
+};
+
+const contextualRelated: Record<string, RelatedLink[]> = {
+  etsy: [
+    { href: "/etsy-shipping-label-print-settings", title: "Etsy print settings", description: "Choose 4×6, Letter or A4 settings before printing Etsy labels." },
+    { href: "/etsy-shipping-label-prints-too-small", title: "Etsy label prints too small", description: "Fix Etsy scale, PDF viewer and thermal-printer mismatch problems." },
+    { href: "/etsy-4x6-label-on-regular-printer", title: "Etsy 4×6 on a regular printer", description: "Print Etsy 4×6 labels on Letter or A4 without resizing the barcode." },
+  ],
+  ebay: [
+    { href: "/ebay-shipping-label-prints-too-small", title: "eBay label prints too small", description: "Fix browser scaling and 4×6 thermal printer setup for eBay labels." },
+    { href: "/ebay-4x6-label-sideways-thermal-printer", title: "eBay 4×6 label sideways", description: "Correct paper size and orientation before printing more labels." },
+    { href: "/ebay-shipping-label-size-4x6-vs-letter", title: "eBay 4×6 vs Letter", description: "Choose the safer eBay label format for your printer." },
+  ],
+  shopify: [
+    { href: "/shopify-shipping-labels-printing-incorrectly", title: "Shopify labels printing incorrectly", description: "Fix cut-off, sideways and scaled Shopify shipping labels." },
+    { href: "/shopify-label-size-vs-printer-size", title: "Shopify label size vs printer size", description: "Match Shopify label format to printer media." },
+    { href: "/shopify-4x6-on-desktop-printer", title: "Shopify 4×6 on a regular printer", description: "Print Shopify thermal-size labels on Letter or A4 safely." },
+  ],
+  amazon: [
+    { href: "/amazon-shipping-label-too-small-blurry", title: "Amazon label too small or blurry", description: "Fix Amazon label scale before handoff." },
+    { href: "/amazon-4x6-label-on-a4-or-letter", title: "Amazon 4×6 on A4 or Letter", description: "Avoid cropping Amazon barcodes on sheet printers." },
+    { href: "/amazon-fba-label-wrong-paper-size", title: "Amazon FBA wrong paper size", description: "Decide when to reprint before FBA workflow handoff." },
+  ],
+  printer: [
+    { href: "/thermal-printer-calibration-shipping-label", title: "Thermal printer calibration", description: "Calibrate 4×6 media, roll alignment and print density." },
+    { href: "/rollo-printer-label-too-small", title: "Rollo label too small", description: "Fix Rollo media size and scaling settings." },
+    { href: "/zebra-printer-4x6-label-cut-off-or-shrunk", title: "Zebra label cut off or shrunk", description: "Separate Zebra driver media size, calibration and scale problems." },
+  ],
+  acceptance: [
+    { href: "/shipping-label-too-small-usps-ups-fedex-accept", title: "Will carriers accept a small label?", description: "Understand barcode risk before drop-off." },
+    { href: "/shipping-label-preflight-checklist", title: "Shipping label preflight checklist", description: "Check seven scan-critical items before handoff." },
+    { href: "/can-you-trim-fold-tape-shipping-label", title: "Can you trim, fold or tape a label?", description: "Avoid repairs that damage barcode scanning." },
+  ],
+};
+
+function keywordsForPage(page: SeoPage) {
+  const base = [page.h1, page.title, "shipping label size", "shipping label printing", "4x6 shipping label"];
+  const slugTerms = page.slug.split("-").filter((term) => term.length > 2).join(" ");
+  return Array.from(new Set([...base, slugTerms])).slice(0, 8);
+}
+
+function relatedClusterForPage(page: SeoPage) {
+  const key = page.slug.includes("etsy")
+    ? "etsy"
+    : page.slug.includes("ebay")
+      ? "ebay"
+      : page.slug.includes("shopify")
+        ? "shopify"
+        : page.slug.includes("amazon") || page.slug.includes("fba")
+          ? "amazon"
+          : page.slug.includes("printer") || page.slug.includes("rollo") || page.slug.includes("zebra") || page.slug.includes("dymo") || page.slug.includes("thermal")
+            ? "printer"
+            : page.slug.includes("accept") || page.slug.includes("preflight") || page.slug.includes("trim") || page.slug.includes("tape") || page.slug.includes("wrong-paper")
+              ? "acceptance"
+              : null;
+  return key ? contextualRelated[key] : [];
+}
+
+function mergeRelated(page: SeoPage) {
+  const seen = new Set<string>([`/${page.slug}`]);
+  const links = [...relatedClusterForPage(page), ...page.related].filter((link) => {
+    if (seen.has(link.href)) return false;
+    seen.add(link.href);
+    return true;
+  });
+  return links.slice(0, 6);
+}
+
+const longTailEnhancements: Record<string, Pick<SeoPage, "sections" | "faq" | "reviewChecklist">> = {
+  "etsy-shipping-label-print-settings": {
+    sections: [
+      { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },
+      { heading: "Use the downloaded PDF as the source of truth", body: "Download the Etsy shipping label PDF and print from a viewer that exposes page size, paper size and scale. Browser previews and screenshots can inherit margins or resize the label before the printer driver sees it." },
+      { heading: "Set paper size and scale in this order", body: "First choose the physical paper or roll size, then choose 100% / Actual Size, then confirm orientation. Avoid Fit to Page, Shrink Oversized Pages and old photo or document presets that can compress the barcode." },
+      { heading: "Run one Etsy-specific preflight", body: "Before drop-off, verify the tracking barcode, address, return address and any marketplace or carrier service marks are sharp, complete and not touching a cut edge. Reprint the original PDF after fixing settings when Etsy still allows access." },
+    ],
+    faq: [
+      { question: "What print settings should I use for Etsy shipping labels?", answer: "Match Etsy's label format to your printer paper, then print the downloaded PDF at 100% / Actual Size with Fit to Page disabled." },
+      { question: "Should Etsy 4×6 labels fill Letter paper?", answer: "No. A 4×6 label can sit on Letter paper, but it should remain actual size so the barcode is not enlarged or compressed." },
+      { question: "Why does Etsy print a small label on my thermal printer?", answer: "The common cause is sending a sheet-size PDF or browser-scaled preview to 4×6 media. Confirm the PDF page size and printer media before changing scale." },
+      { question: "Can I use screenshots for Etsy labels?", answer: "Avoid screenshots because they can reduce resolution and hide the original PDF size. Use the downloaded label PDF when possible." },
+      { question: "Does this create Etsy postage?", answer: "No. It only helps choose print settings and check labels you already purchased or downloaded from Etsy." },
+    ],
+    reviewChecklist: ["Match Etsy label format to printer paper.", "Print the downloaded PDF at 100% / Actual Size.", "Confirm barcode, address and service marks before drop-off."],
+  },
+  "ebay-shipping-label-prints-too-small": {
+    sections: [
+      { heading: "Download the eBay label PDF first", body: "A tiny eBay label often starts when the label is printed from a browser preview with hidden margins or Fit to Page enabled. Download the label PDF, open it in a PDF viewer and choose 100% / Actual Size before changing marketplace settings." },
+      { heading: "Match eBay 4×6 or Letter to the printer", body: "Use the 4×6 format for a thermal printer and Letter for a desktop printer. Sending a Letter page to a 4×6 driver can shrink the whole sheet; sending a 4×6 label to Letter with auto-fit can also reduce the barcode." },
+      { heading: "Measure one reprint before buying postage again", body: "If eBay still lets you reprint the original label, fix scale and media size first, then reprint the same file. Measure the 4×6 boundary and inspect the barcode quiet zone before mailing." },
+      { heading: "Keep the barcode unchanged", body: "Do not enlarge a small print by guessing a high scale percentage. First identify whether the source PDF, paper size, browser preview or printer driver caused the shrink." },
+    ],
+    faq: [
+      { question: "Why did my eBay shipping label print tiny?", answer: "The usual cause is browser scaling, Fit to Page, or a mismatch between the eBay label format and printer media size." },
+      { question: "Should I print eBay labels from the browser?", answer: "Downloading the PDF and printing from a PDF viewer usually gives safer scale and paper controls." },
+      { question: "Can I reprint the same eBay label after a bad print?", answer: "Usually you should fix print settings and reprint the original label if the eBay workflow still allows it." },
+      { question: "Is a small eBay barcode safe to ship?", answer: "Treat a compressed, clipped or blurry barcode as risky. Reprint at the correct scale before drop-off." },
+      { question: "What should I test first?", answer: "Print a blank 4×6 template at 100%, then print one eBay label and confirm the barcode is sharp and complete." },
+    ],
+    reviewChecklist: ["Download the eBay PDF instead of browser-printing.", "Match eBay label format to printer media.", "Inspect barcode quiet zone after reprint."],
+  },
+  "shopify-shipping-labels-printing-incorrectly": {
+    sections: [
+      { heading: "Start from the downloaded Shopify PDF", body: "Shopify label problems are easier to isolate from the PDF than from a browser print panel. Download the label, then confirm whether the file is 4×6, Letter or A4 before choosing a printer preset." },
+      { heading: "Test one label before batch printing", body: "A bad Shopify printer preset can ruin multiple labels at once. Print one label or blank template first, then save a known-good preset only after paper size, orientation and scale are correct." },
+      { heading: "Fix sideways and cut-off output separately", body: "Sideways output usually points to orientation or media-size mismatch. Cut-off output usually points to printable area, roll alignment or driver paper size. Do not solve either by shrinking the whole label." },
+      { heading: "Check USPS or carrier marks before handoff", body: "If the label includes USPS or carrier routing marks, keep them readable and uncut. Trimming into routing text, barcode or address areas creates scan and return risk." },
+    ],
+    faq: [
+      { question: "Why are my Shopify labels printing incorrectly?", answer: "Most failures come from paper size, orientation, scaling, or an inherited printer preset that does not match the Shopify PDF." },
+      { question: "Can I print Shopify 4×6 labels on Letter paper?", answer: "Yes, if the 4×6 label remains Actual Size and the barcode is not enlarged, shrunk or clipped." },
+      { question: "Why is my Shopify label sideways?", answer: "The printer driver orientation or selected media size likely does not match the label PDF." },
+      { question: "Should I batch print immediately after changing settings?", answer: "No. Test one label first so a bad preset does not waste multiple paid labels." },
+      { question: "Can I cut off unused white space?", answer: "Only trim outside barcode, address, routing and quiet-zone areas. Reprint if any active content is clipped." },
+    ],
+    reviewChecklist: ["Download the Shopify label PDF.", "Print one test before batch printing.", "Confirm carrier marks, barcode and address are complete."],
+  },
+  "amazon-fba-label-wrong-paper-size": {
+    sections: [
+      { heading: "Separate FBA workflow data from print layout", body: "A wrong paper-size print can be a layout mistake even when the shipment data is correct. If the barcode or label text was distorted, reprint the FBA label before the shipment enters the fulfillment workflow." },
+      { heading: "Do not force a sheet label onto thermal stock", body: "If the Amazon FBA PDF is Letter or A4, sending the whole page to 4×6 stock can shrink or crop the barcode. Extract the actual label area only when it can fit without resizing scan-critical content." },
+      { heading: "Use the paper expected by the PDF", body: "For sheet output, choose Letter or A4 and 100% / Actual Size. For thermal output, use a true 4×6 label format or a verified conversion workflow that preserves barcode size." },
+      { heading: "Inspect every FBA handoff label", body: "Before boxing or handoff, confirm each barcode, shipment identifier and address/service text is sharp, complete and not folded or covered by tape." },
+    ],
+    faq: [
+      { question: "Can I still ship an FBA label printed on the wrong paper?", answer: "Only if the barcode and required text remain intact, sharp and unscaled. Distorted or clipped labels should be reprinted." },
+      { question: "Should I resize an Amazon FBA label to fill 4×6?", answer: "No. Preserve barcode scale and crop/extract only when the source layout supports it." },
+      { question: "Is paper size more important than barcode quality?", answer: "Barcode integrity and readable shipment text matter most. Correct paper with distorted barcode is still risky." },
+      { question: "What should I check before FBA handoff?", answer: "Check barcode sharpness, full label boundary, shipment text, address text and that labels are flat on the package or carton." },
+      { question: "Does this tool generate Amazon postage?", answer: "No. It only helps troubleshoot print size and layout for labels you already have." },
+    ],
+    reviewChecklist: ["Confirm whether the problem is print layout or shipment data.", "Use the paper size expected by the Amazon PDF.", "Reprint before FBA handoff if barcode or required text is distorted."],
+  },
+  "rollo-printer-label-too-small": {
+    sections: [
+      { heading: "Confirm the source label is really 4×6", body: "A Rollo printer can only print the job it receives. If the source file is a full Letter or A4 page, the driver may shrink that entire page onto one 4×6 label unless the label area is extracted first." },
+      { heading: "Set media size in both system and print dialogs", body: "Choose 4×6 inch stock in the operating-system printer settings and in the app print dialog when both appear. Conflicting media sizes are a common reason labels print tiny." },
+      { heading: "Calibrate feed before changing scale", body: "If the border is shifted or the printer feeds extra labels, run the printer calibration/feed routine and reload the roll. Scaling down to fix offset can make the barcode too small." },
+      { heading: "Check density after size is correct", body: "Once scale and placement are correct, inspect dark bars, streaks and tape glare. A correctly sized thermal label can still fail if the barcode is faint." },
+    ],
+    faq: [
+      { question: "Why does my Rollo label print too small?", answer: "The PDF may be a sheet layout, the media size may not be 4×6, or the print dialog may be using Fit to Page." },
+      { question: "Should I calibrate before changing scale?", answer: "Yes when feed, drift or offset is the symptom. Fix media and calibration before scaling." },
+      { question: "Can I print a Letter label on Rollo?", answer: "Only after extracting a label area that fits 4×6 without shrinking the barcode." },
+      { question: "What setting should I start with?", answer: "Use 4×6 media, portrait orientation and 100% / Actual Size." },
+      { question: "Does this claim official Rollo support?", answer: "No. It is independent troubleshooting guidance for common 4×6 thermal-printer workflows." },
+    ],
+    reviewChecklist: ["Verify the source label is 4×6 or extractable.", "Set 4×6 media in every print control.", "Calibrate feed before using scale as a workaround."],
+  },
+  "zebra-printer-4x6-label-cut-off-or-shrunk": {
+    sections: [
+      { heading: "Start with Zebra media size", body: "Cut-off or shrunk 4×6 labels usually mean the driver, application or system print dialog is using the wrong media size. Set the stock to 4×6 before editing margins or scale." },
+      { heading: "Calibrate gap sensing and roll feed", body: "If output drifts, starts too high, or feeds extra blank labels, run the printer calibration/feed routine and reload the roll guides before blaming the marketplace label." },
+      { heading: "Do not fix offset by shrinking", body: "Scaling the whole label down may hide clipping but creates barcode and quiet-zone risk. Fix printable area, orientation, origin offset or roll alignment first." },
+      { heading: "Check darkness and barcode edges", body: "After the 4×6 boundary prints correctly, confirm barcode bars are dark, sharp and not clipped by the label edge or covered with glossy tape." },
+    ],
+    faq: [
+      { question: "Why is my Zebra 4×6 label cut off?", answer: "The common causes are wrong media size, orientation, printable area, origin offset or roll calibration." },
+      { question: "Why is my Zebra label shrunk?", answer: "Fit to Page or a mismatched page size can scale the PDF down before it reaches the printer." },
+      { question: "Should I change scale to fix clipping?", answer: "No. Fix media size, orientation, calibration and offset first so the barcode stays at the intended size." },
+      { question: "What should I test before live postage?", answer: "Print a blank 4×6 template, measure it, then print one label and inspect barcode quiet zone." },
+      { question: "Is this model-specific Zebra advice?", answer: "No. It is broad 4×6 thermal-printer troubleshooting and does not claim official Zebra support." },
+    ],
+    reviewChecklist: ["Set 4×6 media before editing scale.", "Calibrate roll feed and gap sensing.", "Keep barcode size and quiet zone intact."],
+  },
+};
+
+function applyLongTailEnhancement(page: SeoPage): SeoPage {
+  const enhancement = longTailEnhancements[page.slug];
+  return enhancement ? { ...page, ...enhancement } : page;
+}
+
+function enrichSeoPage(page: SeoPage, locale: Locale = defaultLocale): SeoPage {
+  const enhancedPage = locale === defaultLocale ? applyLongTailEnhancement(page) : page;
+
+  return {
+    ...enhancedPage,
+    keywords: enhancedPage.keywords ?? keywordsForPage(enhancedPage),
+    updatedAt: enhancedPage.updatedAt ?? seoContentUpdatedAt,
+    reviewChecklist: enhancedPage.reviewChecklist ?? reviewChecklists[locale][enhancedPage.kind],
+    related: locale === defaultLocale ? mergeRelated(enhancedPage) : enhancedPage.related,
+  };
+}
+
+const seoPageDrafts: SeoPage[] = [
   platformPage("etsy-shipping-label-size", "Etsy", "etsy"),
   platformPage("shopify-shipping-label-size", "Shopify", "shopify"),
   platformPage("ebay-shipping-label-size", "eBay", "ebay"),
@@ -416,6 +642,179 @@ export const seoPages: SeoPage[] = [
       { heading: "Test scan before shipping", body: "Use a phone or scanner to confirm the printed QR code reads clearly. If it fails, fix printer density, paper quality and scale before mailing." },
     ],
   ),
+  specificTroublePage(
+    "etsy-shipping-label-prints-too-small",
+    "Etsy Shipping Label Prints Too Small",
+    "An Etsy label usually prints too small when the browser or PDF viewer scales the file, or when a Letter/A4 label is sent to 4×6 stock without matching the page size first. Download the label PDF, choose the right paper, and print at 100% / Actual Size.",
+    [
+      { heading: "Download the Etsy label PDF first", body: "Avoid printing from a browser preview or screenshot during setup. Download the Etsy shipping label PDF so the print dialog sees the original page size instead of a resized web preview." },
+      { heading: "Match the format to the printer", body: "Use 4×6 media for a thermal printer and Letter or A4 for a regular printer. If the file and printer paper do not match, fix that mismatch before trying custom scale percentages." },
+      { heading: "Turn off shrinking options", body: "Choose 100% / Actual Size and disable Fit to Page, Shrink Oversized Pages, borderless correction and previous printer presets that can compress the label." },
+      { heading: "Check the first print before handoff", body: "Confirm the barcode, tracking number, address block and return address are sharp, complete and not touching a cut edge before dropping off the package." },
+    ],
+    [
+      { question: "Why is my Etsy shipping label tiny?", answer: "The most common causes are browser preview scaling, Fit to Page, wrong paper size, or sending a sheet layout to a 4×6 thermal printer." },
+      { question: "Should I change Etsy label size or printer scale first?", answer: "Match the label format and paper size first, then print at Actual Size. Scale changes are only useful after the media size is correct." },
+      { question: "Can I reprint the same Etsy label?", answer: "Usually you should fix the print settings and reprint the original PDF if Etsy still allows access to the label." },
+      { question: "Is a smaller Etsy label still usable?", answer: "Only if barcode and address content remain sharp, complete and uncompressed. A tiny or cropped barcode should be reprinted." },
+    ],
+  ),
+  specificTroublePage(
+    "etsy-4x6-label-on-regular-printer",
+    "Print an Etsy 4×6 Shipping Label on a Regular Printer",
+    "You can print an Etsy 4×6 label on a regular inkjet or laser printer by keeping the label at Actual Size on Letter or A4 paper. Do not stretch it to fill the sheet, and cut or fold only outside the barcode and address area.",
+    [
+      { heading: "Keep the 4×6 label actual size", body: "A desktop printer can place a 4×6 label on larger paper. The safe setup is Letter or A4 paper with the Etsy label printed at 100%, not enlarged to fill the page." },
+      { heading: "Use a PDF viewer instead of browser print", body: "Open the downloaded PDF in a viewer that exposes paper size and scale controls. Browser print shortcuts can add margins or shrink the label without making that obvious." },
+      { heading: "Cut outside scan-critical content", body: "After printing, trim only the blank paper around the label. Do not cut into the barcode quiet zone, tracking number, recipient address, return address or service marks." },
+      { heading: "Run one blank-template test", body: "If this is a new printer, print a blank 4×6 template first. If the template is not the right size, fix printer scale before using a paid Etsy label." },
+    ],
+    [
+      { question: "Can I print an Etsy 4×6 label on Letter paper?", answer: "Yes, as long as the label stays actual size and the barcode is not cropped, enlarged, compressed or blurred." },
+      { question: "Should the Etsy label fill the whole page?", answer: "No. A 4×6 label should remain 4×6 on the sheet; filling the page changes barcode scale." },
+      { question: "Can I fold the extra paper?", answer: "Fold or cut only outside the active label content and never through a barcode, QR code or address block." },
+      { question: "What should I test first?", answer: "Print a blank 4×6 template at 100%, measure it, then print the Etsy label with the same scale behavior." },
+    ],
+  ),
+  specificTroublePage(
+    "etsy-shipping-label-print-settings",
+    "Etsy Shipping Label Print Settings for 4×6, Letter and A4",
+    "Choose Etsy shipping label print settings by matching the label PDF, paper size and printer media before using scale controls. Use 100% / Actual Size and check the barcode before drop-off.",
+    [],
+    [],
+  ),
+  specificTroublePage(
+    "usps-click-n-ship-label-prints-too-small",
+    "USPS Click-N-Ship Label Prints Too Small",
+    "A USPS Click-N-Ship label that prints too small is usually being fitted to the wrong paper size or scaled by the browser/PDF viewer. Print the downloaded PDF at Actual Size and confirm the tracking barcode remains complete.",
+    [
+      { heading: "Start from the downloaded USPS PDF", body: "Use the original Click-N-Ship PDF rather than a screenshot. Screenshots can lower resolution and hide the original page size before the file reaches the printer." },
+      { heading: "Choose the paper USPS label was built for", body: "If the label is on a Letter sheet, print on Letter at 100%. If you are using 4×6 stock, confirm the label area fits 4×6 without shrinking the whole page." },
+      { heading: "Do not scale to make it look centered", body: "A centered preview can still have a compressed barcode. Fix paper size and margins first; avoid Fit to Printable Area unless it preserves the actual label scale." },
+      { heading: "Verify USPS scan-critical details", body: "Check the IMpb/tracking barcode, service text, recipient address and return address. Reprint if any code is clipped, blurred, folded or covered by glare." },
+    ],
+  ),
+  specificTroublePage(
+    "ups-thermal-label-cut-off",
+    "UPS Thermal Label Is Cut Off",
+    "A UPS thermal label is usually cut off when the printer media size, orientation, roll alignment or scale setting does not match the label file. Set 4×6 media, print at 100%, and run one blank calibration sheet before reprinting live postage.",
+    [
+      { heading: "Confirm the UPS file is 4×6", body: "Before blaming the printer, inspect the downloaded label PDF. If the file is a Letter sheet with a label area, sending the whole page to a 4×6 printer can crop or shrink the output." },
+      { heading: "Set media size in both places", body: "Thermal printers often have a system driver setting and an app print-dialog setting. Set both to 4×6 inch stock so one layer does not override the other." },
+      { heading: "Separate cropping from offset", body: "If one edge is missing but the size is correct, reload the roll, center the guides and recalibrate. Do not shrink the whole UPS label to hide an offset problem." },
+      { heading: "Check service and tracking areas", body: "UPS labels include scan and service blocks that must remain readable and flat. Reprint if the barcode or routing text is clipped." },
+    ],
+  ),
+  specificTroublePage(
+    "fedex-shipping-label-prints-sideways",
+    "FedEx Shipping Label Prints Sideways",
+    "A FedEx shipping label prints sideways when orientation, auto-rotate, media size or source layout is mismatched. Keep the label at Actual Size, match the paper, and turn off automatic rotation that sends a portrait label across the roll.",
+    [
+      { heading: "Identify whether the source is sheet or 4×6", body: "Open the FedEx label PDF and confirm the page size. A Letter page sent to a thermal roll can rotate or shrink unless the 4×6 label area is extracted correctly." },
+      { heading: "Control orientation explicitly", body: "Choose portrait for standard 4×6 label output and disable auto-rotate if it turns the label sideways. If the preview changes orientation after choosing the printer, recheck media size." },
+      { heading: "Use Actual Size after matching paper", body: "Once the printer media and PDF layout match, use 100% / Actual Size. Do not use Fit to Page to compensate for a sideways preview." },
+      { heading: "Print one test before drop-off", body: "Confirm tracking barcode, service text and address blocks are upright, sharp and complete before attaching the FedEx label." },
+    ],
+  ),
+  specificTroublePage(
+    "canada-post-4x6-thermal-label",
+    "Canada Post 4×6 Thermal Label Setup",
+    "For Canada Post 4×6 thermal labels, the safest setup is a true 4×6 label file, a 4×6 printer media setting, and 100% / Actual Size output. If the source is a full sheet, extract the label area instead of shrinking the entire page.",
+    [
+      { heading: "Check whether the label is already 4×6", body: "Before printing to a thermal roll, inspect the PDF page size. A full Letter page can make the label print tiny if the driver fits the whole sheet onto one sticker." },
+      { heading: "Use a 4×6 media preset", body: "Set the printer driver to 4×6 inches, portrait orientation and no automatic scaling. Save the preset only after a measured test print is correct." },
+      { heading: "Watch customs and barcode blocks", body: "Canada Post and cross-border labels may include several scan or customs areas. Do not crop, fold or tape over any active code or service text." },
+      { heading: "Run a blank calibration first", body: "Use a blank template to confirm the printer feeds one label at the right size before sending the live label PDF." },
+    ],
+  ),
+  specificTroublePage(
+    "australia-post-label-prints-too-small",
+    "Australia Post Label Prints Too Small",
+    "An Australia Post label usually prints too small when a browser preview, PDF viewer, or printer driver fits the page to the wrong paper. Print the PDF at 100% / Actual Size on the paper format the label was created for.",
+    [
+      { heading: "Use the PDF, not a screenshot", body: "Screenshots and mobile share sheets can hide the original page dimensions. Download or open the original label PDF when possible so scale controls remain available." },
+      { heading: "Match A4, Letter or 4×6 intentionally", body: "Use A4 or Letter for sheet output, or 4×6 only when the label area fits the roll without shrinking required codes. Do not send a full sheet page directly to a thermal roll." },
+      { heading: "Disable automatic fit behavior", body: "Choose Actual Size or 100%. Auto-fit can make a label look tidy on the page while compressing barcode or QR-code areas." },
+      { heading: "Check all code areas", body: "Before mailing, inspect barcodes, QR codes, address text and service marks. Reprint if the code is small, clipped, faded or too close to an edge." },
+    ],
+  ),
+  specificTroublePage(
+    "royal-mail-a4-label-to-4x6-thermal",
+    "Royal Mail A4 Label to 4×6 Thermal Printer",
+    "To print a Royal Mail A4 label on a 4×6 thermal printer, identify and extract the label area without shrinking the barcode or QR code. Do not fit the entire A4 sheet onto one 4×6 sticker.",
+    [
+      { heading: "Do not shrink the whole A4 page", body: "A full A4 page fitted to 4×6 stock makes the label and codes too small. The safe workflow is to isolate the actual label block while preserving its scale." },
+      { heading: "Check whether the label area fits", body: "Some Royal Mail labels, QR codes or customs details may not fit cleanly on one 4×6 label. If extraction would crop required content, print the original A4 sheet instead." },
+      { heading: "Set the thermal printer after extraction", body: "Once the label area is prepared, choose 4×6 media, portrait orientation and 100% scale. Run one blank template if the printer is new or recently recalibrated." },
+      { heading: "Review QR and barcode whitespace", body: "Keep quiet-zone whitespace around every code. Cropping close to a QR code or barcode is risky even when the address still looks readable." },
+    ],
+  ),
+  specificTroublePage(
+    "brother-ql-shipping-label-too-small",
+    "Brother QL Shipping Label Prints Too Small",
+    "A Brother QL shipping label can print too small when the roll size, driver preset, source PDF, or auto-fit option does not match the label. Confirm the roll width and page size before changing scale.",
+    [
+      { heading: "Confirm the Brother QL roll and label area", body: "Brother QL models may use different roll widths. Make sure the source label area can fit the loaded roll and is not a full sheet being squeezed onto a narrow label." },
+      { heading: "Select the exact media preset", body: "Choose the installed Brother QL media size in the system driver and print dialog. A generic label or previous preset can silently resize the PDF." },
+      { heading: "Avoid enlarging a tiny output blindly", body: "If the output is too small, identify whether the driver is scaling a full page, using the wrong roll size, or inheriting Fit to Page before increasing percentages." },
+      { heading: "Inspect barcode density and edges", body: "After size is correct, check barcode darkness, quiet zone and whether the label edge clips content on the narrow side." },
+    ],
+  ),
+  specificTroublePage(
+    "munbyn-thermal-label-too-small",
+    "MUNBYN Thermal Label Prints Too Small",
+    "A MUNBYN thermal label usually prints too small when the driver media size is not 4×6, the PDF is a sheet layout, or Fit to Page is enabled. Set 4×6 media, use Actual Size, and calibrate the roll before reprinting.",
+    [
+      { heading: "Set the driver to 4×6 stock", body: "Confirm the system printer settings and print dialog both use 4×6 inch media. If either layer uses Letter, A4 or a generic label, the output can shrink or crop." },
+      { heading: "Check the source PDF page size", body: "A Letter/A4 PDF may contain the shipping label on a larger page. Do not fit that entire page onto one thermal label; extract the label area if needed." },
+      { heading: "Run printer calibration", body: "If size is right but feeding or position is wrong, recalibrate the label gap and reload the roll before changing marketplace label settings." },
+      { heading: "Measure before live batches", body: "Print a blank template and one live label, then measure the boundary and inspect the barcode before printing a batch." },
+    ],
+  ),
+  specificTroublePage(
+    "mac-preview-shipping-label-too-small",
+    "Shipping Label Prints Too Small from Mac Preview",
+    "When a shipping label prints too small from Mac Preview, the usual cause is Scale to Fit, wrong paper size, or a saved printer preset. Choose the correct paper and print at 100% scale before changing the label file.",
+    [
+      { heading: "Check paper size before scale", body: "In Preview, make sure the selected paper matches the label workflow: 4×6 for thermal stock, or Letter/A4 for sheet output. A mismatched paper choice can trigger automatic fitting." },
+      { heading: "Use 100% instead of Scale to Fit", body: "Disable Scale to Fit and print at 100% after paper size is correct. Fit options can shrink barcodes even when the page preview looks centered." },
+      { heading: "Clear bad presets", body: "Mac print dialogs can remember previous media and scaling choices. Check the preset dropdown so a photo, borderless or sheet-print preset is not being reused for labels." },
+      { heading: "Use the ruler test", body: "Print a blank 4×6 template and measure it. If the template is wrong from Preview, fix the print dialog before reprinting postage." },
+    ],
+  ),
+  specificTroublePage(
+    "chrome-shipping-label-printing-too-small",
+    "Shipping Label Printing Too Small from Chrome",
+    "Chrome can print shipping labels too small when the browser preview applies Fit to Page, margins, headers/footers, or the wrong destination paper size. Download the PDF and print at Actual Size when the browser controls are unclear.",
+    [
+      { heading: "Watch Chrome's preview scaling", body: "Chrome preview may show a neat page while applying scale or margin changes. Expand the advanced settings and confirm paper size, margins and scale before printing." },
+      { heading: "Turn off browser extras", body: "Disable headers, footers and default margins for label PDFs. These extras can reduce the printable area and force the label to shrink." },
+      { heading: "Download and use a PDF viewer if needed", body: "If Chrome does not expose reliable paper controls for your printer, download the label PDF and print from a PDF viewer where Actual Size is explicit." },
+      { heading: "Confirm barcode size after printing", body: "Measure the printed label and inspect the barcode quiet zone. Reprint if the label is smaller than intended or the barcode is compressed." },
+    ],
+  ),
+  specificTroublePage(
+    "shipping-label-pdf-wrong-page-size",
+    "Shipping Label PDF Has the Wrong Page Size",
+    "A shipping label PDF can appear to have the wrong page size when the marketplace, carrier, browser, or printer driver is mixing Letter, A4 and 4×6 formats. Identify the PDF page box first, then match paper and scale to that source layout.",
+    [
+      { heading: "Read the PDF page size first", body: "Use a PDF viewer properties panel or the local PDF analyzer to see whether the source page is Letter, A4, 4×6 or another size before choosing printer settings." },
+      { heading: "Separate source layout from printer media", body: "The PDF page size describes the file; the printer media describes the paper or roll. Problems happen when a full-sheet file is sent to a 4×6 printer or a 4×6 file is auto-fit to a sheet." },
+      { heading: "Do not crop required content", body: "If you extract a label area from a larger PDF, keep every barcode, QR code, service mark, address and quiet-zone whitespace intact." },
+      { heading: "Validate with a blank template", body: "After choosing the output size, print a blank template at 100% and measure it before printing a paid label." },
+    ],
+  ),
+  specificTroublePage(
+    "thermal-printer-feeds-extra-blank-labels",
+    "Thermal Printer Feeds Extra Blank Labels After Printing",
+    "A thermal printer that feeds extra blank labels usually has a gap-sensor, calibration, media-size, or roll-loading problem. Recalibrate the printer and confirm 4×6 media before sending another live shipping label.",
+    [
+      { heading: "Recalibrate label gap detection", body: "Thermal printers need to detect the space between stickers. Run the printer's calibration or feed routine after loading a new roll, changing label stock or seeing repeated blank-label advance." },
+      { heading: "Match media size to the roll", body: "Set the driver and print dialog to the actual loaded label size. If the printer expects a different length, it can advance into the next blank label after each job." },
+      { heading: "Check roll loading and guides", body: "Center the roll, align the guides and make sure labels feed straight. A skewed roll can make the sensor miss gaps even when the PDF is correct." },
+      { heading: "Use a blank template before postage", body: "Print a calibration or blank 4×6 template first. If the blank template feeds extra labels, fix printer hardware/settings before printing live postage." },
+    ],
+  ),
   {
     slug: "thermal-printer-calibration-shipping-label",
     kind: "troubleshooter",
@@ -450,9 +849,11 @@ export const seoPages: SeoPage[] = [
   },
 ];
 
+export const seoPages: SeoPage[] = seoPageDrafts.map((page) => enrichSeoPage(page));
+
 const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
-  es: seoPagesEs,
-  zh: seoPagesZh,
+  es: seoPagesEs.map((page) => enrichSeoPage(page, "es")),
+  zh: seoPagesZh.map((page) => enrichSeoPage(page, "zh")),
 };
 
 for (const [locale, pages] of Object.entries(localizedSeoPages) as [Locale, SeoPage[]][]) {

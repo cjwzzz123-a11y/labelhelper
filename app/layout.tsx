@@ -13,11 +13,30 @@ const analyticsWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://labelhelper.com"),
+  applicationName: "Shipping Label Helper",
+  creator: "Shipping Label Helper",
+  publisher: "Shipping Label Helper",
   title: {
     default: "Shipping Label Helper",
     template: "%s | Shipping Label Helper",
   },
   description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Shipping Label Helper",
+    description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+    url: "/",
+    siteName: "Shipping Label Helper",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shipping Label Helper",
+    description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+  },
 };
 
 export default async function RootLayout({

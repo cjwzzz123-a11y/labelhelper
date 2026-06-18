@@ -16,8 +16,6 @@ const staticRoutes = [
   "/guides",
   "/templates",
   "/pricing",
-  "/thanks",
-  "/unlock",
   "/about",
   "/contact",
   "/privacy",
@@ -38,10 +36,9 @@ const localizedStaticRoutes = new Set([
   "/guides",
   "/templates",
   "/pricing",
-  "/thanks",
-  "/unlock",
 ]);
 const seoRoutes = seoPages.map((page) => `/${page.slug}`);
+const seoLastModifiedByRoute = new Map(seoPages.map((page) => [`/${page.slug}`, page.updatedAt ? new Date(page.updatedAt) : null]));
 const seoLocales = new Set<Locale>(getImplementedSeoLocales());
 
 function sitemapEntry(path: string, locale: Locale, lastModified: Date): MetadataRoute.Sitemap[number] {
@@ -68,18 +65,18 @@ function sitemapEntry(path: string, locale: Locale, lastModified: Date): Metadat
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-06-01");
+  const lastModified = new Date("2026-06-15");
 
   return [
     ...staticRoutes.map((route) => sitemapEntry(route, "en", lastModified)),
-    ...seoRoutes.map((route) => sitemapEntry(route, "en", lastModified)),
+    ...seoRoutes.map((route) => sitemapEntry(route, "en", seoLastModifiedByRoute.get(route) ?? lastModified)),
     ...locales
       .filter((locale) => locale !== "en")
       .flatMap((locale) => [
         ...Array.from(localizedStaticRoutes)
           .filter((route) => availableLocalesForPath(route).includes(locale))
           .map((route) => sitemapEntry(route, locale, lastModified)),
-        ...(seoLocales.has(locale) ? seoRoutes.filter((route) => availableLocalesForPath(route).includes(locale)).map((route) => sitemapEntry(route, locale, lastModified)) : []),
+        ...(seoLocales.has(locale) ? seoRoutes.filter((route) => availableLocalesForPath(route).includes(locale)).map((route) => sitemapEntry(route, locale, seoLastModifiedByRoute.get(route) ?? lastModified)) : []),
       ]),
   ];
 }

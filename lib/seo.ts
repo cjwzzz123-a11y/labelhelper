@@ -10,6 +10,8 @@ type PageMetadataInput = {
   path: string;
   locale?: Locale;
   type?: "website" | "article";
+  keywords?: string[];
+  modifiedDate?: string;
 };
 
 export function absoluteUrl(path: string) {
@@ -18,12 +20,13 @@ export function absoluteUrl(path: string) {
   return `${siteUrl}${normalized}`;
 }
 
-export function pageMetadata({ title, description, path, locale = "en", type = "website" }: PageMetadataInput): Metadata {
+export function pageMetadata({ title, description, path, locale = "en", type = "website", keywords, modifiedDate }: PageMetadataInput): Metadata {
   const canonical = localizedPath(path, locale);
 
   return {
     title,
     description,
+    keywords,
     alternates: {
       canonical,
       languages: alternateLanguages(path),
@@ -35,6 +38,7 @@ export function pageMetadata({ title, description, path, locale = "en", type = "
       siteName,
       type,
       locale: openGraphLocale(locale),
+      modifiedTime: modifiedDate,
     },
     twitter: {
       card: type === "article" ? "summary" : "summary_large_image",
@@ -91,7 +95,7 @@ export function websiteSchema(locale: Locale = "en") {
   };
 }
 
-export function articleSchema({ title, description, path, locale = "en" }: PageMetadataInput & { modifiedDate?: string }) {
+export function articleSchema({ title, description, path, locale = "en", modifiedDate }: PageMetadataInput) {
   const url = absoluteUrl(localizedPath(path, locale));
 
   return {
@@ -102,11 +106,44 @@ export function articleSchema({ title, description, path, locale = "en" }: PageM
     inLanguage: htmlLangs[locale],
     url,
     mainEntityOfPage: url,
+    dateModified: modifiedDate,
     author: {
       "@id": `${siteUrl}/#organization`,
     },
     publisher: {
       "@id": `${siteUrl}/#organization`,
     },
+  };
+}
+
+export function howToSchema({ title, description, path, locale = "en", steps }: PageMetadataInput & { steps: string[] }) {
+  const url = absoluteUrl(localizedPath(path, locale));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: title,
+    description,
+    inLanguage: htmlLangs[locale],
+    url,
+    step: steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step,
+      text: step,
+    })),
+  };
+}
+
+export function breadcrumbSchema({ items, locale = "en" }: { items: Array<{ name: string; path: string }>; locale?: Locale }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(localizedPath(item.path, locale)),
+    })),
   };
 }

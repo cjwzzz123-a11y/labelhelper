@@ -11,12 +11,12 @@ import { RelatedLinks } from "@/components/RelatedLinks";
 import { TemplateDownloadButton } from "@/components/TemplateDownloadButton";
 import { SizeChecker } from "@/components/tools/SizeChecker";
 import LocaleHome, { generateMetadata as generateHomeMetadata } from "../LocaleHome";
-import { getLocalizedSeoPage, getStaticSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
+import { getStaticSeoPages, type SeoPage, type SeoPageKind } from "@/data/seo-pages";
 import { esSeoPageKinds } from "@/data/seo-pages.es";
 import { zhSeoPageKinds } from "@/data/seo-pages.zh";
 import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { lookup } from "@/lib/rules-engine";
-import { articleSchema, pageMetadata } from "@/lib/seo";
+import { articleSchema, howToSchema, pageMetadata } from "@/lib/seo";
 
 const pageUi = {
   en: {
@@ -47,6 +47,8 @@ const pageUi = {
     sourceText1: "This guide is based on recurring seller-support patterns: labels printed from browser previews, PDF viewers resizing files, thermal rolls loaded off-center, and barcodes losing quiet-zone whitespace.",
     sourceText2: "When a platform or carrier offers a specific label-format setting, follow that official setting first, then use the checker and templates here to confirm print scale, paper size, orientation, and barcode quiet zone before shipping.",
     troubleshooterSourceText: "For troubleshooting, prioritize fixes that include printer model, paper size, PDF viewer, and scale setting before reprinting paid postage.",
+    lastReviewed: "Last reviewed",
+    reviewChecklist: "Preflight checklist",
   },
   es: {
     quickAnswer: "Respuesta rápida",
@@ -76,6 +78,8 @@ const pageUi = {
     sourceText1: "Esta guía se basa en patrones recurrentes de soporte para vendedores: etiquetas impresas desde vistas previas del navegador, visores PDF que cambian el tamaño, rollos térmicos desalineados y códigos de barras que pierden margen libre.",
     sourceText2: "Si una plataforma o transportista ofrece una configuración oficial de formato de etiqueta, sigue primero esa configuración. Después usa estas herramientas y plantillas para confirmar escala, tamaño de papel, orientación y margen libre del código de barras antes de enviar.",
     troubleshooterSourceText: "Para solucionar problemas, prioriza correcciones que incluyan modelo de impresora, tamaño de papel, visor PDF y escala antes de reimprimir franqueo pagado.",
+    lastReviewed: "Última revisión",
+    reviewChecklist: "Lista de comprobación previa",
   },
   zh: {
     quickAnswer: "快速答案",
@@ -105,6 +109,8 @@ const pageUi = {
     sourceText1: "本指南基于反复出现的卖家支持场景：从浏览器预览打印标签、PDF 阅读器调整文件大小、热敏卷纸偏移，以及条码失去空白区。",
     sourceText2: "如果平台或承运商提供特定标签格式设置，请先遵循官方设置，再用这里的检查器和模板确认打印比例、纸张尺寸、方向和条码空白区。",
     troubleshooterSourceText: "排查问题时，优先参考包含打印机型号、纸张尺寸、PDF 阅读器和比例设置的修复方法。",
+    lastReviewed: "最后审查",
+    reviewChecklist: "打印前检查清单",
   },
 };
 
@@ -131,6 +137,8 @@ function getKindLabel(kind: SeoPageKind, locale: Locale) {
   return labels[kind];
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return locales
     .flatMap((locale) => [{ locale, slug: "__home" }, ...getStaticSeoPages(locale).map((page) => ({ locale, slug: page.slug }))]);
@@ -140,10 +148,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, slug } = await params;
   if (!isSupportedLocale(locale)) return {};
   if (slug === "__home") return generateHomeMetadata({ params: Promise.resolve({ locale }) });
-  const page = getLocalizedSeoPage(slug, locale);
+  const page = getStaticSeoPages(locale).find((candidate) => candidate.slug === slug);
   if (!page) return {};
 
-  return pageMetadata({ title: page.title, description: page.description, path: `/${page.slug}`, locale, type: "article" });
+  return pageMetadata({ title: page.title, description: page.description, path: `/${page.slug}`, locale, type: "article", keywords: page.keywords, modifiedDate: page.updatedAt });
 }
 
 export default async function LocaleSeoPage({ params }: PageProps) {
@@ -155,7 +163,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
   }
 
   setRequestLocale(locale);
-  const page = getLocalizedSeoPage(slug, locale);
+  const page = getStaticSeoPages(locale).find((candidate) => candidate.slug === slug);
   if (!page) notFound();
 
   const ui = getPageUi(locale);
@@ -163,13 +171,15 @@ export default async function LocaleSeoPage({ params }: PageProps) {
   const combo = page.defaultCombo;
   const rule = combo ? lookup(combo.platform, combo.carrier, "4x6", "thermal") : null;
   const isTemplate = page.kind === "template";
-  const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale });
+  const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale, keywords: page.keywords, modifiedDate: page.updatedAt });
+  const howToJsonLd = page.reviewChecklist?.length ? howToSchema({ title: `${page.h1} checklist`, description: page.quickAnswer, path: `/${page.slug}`, locale, steps: page.reviewChecklist }) : null;
   const fallbackLabel = (path: string, label: string) => (locale !== defaultLocale && !hasLocalizedPath(path, locale) ? label : null);
   const nextStepText = isTemplate ? ui.templateNext : page.kind === "troubleshooter" ? ui.troubleshooterNext : ui.checkerNext;
 
   return (
     <main lang={htmlLangs[locale]} className="min-h-screen bg-[#f7fbff] text-slate-950">
       <JsonLd data={schema} />
+      {howToJsonLd ? <JsonLd data={howToJsonLd} /> : null}
       <section className="mx-auto max-w-5xl px-6 py-12">
         <Breadcrumb items={[{ name: isTemplate ? ui.templates : ui.guides, href: safeLocalizedPath(isTemplate ? "/templates" : "/guides", locale) }, { name: page.h1, href: safeLocalizedPath(`/${page.slug}`, locale) }]} homeHref={safeLocalizedPath("/", locale)} />
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.82fr] lg:items-end">
@@ -182,6 +192,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">{ui.nextTitle}</p>
             <h2 className="mt-3 text-xl font-black tracking-tight text-[#12324A]">{nextStepText}</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">{ui.nextText}</p>
+            {page.updatedAt ? <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{ui.lastReviewed}: {page.updatedAt}</p> : null}
           </section>
         </div>
 
@@ -203,6 +214,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
 
         {isTemplate ? <TemplateDownloads slug={page.slug} locale={locale} /> : null}
         {page.kind === "troubleshooter" && page.decisionTree ? <TroubleshootingDecisionTree locale={locale} tree={page.decisionTree} /> : null}
+        {page.reviewChecklist?.length ? <ReviewChecklist locale={locale} items={page.reviewChecklist} /> : null}
 
         <article className="mt-10 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-sky-100 sm:p-8">
           {page.sections.map((section, index) => (
@@ -226,6 +238,21 @@ export default async function LocaleSeoPage({ params }: PageProps) {
         </div>
       </section>
     </main>
+  );
+}
+
+function ReviewChecklist({ locale, items }: { locale: Locale; items: string[] }) {
+  const ui = getPageUi(locale);
+
+  return (
+    <section className="mt-8 rounded-3xl bg-emerald-50 p-6 shadow-sm ring-1 ring-emerald-100 sm:p-8">
+      <h2 className="text-2xl font-black tracking-tight text-emerald-950">{ui.reviewChecklist}</h2>
+      <ul className="mt-5 grid gap-3 md:grid-cols-3">
+        {items.map((item) => (
+          <li key={item} className="rounded-2xl bg-white p-4 text-sm font-semibold leading-6 text-emerald-950 ring-1 ring-emerald-100">{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

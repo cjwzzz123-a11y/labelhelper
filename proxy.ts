@@ -1,18 +1,16 @@
-import type { NextRequest } from "next/server";
-import createMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
+import { NextResponse, type NextRequest } from "next/server";
+import { defaultLocale, locales } from "./i18n/routing";
 
-const intlMiddleware = createMiddleware(routing);
-const seoSlugPattern = /^\/(?:[a-z]{2}\/)?[a-z0-9][a-z0-9-]*$/;
+const localePrefixPattern = new RegExp(`^/(${locales.join("|")})(?:/|$)`);
 
 export function proxy(request: NextRequest) {
-  const response = intlMiddleware(request);
-
-  if (seoSlugPattern.test(request.nextUrl.pathname)) {
-    response.headers.delete("link");
+  if (localePrefixPattern.test(request.nextUrl.pathname)) {
+    return NextResponse.next();
   }
 
-  return response;
+  const url = request.nextUrl.clone();
+  url.pathname = `/${defaultLocale}${request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname}`;
+  return NextResponse.rewrite(url);
 }
 
 export const config = {

@@ -1,5 +1,5 @@
 import {defaultLocale, locales, type Locale} from "@/i18n/routing";
-import { localizedSeoRoutePath, seoRouteIdFromPath } from "@/lib/seo-route-map";
+import { availableSeoRouteLocales, localizedSeoRoutePath, seoRouteIdFromPath } from "@/lib/seo-route-map";
 
 export {defaultLocale, locales};
 export type {Locale};
@@ -99,7 +99,7 @@ export function registerLocalizedPaths(paths: string[], targetLocales: readonly 
 }
 
 export function hasLocalizedPath(path: string, locale: Locale) {
-  if (seoRouteIdFromPath(path)) return true;
+  if (seoRouteIdFromPath(path)) return availableSeoRouteLocales(path).includes(locale);
 
   const localePaths = localizedPaths.get(locale);
   const { path: unprefixed } = splitHash(unlocalizedPath(path));

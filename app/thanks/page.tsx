@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Thanks | Shipping Label Helper",
   description: "Shipping Label Helper payment return page for checking license delivery and unlocking paid tools.",
   alternates: { canonical: "/thanks" },
+  robots: { index: false, follow: false },
 };
 
 export default function ThanksPage() {

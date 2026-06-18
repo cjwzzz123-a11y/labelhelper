@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/template-downloads/"],
+        disallow: ["/api/", "/template-downloads/", "/thanks", "/unlock"],
       },
     ],
     sitemap: "https://labelhelper.com/sitemap.xml",

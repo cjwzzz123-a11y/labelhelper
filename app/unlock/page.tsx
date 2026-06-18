@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Unlock Pro Tools",
   description: "Enter a Shipping Label Helper license key to unlock paid tools on this browser.",
   alternates: { canonical: "/unlock" },
+  robots: { index: false, follow: false },
 };
 
 export default function UnlockPage() {
