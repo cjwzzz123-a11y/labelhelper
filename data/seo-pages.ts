@@ -279,6 +279,11 @@ const contextualRelated: Record<string, RelatedLink[]> = {
     { href: "/rollo-printer-label-too-small", title: "Rollo label too small", description: "Fix Rollo media size and scaling settings." },
     { href: "/zebra-printer-4x6-label-cut-off-or-shrunk", title: "Zebra label cut off or shrunk", description: "Separate Zebra driver media size, calibration and scale problems." },
   ],
+  printDialog: [
+    { href: "/shipping-label-pdf-wrong-page-size", title: "PDF page size is wrong", description: "Read the PDF page box before choosing paper or scale settings." },
+    { href: "/chrome-shipping-label-printing-too-small", title: "Chrome prints labels too small", description: "Fix browser margins, headers and hidden scaling controls." },
+    { href: "/mac-preview-shipping-label-too-small", title: "Mac Preview prints labels too small", description: "Check Preview paper size, scale and saved printer presets." },
+  ],
   acceptance: [
     { href: "/shipping-label-too-small-usps-ups-fedex-accept", title: "Will carriers accept a small label?", description: "Understand barcode risk before drop-off." },
     { href: "/shipping-label-preflight-checklist", title: "Shipping label preflight checklist", description: "Check seven scan-critical items before handoff." },
@@ -303,9 +308,11 @@ function relatedClusterForPage(page: SeoPage) {
           ? "amazon"
           : page.slug.includes("printer") || page.slug.includes("rollo") || page.slug.includes("zebra") || page.slug.includes("dymo") || page.slug.includes("thermal")
             ? "printer"
-            : page.slug.includes("accept") || page.slug.includes("preflight") || page.slug.includes("trim") || page.slug.includes("tape") || page.slug.includes("wrong-paper")
-              ? "acceptance"
-              : null;
+            : page.slug.includes("chrome") || page.slug.includes("mac-preview") || page.slug.includes("wrong-page-size")
+              ? "printDialog"
+              : page.slug.includes("accept") || page.slug.includes("preflight") || page.slug.includes("trim") || page.slug.includes("tape") || page.slug.includes("wrong-paper")
+                ? "acceptance"
+                : null;
   return key ? contextualRelated[key] : [];
 }
 
@@ -319,7 +326,7 @@ function mergeRelated(page: SeoPage) {
   return links.slice(0, 6);
 }
 
-const longTailEnhancements: Record<string, Pick<SeoPage, "sections" | "faq" | "reviewChecklist">> = {
+const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "sections" | "faq" | "reviewChecklist">>> = {
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },
@@ -415,6 +422,36 @@ const longTailEnhancements: Record<string, Pick<SeoPage, "sections" | "faq" | "r
       { question: "Is this model-specific Zebra advice?", answer: "No. It is broad 4×6 thermal-printer troubleshooting and does not claim official Zebra support." },
     ],
     reviewChecklist: ["Set 4×6 media before editing scale.", "Calibrate roll feed and gap sensing.", "Keep barcode size and quiet zone intact."],
+  },
+  "shipping-label-pdf-wrong-page-size": {
+    faq: [
+      { question: "How do I tell what size my shipping label PDF is?", answer: "Open the PDF properties or use the local PDF analyzer before printing. Check whether the page box is 4×6, Letter, A4 or a larger sheet containing a smaller label area." },
+      { question: "Should I match the printer paper to the PDF page size?", answer: "Start by matching the printer paper to the PDF page size. If you need a different output size, extract the label area intentionally instead of letting Fit to Page shrink the whole file." },
+      { question: "Why does a Letter PDF print tiny on a thermal printer?", answer: "The driver may be fitting the entire Letter page onto one 4×6 label. That shrinks the barcode and address block. Extract the label area or choose the correct label format first." },
+      { question: "Can I crop a shipping label PDF?", answer: "Only crop when every barcode, QR code, address, service mark and quiet-zone area stays complete and unscaled. Reprint on the source paper size if the required content will not fit." },
+      { question: "What should I test before printing paid postage?", answer: "Print a blank 4×6, Letter or A4 template at 100%, measure it, then print one label and check barcode quiet-zone whitespace before mailing." },
+    ],
+    reviewChecklist: ["Identify the PDF page box before choosing printer media.", "Avoid fitting a full sheet onto one thermal label.", "Keep every barcode, QR code and quiet zone intact if cropping."],
+  },
+  "chrome-shipping-label-printing-too-small": {
+    faq: [
+      { question: "Why does Chrome make my shipping label small?", answer: "Chrome can apply margins, headers, footers or fit-to-page behavior in the browser preview. Expand print settings and confirm paper size, margins and scale before printing." },
+      { question: "Should I print labels directly from Chrome?", answer: "Use Chrome only when paper size and scale controls are clear. Otherwise download the PDF and print from a PDF viewer with Actual Size selected." },
+      { question: "What Chrome settings should I check first?", answer: "Check destination paper size, margins, scale, headers and footers. For label PDFs, start with 100% / Actual Size and no browser extras." },
+      { question: "Why does the Chrome preview look fine but print wrong?", answer: "The preview can hide the printer driver's final paper-size or margin choice. Measure a blank template after changing settings." },
+      { question: "Can I fix a Chrome-scaled label by increasing scale?", answer: "Only after paper size and margins are correct. Guessing a larger percentage can crop the barcode or remove quiet-zone whitespace." },
+    ],
+    reviewChecklist: ["Disable browser headers, footers and extra margins.", "Confirm paper size and 100% scale before printing.", "Download the PDF if Chrome controls are unclear."],
+  },
+  "mac-preview-shipping-label-too-small": {
+    faq: [
+      { question: "Why does Mac Preview print my label too small?", answer: "Preview may reuse Scale to Fit, a saved paper preset or the wrong destination paper size. Check paper size first, then set scale to 100%." },
+      { question: "Should I use Scale to Fit in Preview?", answer: "No for most shipping labels. Scale to Fit can shrink the barcode. Use 100% after the PDF page size and printer media match." },
+      { question: "What Mac print preset should I use for 4×6 labels?", answer: "Use a preset that explicitly sets 4×6 media, portrait orientation and 100% scale. Do not reuse photo, borderless or Letter presets for thermal labels." },
+      { question: "How do I know if Preview or the printer caused the shrink?", answer: "Print a blank template from Preview at 100%. If the template is also small, the issue is Preview settings, driver media size or the saved preset." },
+      { question: "Can I reprint the same shipping label after fixing Preview?", answer: "Usually yes if the marketplace or carrier still allows access to the PDF. Fix settings first, then reprint the original file." },
+    ],
+    reviewChecklist: ["Check Preview paper size before scale.", "Use 100% instead of Scale to Fit.", "Clear saved presets that came from photo or sheet printing."],
   },
 };
 
