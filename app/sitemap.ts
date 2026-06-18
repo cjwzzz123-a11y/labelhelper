@@ -25,7 +25,6 @@ const staticRoutes = [
 
 const localizedStaticRoutes = new Set([
   "",
-  "/",
   "/tools",
   "/tools/scale-calculator",
   "/tools/calibration-sheet",

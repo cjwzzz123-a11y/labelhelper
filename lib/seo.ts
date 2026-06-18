@@ -12,6 +12,7 @@ type PageMetadataInput = {
   type?: "website" | "article";
   keywords?: string[];
   modifiedDate?: string;
+  robots?: Metadata["robots"];
 };
 
 export function absoluteUrl(path: string) {
@@ -20,13 +21,14 @@ export function absoluteUrl(path: string) {
   return `${siteUrl}${normalized}`;
 }
 
-export function pageMetadata({ title, description, path, locale = "en", type = "website", keywords, modifiedDate }: PageMetadataInput): Metadata {
+export function pageMetadata({ title, description, path, locale = "en", type = "website", keywords, modifiedDate, robots }: PageMetadataInput): Metadata {
   const canonical = localizedPath(path, locale);
 
   return {
     title,
     description,
     keywords,
+    robots,
     alternates: {
       canonical,
       languages: alternateLanguages(path),

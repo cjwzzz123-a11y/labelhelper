@@ -65,7 +65,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   if (!isSupportedLocale(locale)) return {};
   const pageCopy = getCopy(locale);
-  return pageMetadata({ title: pageCopy.title, description: pageCopy.description, path: "/unlock", locale });
+  return pageMetadata({
+    title: pageCopy.title,
+    description: pageCopy.description,
+    path: "/unlock",
+    locale,
+    robots: { index: false, follow: false },
+  });
 }
 
 export default async function LocaleUnlockPage({ params }: PageProps) {
