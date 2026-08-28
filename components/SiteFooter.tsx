@@ -1,6 +1,8 @@
 import Link from "next/link";
+import {LocaleFooterLinks} from "@/components/LocaleFooterLinks";
 
 const footerLinks = [
+  { href: "/about", label: "About" },
   { href: "/refunds", label: "Refund" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
@@ -25,6 +27,7 @@ export function SiteFooter() {
               </Link>
             ))}
           </nav>
+          <LocaleFooterLinks />
           <p className="text-xs font-semibold text-slate-500">Payments secured by Creem</p>
         </div>
       </div>
