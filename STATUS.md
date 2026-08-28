@@ -5,7 +5,7 @@
 - Project: Shipping Label Helper
 - Repository path: `labelhelper`
 - Branch: `main`
-- SEO optimization round: 2026-08-29 quality round validated locally; push/deployment pending
+- SEO optimization round: first batch deployed; evidence-sensitive content batch validated locally and pending push
 - Validation status: 35 tests, lint, Next.js 16.3.3 build, 143-URL SEO smoke, and production dependency audit passed
 
 ## Latest SEO work
@@ -15,6 +15,8 @@
 - Cleared duplicate-title/description families in the local sitemap crawl.
 - Replaced false universal size and carrier-compatibility claims with page-specific facts and evidence limitations.
 - Added a repeatable full-site SEO smoke test and current quality log.
+- Production-crawled 143/143 sitemap pages after `c36d603`; every page returned 200 and exposed an Open Graph image, with no duplicate title or description groups.
+- Rewrote three high-risk carrier-handling pages around first-party evidence, explicit reprint conditions, and non-guarantee language.
 
 - Expanded programmatic SEO coverage and internal guide hub coverage already present in working tree.
 - Fixed high-priority technical SEO risks before deployment:
@@ -30,5 +32,5 @@
 
 ## Deployment state
 
-- `origin/main` was at `e72b7e2` before this round.
-- Push the validated local HEAD to trigger Vercel, then confirm the exact deployed SHA and recrawl production.
+- Vercel successfully deployed first-round commit `c36d603` on 2026-08-29 (Asia/Shanghai).
+- Push the validated evidence-sensitive follow-up, then confirm its exact production SHA and recrawl production.

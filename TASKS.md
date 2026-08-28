@@ -8,6 +8,8 @@
 - Correct page facts, carrier-support wording, structured-data price, and unimplemented saved-profile copy.
 - Add a sitemap-driven SEO smoke test covering 143 URLs and 160 internal paths.
 - Upgrade Next.js to 16.3.3 and clear production dependency advisories.
+- Deploy and production-crawl the first SEO batch at `c36d603`.
+- Rewrite the acceptance, trim/fold/tape, and preflight pages with claim-level USPS/UPS/FedEx sources and stop conditions.
 
 - Audit current SEO working tree.
 - Fix high-priority technical SEO risks.
@@ -21,13 +23,13 @@
 
 ## Next
 
-- Push the validated local HEAD and confirm the exact Vercel production SHA.
-- Recrawl production and compare all gates with the baseline.
+- Push the second evidence-sensitive content commit and confirm the exact Vercel production SHA.
+- Recrawl production after that second commit and compare all gates with the baseline.
 - Connect Search Console data before deleting or merging any long-tail URL.
 
 ## Future SEO backlog
 
 - Add claim-level first-party sources and recheck dates for carrier/platform assertions.
-- Rewrite generic fallback pages in priority order: acceptance, trim/fold/tape, Amazon FBA, Mercari, ShipStation, and printer-specific issues.
+- Rewrite the remaining 25 generic fallback pages in priority order: Amazon FBA, Mercari, ShipStation, and printer-specific issues.
 - Investigate the public `private, no-cache, no-store` response without breaking locale correctness.
 - Upgrade development-only vulnerable dependencies in a separate verified cycle.

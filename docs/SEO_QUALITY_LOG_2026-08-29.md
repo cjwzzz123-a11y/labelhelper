@@ -44,12 +44,22 @@ Passed locally:
 - `npm run smoke:seo`: 143 sitemap URLs, 160 internal paths, one 1200×630 PNG social route, and six 308 redirect contracts
 - `npm audit --omit=dev`: zero production vulnerabilities
 
+The first production deployment of this round succeeded at commit `c36d603`. A live follow-up crawl covered 143/143 sitemap URLs with HTTP 200, absolute social images on every page, zero duplicate title groups, zero duplicate description groups, and no missing canonical/H1/JSON-LD findings. The remaining generic crawler warnings were 28 CJK description-length flags plus three short-title flags; those are interpreted separately from missing or duplicate metadata because Latin character thresholds are not a valid CJK quality measure.
+
+## Evidence-sensitive content pass
+
+- Rewrote the carrier-acceptance page so it no longer treats label size or a phone scan as proof of USPS, UPS or FedEx acceptance.
+- Rewrote the trim/fold/tape guide with explicit reprint conditions and first-party USPS/FedEx placement guidance.
+- Rebuilt the preflight checklist around comparison with the original PDF, unchanged scan-critical content, flat placement, and a stop/escalate rule.
+- Added claim-level first-party links, supported-claim notes, independent checked dates, and Schema.org `citation` URLs to those three pages.
+- Changed the About title from a generic one-word label to a task-descriptive search title.
+
 The smoke test uses language-aware description thresholds so Chinese and Japanese are not padded merely to satisfy a Latin-text rule.
 
 ## Remaining evidence-backed work
 
 1. The official-source registry was last fully checked on 2026-05-12. Each carrier/platform claim needs a precise first-party URL and claim-level review before changing that date.
-2. A group of long-tail troubleshooting pages still share generic fallback sections. Preserve URLs until real Search Console query/page data exists, but rewrite them in priority order: carrier acceptance; trim/fold/tape; Amazon FBA; Mercari; ShipStation; DYMO/printer-specific problems.
+2. Twenty-five long-tail troubleshooting pages still share generic fallback sections. Preserve URLs until real Search Console query/page data exists, but rewrite them in priority order: Amazon FBA; Mercari; ShipStation; DYMO/printer-specific problems; then the remaining platform/browser variants.
 3. Public HTML currently uses `private, no-cache, no-store`. Investigate the `next-intl` request-locale architecture before changing caching; do not trade correct locale output for a speculative performance win.
 4. Search Console and Vercel Analytics were not available in the local audit. Index coverage, impressions, CTR, Core Web Vitals, and conversions must be evaluated after deployment with real data.
 5. Development-only dependency advisories remain in the local toolchain; production dependencies are clean. Upgrade those packages separately with their own test cycle.

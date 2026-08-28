@@ -14,6 +14,7 @@ type PageMetadataInput = {
   type?: "website" | "article";
   keywords?: string[];
   modifiedDate?: string;
+  citations?: string[];
   robots?: Metadata["robots"];
 };
 
@@ -129,7 +130,7 @@ export function websiteSchema(locale: Locale = "en") {
   };
 }
 
-export function articleSchema({ title, description, path, locale = "en", modifiedDate }: PageMetadataInput) {
+export function articleSchema({ title, description, path, locale = "en", modifiedDate, citations }: PageMetadataInput) {
   const url = absoluteUrl(localizedPath(path, locale));
 
   return {
@@ -142,6 +143,7 @@ export function articleSchema({ title, description, path, locale = "en", modifie
     mainEntityOfPage: url,
     image: absoluteUrl(socialImagePath),
     dateModified: modifiedDate,
+    ...(citations?.length ? { citation: citations } : {}),
     author: {
       "@id": `${siteUrl}/#organization`,
     },

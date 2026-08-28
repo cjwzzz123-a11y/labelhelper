@@ -16,6 +16,13 @@ export interface TroubleshooterStep {
   cta: string;
 }
 
+export interface ContentSource {
+  label: string;
+  url: string;
+  checkedAt: string;
+  supports: string;
+}
+
 export interface SeoPage {
   slug: string;
   kind: SeoPageKind;
@@ -27,6 +34,7 @@ export interface SeoPage {
   keywords?: string[];
   updatedAt?: string;
   reviewChecklist?: string[];
+  sources?: ContentSource[];
   defaultCombo?: {
     platform: Platform;
     carrier: Carrier;
@@ -327,7 +335,71 @@ function mergeRelated(page: SeoPage) {
   return links.slice(0, 6);
 }
 
-const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "sections" | "faq" | "reviewChecklist">>> = {
+const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" | "sections" | "faq" | "reviewChecklist" | "sources">>> = {
+  "shipping-label-too-small-usps-ups-fedex-accept": {
+    quickAnswer: "Do not treat physical size alone as proof that USPS, UPS or FedEx will accept a label. If the barcode, tracking number, address, service text or surrounding white space was compressed, cropped or blurred, stop and reprint the original label at the correct paper size and scale.",
+    sections: [
+      { heading: "There is no reliable yes-or-no answer from size alone", body: "A smaller-looking label may come from extra blank paper, or it may mean the entire barcode was resized. Those are different cases. This page cannot certify carrier acceptance; compare the print with the original PDF and treat any changed or damaged scan-critical content as a reprint condition." },
+      { heading: "Check what the print process changed", body: "Confirm the full barcode and tracking number are present, the address and service text are readable, and no edge or quiet-zone whitespace was cut away. If Fit to Page, a screenshot, browser margins or the wrong paper size changed the label, return to the original PDF and print again at the matching media size." },
+      { heading: "Use reprint instead of repair when possible", body: "UPS documents that account users can reprint an existing label. For other workflows, use the platform or carrier account's current reprint option when it remains available. Reprinting is safer than stretching a barcode, patching missing content or buying duplicate postage without first checking the original transaction." },
+      { heading: "Escalate uncertainty before handoff", body: "If you cannot compare with the original PDF, or the package shape prevents the barcode from lying flat, ask the carrier counter or the platform that issued the label. A successful phone-camera scan is only a diagnostic check; it is not a promise that carrier equipment or policy will accept the shipment." },
+    ],
+    faq: [
+      { question: "Will a carrier accept any label that scans on my phone?", answer: "Not necessarily. A phone scan does not verify every routing mark, service field, carrier rule or automated-sorter condition." },
+      { question: "Is a label safe because the address is readable?", answer: "No. The tracking barcode, service text and other routing content also need to remain complete, sharp and correctly scaled." },
+      { question: "Should I enlarge a small label in the print dialog?", answer: "Do not guess. Match the source PDF, paper and printer first, then print at 100% / Actual Size so you do not crop another edge." },
+      { question: "Can I reprint instead of buying postage again?", answer: "Use the current reprint option in the carrier or marketplace account when available. Confirm the original transaction before purchasing a duplicate label." },
+      { question: "When should I stop and ask the carrier?", answer: "Stop when required content is missing, the barcode cannot lie flat, the original PDF is unavailable, or the issuing workflow gives instructions that conflict with this general checklist." },
+    ],
+    reviewChecklist: ["Compare the print with the original PDF.", "Reprint if barcode, address, service text or white space changed.", "Ask the issuing platform or carrier when acceptance is uncertain."],
+    sources: [
+      { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions say not to tape over barcodes." },
+      { label: "UPS create and print shipping labels", url: "https://www.ups.com/us/en/support/shipping-support/print-shipping-labels", checkedAt: "2026-08-29", supports: "UPS documents how account users can reprint a shipping label." },
+      { label: "FedEx shipping-label guidance", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx explains barcode purpose, flat placement and tape-related scan risk." },
+    ],
+  },
+  "can-you-trim-fold-tape-shipping-label": {
+    quickAnswer: "Trim only unused outer paper when every barcode, quiet zone, address and service mark stays intact. Keep the barcode flat and off seams or edges, and do not cover it with tape. If the active label cannot fit without folding or repair, reprint in the correct format.",
+    sections: [
+      { heading: "Trim only outside active label content", body: "Removing blank sheet paper is different from cutting the label itself. Stop before any barcode whitespace, tracking number, address, service text, routing mark or border used by the issuing workflow. When you cannot identify those boundaries, reprint instead of trimming." },
+      { heading: "Keep the barcode flat", body: "FedEx advises placing the label on the package's largest surface and avoiding seams or edges because wrinkles can cause scanning problems. If the package shape makes that impossible, follow the carrier's current placement instructions or use an appropriate pouch or tag." },
+      { heading: "Do not tape over the barcode", body: "USPS and FedEx both publish warnings against tape over barcodes; FedEx specifically notes reflection from clear tape. Tape only the surrounding paper when the issuing instructions allow it, or use a label pouch that keeps the barcode unobstructed." },
+      { heading: "Reprint when repair changes the label", body: "Do not stretch, compress, redraw, photograph or patch a barcode. Return to the original PDF, match its page size to the printer media, and print at 100% / Actual Size. Treat a clean reprint as the default when active content was cropped, folded, wet, blurred or covered." },
+    ],
+    faq: [
+      { question: "Can I cut away blank Letter or A4 paper?", answer: "Yes only when it is clearly outside every active label element and required quiet zone. Do not cut into routing, address or barcode areas." },
+      { question: "Can I fold a label around a box edge?", answer: "Keep the barcode flat. FedEx warns that seams and edges can wrinkle a barcode and cause scanning problems." },
+      { question: "Can clear tape cover the barcode?", answer: "No. USPS and FedEx instructions warn against tape over barcodes, including clear tape that can reflect scanner light." },
+      { question: "What if the label is larger than the package face?", answer: "Use the carrier's current placement guidance or reprint in a format that fits. Do not improvise across scan-critical content." },
+      { question: "When is reprinting mandatory?", answer: "Reprint when a barcode, quiet zone, address, service mark or tracking number is cut, distorted, blurred, folded or covered." },
+    ],
+    reviewChecklist: ["Trim only unused outer paper.", "Keep barcodes flat, uncut and free of tape.", "Reprint when active label content needs repair."],
+    sources: [
+      { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions say not to tape over barcodes." },
+      { label: "FedEx shipping-label guidance", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx advises flat placement away from seams and no tape over barcodes." },
+    ],
+  },
+  "shipping-label-preflight-checklist": {
+    quickAnswer: "Before handoff, compare the print with the original PDF: confirm the complete barcode and tracking number, readable addresses and service text, unchanged scale, matching paper/orientation, flat placement, and no tape, fold, seam, blur or crop across scan-critical content.",
+    sections: [
+      { heading: "1. Compare with the original PDF", body: "Use the downloaded carrier or marketplace PDF as the reference. Confirm that no address line, tracking number, service mark, routing mark, barcode or surrounding white space disappeared during printing." },
+      { heading: "2. Verify paper, scale and orientation", body: "Match the selected paper or roll to the source label, use 100% / Actual Size, and disable Fit to Page. If the print dialog changed the page, fix the setup and reprint before evaluating the barcode." },
+      { heading: "3. Inspect print and placement", body: "The barcode should be sharp, complete, flat and free of tape glare. Keep it away from a package seam or edge when possible. Remove or fully cover obsolete labels and barcodes so automated equipment does not see conflicting routing information." },
+      { heading: "4. Stop on uncertainty", body: "Do not use this checklist as carrier approval. Stop and reprint when active content is cropped, distorted, wet, blurred, folded or covered. Ask the carrier or issuing platform when package shape, special service or current instructions create doubt." },
+    ],
+    faq: [
+      { question: "Does passing this checklist guarantee acceptance?", answer: "No. It reduces preventable print and placement errors but does not replace current carrier or platform policy." },
+      { question: "Is a phone scan enough?", answer: "No. It is a useful diagnostic only and does not verify all carrier routing fields or automated equipment." },
+      { question: "Should I keep old barcodes visible on the box?", answer: "No. Remove or fully cover obsolete labels and barcodes so they cannot conflict with the current shipment." },
+      { question: "What is the safest scale setting?", answer: "After matching source page and printer media, start with 100% / Actual Size rather than Fit to Page." },
+      { question: "What should trigger a reprint?", answer: "Any crop, blur, distortion, fold, tape or missing content across the barcode, address, tracking number, service text or quiet zone." },
+    ],
+    reviewChecklist: ["Compare every active field with the original PDF.", "Keep the current barcode sharp, flat and unobstructed.", "Stop and reprint instead of guessing about acceptance."],
+    sources: [
+      { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions cover label attachment and keeping tape off barcodes." },
+      { label: "FedEx shipping-label guidance", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx covers flat placement, seams, edges, barcode purpose and tape glare." },
+    ],
+  },
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },

@@ -178,7 +178,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
   const officialSource = combo
     ? officialDocs[page.kind === "platform" ? combo.platform : combo.carrier]
     : null;
-  const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale, keywords: page.keywords, modifiedDate: page.updatedAt });
+  const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale, keywords: page.keywords, modifiedDate: page.updatedAt, citations: page.sources?.map((source) => source.url) });
   const howToJsonLd = page.reviewChecklist?.length ? howToSchema({ title: `${page.h1} checklist`, description: page.quickAnswer, path: `/${page.slug}`, locale, steps: page.reviewChecklist }) : null;
   const fallbackLabel = (path: string, label: string) => (locale !== defaultLocale && !hasLocalizedPath(path, locale) ? label : null);
   const nextStepText = isTemplate ? ui.templateNext : page.kind === "troubleshooter" ? ui.troubleshooterNext : ui.checkerNext;
@@ -235,7 +235,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
           ))}
         </article>
 
-        <SourceNotes kind={page.kind} locale={locale} source={officialSource} />
+        <SourceNotes kind={page.kind} locale={locale} source={officialSource} sources={page.sources} />
         <div className="mt-8">
           <FAQ heading={ui.faq} items={page.faq} />
         </div>
@@ -327,7 +327,7 @@ function templateOrRuleSize(page: SeoPage, rule: ReturnType<typeof lookup> | nul
   return "4 × 6 in";
 }
 
-function SourceNotes({ kind, locale, source }: { kind: string; locale: Locale; source: { url: string; label: string } | null }) {
+function SourceNotes({ kind, locale, source, sources }: { kind: string; locale: Locale; source: { url: string; label: string } | null; sources?: SeoPage["sources"] }) {
   const ui = getPageUi(locale);
 
   return (
@@ -341,6 +341,16 @@ function SourceNotes({ kind, locale, source }: { kind: string; locale: Locale; s
           <a className="font-bold text-sky-800 underline" href={source.url} rel="noreferrer">{source.label}</a>
           <span className="text-slate-500"> · Official starting point · Link checked {officialDocLastChecked}</span>
         </p>
+      ) : null}
+      {sources?.length ? (
+        <ul className="mt-4 space-y-3">
+          {sources.map((item) => (
+            <li key={item.url}>
+              <a className="font-bold text-sky-800 underline" href={item.url} rel="noreferrer">{item.label}</a>
+              <span className="text-slate-500"> · {item.supports} · Link checked {item.checkedAt}</span>
+            </li>
+          ))}
+        </ul>
       ) : null}
     </section>
   );

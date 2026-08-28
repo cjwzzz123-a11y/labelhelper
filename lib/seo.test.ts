@@ -5,7 +5,7 @@ import { getSeoPage, seoPages } from "@/data/seo-pages";
 import { locales } from "@/i18n/routing";
 import { localeFromRequestPath, localeRedirectPath } from "@/proxy";
 import { alternateLanguages, availableLocalesForPath, hasLocalizedPath } from "./i18n";
-import { normalizeSeoDescription, normalizeSeoTitle, pageMetadata, siteUrl } from "./seo";
+import { articleSchema, normalizeSeoDescription, normalizeSeoTitle, pageMetadata, siteUrl } from "./seo";
 
 describe("SEO metadata contracts", () => {
   it("normalizes repeated brands without truncating search intent", () => {
@@ -23,6 +23,25 @@ describe("SEO metadata contracts", () => {
     const metadata = pageMetadata({ title: "Shipping Label Test", description: "Check label size and print settings before using paid postage.", path: "/test-print" });
     expect(metadata.openGraph?.images).toBeTruthy();
     expect(metadata.twitter?.images).toBeTruthy();
+  });
+
+  it("keeps high-risk shipping guidance tied to claim-level first-party sources", () => {
+    const slugs = [
+      "shipping-label-too-small-usps-ups-fedex-accept",
+      "can-you-trim-fold-tape-shipping-label",
+      "shipping-label-preflight-checklist",
+    ];
+
+    for (const slug of slugs) {
+      const page = getSeoPage(slug);
+      expect(page?.sources?.length).toBeGreaterThanOrEqual(2);
+      expect(page?.sources?.every((source) => source.url.startsWith("https://") && source.checkedAt === "2026-08-29")).toBe(true);
+      expect(page?.quickAnswer.toLowerCase()).not.toContain("will be accepted");
+    }
+
+    const citations = getSeoPage(slugs[0])?.sources?.map((source) => source.url) ?? [];
+    const schema = articleSchema({ title: "Carrier acceptance", description: "Evidence-sensitive guidance.", path: `/${slugs[0]}`, citations });
+    expect(schema.citation).toEqual(citations);
   });
 
   it("derives the request locale that the root html lang depends on", () => {
