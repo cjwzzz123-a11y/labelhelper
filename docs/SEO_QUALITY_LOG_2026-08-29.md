@@ -53,6 +53,7 @@ The first production deployment of this round succeeded at commit `c36d603`. A l
 - Rebuilt the preflight checklist around comparison with the original PDF, unchanged scan-critical content, flat placement, and a stop/escalate rule.
 - Added claim-level first-party links, supported-claim notes, independent checked dates, and Schema.org `citation` URLs to those three pages.
 - Replaced generic Mercari, ShipStation and DYMO fallbacks with product-specific setup paths backed by their current first-party help or manuals.
+- Corrected two Pirate Ship guides against current first-party behavior, including template-specific scaling and the refund/replacement path for a label purchased at the wrong size.
 - Changed the About title from a generic one-word label to a task-descriptive search title.
 
 The smoke test uses language-aware description thresholds so Chinese and Japanese are not padded merely to satisfy a Latin-text rule.
@@ -60,7 +61,7 @@ The smoke test uses language-aware description thresholds so Chinese and Japanes
 ## Remaining evidence-backed work
 
 1. The official-source registry was last fully checked on 2026-05-12. Each carrier/platform claim needs a precise first-party URL and claim-level review before changing that date.
-2. Twenty-one long-tail troubleshooting pages still share generic fallback sections. Preserve URLs until real Search Console query/page data exists, but rewrite them in priority order: Amazon FBA; Pirate Ship; eBay/Shopify variants; then the remaining platform/browser variants.
+2. Nineteen long-tail troubleshooting pages still share generic fallback sections. Preserve URLs until real Search Console query/page data exists, but rewrite them in priority order: Amazon FBA; eBay/Shopify variants; then the remaining platform/browser variants.
 3. Public HTML currently uses `private, no-cache, no-store`. Investigate the `next-intl` request-locale architecture before changing caching; do not trade correct locale output for a speculative performance win.
 4. Search Console and Vercel Analytics were not available in the local audit. Index coverage, impressions, CTR, Core Web Vitals, and conversions must be evaluated after deployment with real data.
 5. Development-only dependency advisories remain in the local toolchain; production dependencies are clean. Upgrade those packages separately with their own test cycle.

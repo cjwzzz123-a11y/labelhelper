@@ -11,6 +11,7 @@
 - Deploy and production-crawl the first SEO batch at `c36d603`.
 - Rewrite the acceptance, trim/fold/tape, and preflight pages with claim-level USPS/UPS/FedEx sources and stop conditions.
 - Replace generic Mercari, ShipStation, and DYMO pages with first-party, product-specific setup paths.
+- Correct Pirate Ship desktop/thermal guidance against its current template and purchased-size rules.
 
 - Audit current SEO working tree.
 - Fix high-priority technical SEO risks.
@@ -31,6 +32,6 @@
 ## Future SEO backlog
 
 - Add claim-level first-party sources and recheck dates for carrier/platform assertions.
-- Rewrite the remaining 21 generic fallback pages in priority order: Amazon FBA, Pirate Ship, eBay/Shopify variants, and other printer-specific issues.
+- Rewrite the remaining 19 generic fallback pages in priority order: Amazon FBA, eBay/Shopify variants, and other printer-specific issues.
 - Investigate the public `private, no-cache, no-store` response without breaking locale correctness.
 - Upgrade development-only vulnerable dependencies in a separate verified cycle.

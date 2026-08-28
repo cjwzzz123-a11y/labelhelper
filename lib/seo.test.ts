@@ -34,6 +34,8 @@ describe("SEO metadata contracts", () => {
       "mercari-label-prints-too-small",
       "shipstation-label-too-small-or-too-large",
       "dymo-4xl-label-prints-too-small",
+      "pirate-ship-4x6-label-prints-on-letter-paper",
+      "pirate-ship-label-too-small-thermal-printer",
     ];
 
     for (const slug of slugs) {

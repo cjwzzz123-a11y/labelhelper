@@ -480,6 +480,48 @@ const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" |
       { label: "DYMO LabelWriter 4XL user guide", url: "https://download.dymo.com/UserManuals/labelwriter%20user%20guides/LabelWriter4XL_UserGuide.pdf", checkedAt: "2026-08-29", supports: "DYMO's manual is the first-party reference for 4XL hardware, media loading and printer operation." },
     ],
   },
+  "pirate-ship-4x6-label-prints-on-letter-paper": {
+    quickAnswer: "For a regular desktop printer, use Pirate Ship's Letter/8.5 × 11 print template and select the same paper size in the system dialog. Do not rely on a standalone 4 × 6 thermal layout plus a universal scale rule; Pirate Ship's current print flow provides printer-specific templates and settings.",
+    sections: [
+      { heading: "Choose the desktop-printer template in Pirate Ship", body: "Pirate Ship currently offers Letter/8.5 × 11 choices for regular inkjet and laser printers, including one- or two-label sheet layouts. Open Print Label or Reprint Label and choose the template that matches the paper loaded in the printer." },
+      { heading: "Match the computer print dialog", body: "Select Letter, US Letter or 8.5 × 11 in the operating-system or browser print dialog. Orientation depends on the Pirate Ship sheet template: its Windows guidance uses portrait for one label per page and landscape for two labels per page." },
+      { heading: "Follow the generated preview, not a universal scale slogan", body: "Pirate Ship's current guidance may use Fit to Page / Scale to Fit or 100% depending on the selected template and printer workflow. Confirm that the generated preview stays inside the sheet and that the printed barcode remains sharp and complete." },
+      { heading: "Know when the purchased label size must change", body: "Pirate Ship says the account label-size setting must be chosen before purchase and that changing the purchased size can require a refund and a new label. Use Duplicate Shipment to avoid re-entering shipment details, and never use both the refunded and replacement labels." },
+    ],
+    faq: [
+      { question: "Can Pirate Ship labels print on Letter paper?", answer: "Yes. Pirate Ship offers desktop-printer templates for 8.5 × 11 / Letter paper." },
+      { question: "Should I select the 4×6 thermal option on a desktop printer?", answer: "Pirate Ship's Windows guidance says the 4×6 option is for label printers. Choose a Letter template for a regular desktop printer." },
+      { question: "Should I always use Actual Size?", answer: "No universal setting fits every Pirate Ship template. Follow the current template-specific preview and print guidance, then confirm the barcode is not cropped or distorted." },
+      { question: "Can I change label size after purchase?", answer: "Pirate Ship says the purchased label size cannot be changed; request a refund, update Settings > General Settings, and create a replacement when necessary." },
+      { question: "Can I reprint while adjusting settings?", answer: "Pirate Ship says reprinting the same label does not add a charge, but the label may be used for only one package." },
+    ],
+    reviewChecklist: ["Choose Pirate Ship's desktop template.", "Match Letter paper and template orientation.", "Refund and replace when the purchased label size itself is wrong."],
+    sources: [
+      { label: "Pirate Ship: How do I print a label?", url: "https://support.pirateship.com/en/articles/2350724-how-do-i-print-a-label", checkedAt: "2026-08-29", supports: "Pirate Ship documents desktop, 4×6 and 2×7 templates, matching paper sizes, testing and reprinting." },
+      { label: "Pirate Ship: Windows desktop printing", url: "https://support.pirateship.com/en/articles/2677447-windows-how-to-print-with-a-desktop-printer", checkedAt: "2026-08-29", supports: "Pirate Ship documents Letter templates, paper size and orientation for one- and two-label sheets." },
+    ],
+  },
+  "pirate-ship-label-too-small-thermal-printer": {
+    quickAnswer: "Set Pirate Ship's label size to 4 × 6 before buying the label, select the 4 × 6 template at Print/Reprint, and choose matching 4 × 6 or 100 × 150 mm media in the computer print dialog. Use the scale behavior Pirate Ship shows for that template and test one label before shipping.",
+    sections: [
+      { heading: "Set 4×6 in Pirate Ship before purchase", body: "Pirate Ship's current settings guide says label size is selected under Settings > General Settings and applies to future purchases. A thermal workflow should start with the 4×6 account setting rather than shrinking a Letter layout after purchase." },
+      { heading: "Choose the matching Print/Reprint template", body: "When you open Print Label or Reprint Label, choose the template for the printer and label size. A wrong template can make the label too small, too large or cut off even when the physical roll is correct." },
+      { heading: "Match the computer paper size", body: "In the browser or system dialog, select 4 × 6, 100 × 150 mm or the equivalent driver code documented by Pirate Ship. If that media option is missing, reinstall the correct printer driver instead of compensating with scale." },
+      { heading: "Handle a wrong purchased size explicitly", body: "Pirate Ship says a purchased label's size cannot be changed. Request a refund, switch the General Settings size, and create a replacement—using Duplicate Shipment to reuse the shipment details—when the source format itself is wrong." },
+    ],
+    faq: [
+      { question: "Why is my Pirate Ship label tiny on 4×6 stock?", answer: "The account label size, Print/Reprint template or computer paper size probably does not match the thermal roll." },
+      { question: "Where do I set Pirate Ship label size?", answer: "Pirate Ship documents Settings > General Settings, and says the choice applies to future label purchases." },
+      { question: "What paper size should the driver use?", answer: "Choose 4 × 6, 100 × 150 mm or the equivalent option supplied by the installed printer driver." },
+      { question: "Should I always force 100% scale?", answer: "Follow Pirate Ship's current template-specific guidance; it documents Fit to Page / Scale to Fit or 100% in different print workflows. Verify one physical test instead of relying on a universal rule." },
+      { question: "What if I purchased the wrong label size?", answer: "Pirate Ship says to refund it, change the label-size setting, and create a replacement. Do not use the refunded label." },
+    ],
+    reviewChecklist: ["Set 4×6 in Pirate Ship before purchase.", "Match the Print/Reprint template and driver media.", "Refund and replace a source label bought at the wrong size."],
+    sources: [
+      { label: "Pirate Ship: Why doesn't my label print correctly?", url: "https://support.pirateship.com/en/articles/4416795-why-doesn-t-my-label-print-correctly", checkedAt: "2026-08-29", supports: "Pirate Ship documents scaling symptoms, print templates, media sizes and driver troubleshooting." },
+      { label: "Pirate Ship: Change label size", url: "https://support.pirateship.com/en/articles/4140701-how-can-i-change-the-size-of-my-label", checkedAt: "2026-08-29", supports: "Pirate Ship documents pre-purchase size selection and refund/replacement when a purchased size is wrong." },
+    ],
+  },
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },
