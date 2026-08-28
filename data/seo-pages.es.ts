@@ -13,7 +13,7 @@ function platformPage(slug: string, name: string, platform: Platform, carrier: C
   return {
     slug,
     kind: "platform",
-    title: `Tamaño de etiqueta de envío de ${name} — Guía 2026`,
+    title: `Tamaño de etiqueta de envío de ${name}`,
     description: `Encuentra el tamaño, escala, papel e impresora adecuados para etiquetas de ${name} en 4×6, Letter y A4.`,
     h1: `Tamaño de etiqueta de envío de ${name}`,
     quickAnswer: `Para vendedores de ${name}, la opción más segura suele ser una etiqueta de 4 × 6 pulgadas impresa al 100% en una impresora térmica. Letter y A4 también pueden funcionar para impresión en hojas si la escala está desactivada y no se recorta el margen libre del código de barras.`,
@@ -33,7 +33,7 @@ function carrierPage(slug: string, name: string, carrier: Carrier): SeoPage {
   return {
     slug,
     kind: "carrier",
-    title: `Tamaño de etiqueta de ${name} — Guía completa`,
+    title: `Tamaño de etiqueta de ${name}`,
     description: `Revisa el tamaño, escala y papel recomendados para etiquetas de ${name} en impresoras térmicas, inkjet y láser.`,
     h1: `Tamaño de etiqueta de ${name}`,
     quickAnswer: `Las etiquetas de ${name} suelen ser más seguras como etiquetas térmicas de 4 × 6 pulgadas impresas al 100%. La impresión en hojas puede funcionar si el código de barras no se redimensiona ni se recorta y la etiqueta queda plana sobre el paquete.`,
@@ -121,8 +121,8 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
   return {
     slug,
     kind: "troubleshooter",
-    title: `${symptom} — Cómo corregir la impresión de etiquetas`,
-    description: `Corrige problemas de impresión de etiquetas: ${symptom.toLowerCase()}. Revisa escala, papel, márgenes, orientación y margen libre del código de barras.`,
+    title: symptom,
+    description: `Corrige ${symptom.toLowerCase()}. Revisa escala, papel, márgenes, orientación y el área libre del código antes de reimprimir.`,
     h1: `${symptom} — Cómo corregirlo`,
     quickAnswer: fix,
     decisionTree: troubleshootingTree(slug),

@@ -137,7 +137,7 @@ function createActivationCodeSignature(codePrefix: string, secret: string) {
   return createHmac("sha256", secret).update(codePrefix.toUpperCase()).digest("hex").slice(0, 32).toUpperCase();
 }
 
-export function createSignedActivationCode(bytes = randomBytes(16), secret = getActivationCodeSecret()) {
+export function createSignedActivationCode(bytes: Uint8Array = randomBytes(16), secret = getActivationCodeSecret()) {
   if (!secret) throw new Error("SLH_ACTIVATION_CODE_SECRET or LICENSE_SIGNING_SECRET is required to generate activation codes.");
   const id = Buffer.from(bytes).toString("hex").toUpperCase();
   const prefix = `SLH-${id.slice(0, 16)}-${id.slice(16, 32)}`;

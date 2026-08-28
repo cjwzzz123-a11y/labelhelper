@@ -3,16 +3,41 @@ import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import { getSeoPage, seoPages } from "@/data/seo-pages";
 import { locales } from "@/i18n/routing";
-import { localeFromRequestPath } from "@/proxy";
+import { localeFromRequestPath, localeRedirectPath } from "@/proxy";
 import { alternateLanguages, availableLocalesForPath, hasLocalizedPath } from "./i18n";
-import { pageMetadata, siteUrl } from "./seo";
+import { normalizeSeoDescription, normalizeSeoTitle, pageMetadata, siteUrl } from "./seo";
 
 describe("SEO metadata contracts", () => {
+  it("normalizes repeated brands without truncating search intent", () => {
+    expect(normalizeSeoTitle("Test Print Center | Shipping Label Helper")).toBe("Test Print Center | LabelHelper");
+    expect(normalizeSeoTitle("Shipping Label Is Cut Off — How to Fix Shipping Label Prints")).toBe("Shipping Label Is Cut Off | LabelHelper");
+    expect(normalizeSeoTitle("Will USPS, UPS or FedEx Accept a Small Shipping Label?")).toBe("Will USPS, UPS or FedEx Accept a Small Shipping Label?");
+  });
+
+  it("prefers a complete sentence when a description guard is needed", () => {
+    const description = "Check the PDF page size before changing printer settings. This deliberately long follow-up explains several secondary print cases, paper choices, margins and barcode risks that do not need to appear in the search snippet.";
+    expect(normalizeSeoDescription(description)).toBe("Check the PDF page size before changing printer settings.");
+  });
+
+  it("adds a shared social image to Open Graph and Twitter metadata", () => {
+    const metadata = pageMetadata({ title: "Shipping Label Test", description: "Check label size and print settings before using paid postage.", path: "/test-print" });
+    expect(metadata.openGraph?.images).toBeTruthy();
+    expect(metadata.twitter?.images).toBeTruthy();
+  });
+
   it("derives the request locale that the root html lang depends on", () => {
     expect(localeFromRequestPath("/")).toBe("en");
     expect(localeFromRequestPath("/etsy-shipping-label-size")).toBe("en");
     expect(localeFromRequestPath("/zh/etsy-shipping-label-size")).toBe("zh");
     expect(localeFromRequestPath("/es/tools/scale-calculator")).toBe("es");
+  });
+
+  it("consolidates default-locale and untranslated locale URLs", () => {
+    expect(localeRedirectPath("/en/guides")).toBe("/guides");
+    expect(localeRedirectPath("/fr/guides")).toBe("/guides");
+    expect(localeRedirectPath("/es/guides")).toBeNull();
+    expect(localeRedirectPath("/zh/tools/pdf-analyzer")).toBeNull();
+    expect(localeRedirectPath("/es/tools/pdf-analyzer")).toBe("/tools/pdf-analyzer");
   });
 
   it("advertises only implemented hreflang variants for localized SEO pages", () => {
@@ -45,7 +70,8 @@ describe("SEO metadata contracts", () => {
   });
 
   it("disallows payment and utility routes in every routable locale", () => {
-    const disallow = robots().rules[0]?.disallow;
+    const rules = robots().rules;
+    const disallow = (Array.isArray(rules) ? rules[0] : rules)?.disallow;
 
     expect(disallow).toEqual(expect.arrayContaining(["/api/", "/template-downloads/", "/thanks", "/unlock"]));
     for (const locale of locales) {
@@ -69,6 +95,8 @@ describe("SEO metadata contracts", () => {
       en: `${siteUrl}/rollo-printer-label-too-small`,
     });
     expect(entries.some((entry) => entry.url === `${siteUrl}/fr/rollo-printer-label-too-small`)).toBe(false);
+    expect(entries.some((entry) => entry.url === `${siteUrl}/fr/guides`)).toBe(false);
+    expect(entries.some((entry) => entry.url === `${siteUrl}/es/tools/pdf-analyzer`)).toBe(false);
   });
 
   it("keeps print-dialog long-tail pages connected to the right cluster", () => {

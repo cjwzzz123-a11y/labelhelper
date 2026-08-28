@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/seo";
 
 const copy = {
   en: {
-    title: "Shipping Label Guides | Platforms, Carriers and Fixes",
+    title: "Shipping Label Guides & Print Fixes",
     description: "Guides for Etsy, Shopify, eBay, Amazon FBA, USPS, UPS, FedEx and DHL label sizes, plus common shipping label print fixes.",
     breadcrumb: "Guides",
     eyebrow: "Guides hub",
@@ -38,7 +38,7 @@ const copy = {
     sourceDownload: "Open source link",
   },
   es: {
-    title: "Guías de etiquetas de envío | Plataformas, transportistas y soluciones",
+    title: "Guías de impresión de etiquetas",
     description: "Guías para tamaños de etiquetas de Etsy, Shopify, eBay, Amazon FBA, USPS, UPS, FedEx y DHL, además de soluciones para problemas comunes de impresión.",
     breadcrumb: "Guías",
     eyebrow: "Centro de guías",

@@ -13,7 +13,7 @@ function platformPage(slug: string, name: string, platform: Platform, carrier: C
   return {
     slug,
     kind: "platform",
-    title: `${name} 运单标签尺寸 — 2026 指南`,
+    title: `${name} 运单标签尺寸指南`,
     description: `查找 ${name} 运单标签适合的尺寸、打印比例、纸张和打印机设置，覆盖 4×6、Letter 和 A4 标签。`,
     h1: `${name} 运单标签尺寸`,
     quickAnswer: `${name} 卖家通常使用 4 × 6 英寸标签并在热敏打印机上以 100% 比例打印最稳妥。Letter 和 A4 也可用于纸张打印，但需要关闭缩放，并确保条码空白区没有被裁切。`,
@@ -33,7 +33,7 @@ function carrierPage(slug: string, name: string, carrier: Carrier): SeoPage {
   return {
     slug,
     kind: "carrier",
-    title: `${name} 运单标签尺寸 — 完整指南`,
+    title: `${name} 运单标签尺寸指南`,
     description: `检查 ${name} 运单标签在热敏、喷墨和激光打印机上的推荐尺寸、比例和纸张设置。`,
     h1: `${name} 运单标签尺寸`,
     quickAnswer: `${name} 标签通常以 4 × 6 英寸热敏标签并按 100% 比例打印最稳妥。纸张打印也可以使用，但条码不能被缩放或裁切，标签也应平整贴在包裹上。`,
@@ -121,8 +121,8 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
   return {
     slug,
     kind: "troubleshooter",
-    title: `${symptom} — 运单标签打印修复方法`,
-    description: `修复运单标签打印问题：${symptom}。检查比例、纸张、边距、方向和条码空白区。`,
+    title: symptom,
+    description: `修复${symptom}。重新打印前检查比例、纸张、边距、方向和条码空白区。`,
     h1: `${symptom} — 如何修复`,
     quickAnswer: fix,
     decisionTree: troubleshootingTree(slug),

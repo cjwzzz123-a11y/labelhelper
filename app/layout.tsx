@@ -17,25 +17,27 @@ export const metadata: Metadata = {
   creator: "Shipping Label Helper",
   publisher: "Shipping Label Helper",
   title: {
-    default: "Shipping Label Helper",
+    default: "Shipping Label Size Checker & Print Fixes | LabelHelper",
     template: "%s | Shipping Label Helper",
   },
-  description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+  description: "Shipping-label size guides, templates and browser-local troubleshooting tools for small ecommerce sellers.",
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
     title: "Shipping Label Helper",
-    description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+    description: "Shipping-label size guides, templates and browser-local troubleshooting tools for small ecommerce sellers.",
     url: "/",
     siteName: "Shipping Label Helper",
     type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Shipping Label Helper" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Shipping Label Helper",
-    description: "Free shipping-label size checker, templates and troubleshooting tools for small ecommerce sellers.",
+    description: "Shipping-label size guides, templates and browser-local troubleshooting tools for small ecommerce sellers.",
+    images: ["/opengraph-image"],
   },
 };
 

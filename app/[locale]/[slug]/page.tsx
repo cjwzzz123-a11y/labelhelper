@@ -16,15 +16,17 @@ import { esSeoPageKinds } from "@/data/seo-pages.es";
 import { zhSeoPageKinds } from "@/data/seo-pages.zh";
 import { defaultLocale, hasLocalizedPath, htmlLangs, isSupportedLocale, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 import { lookup } from "@/lib/rules-engine";
+import { officialDocs, officialDocLastChecked } from "@/data/rules";
 import { articleSchema, howToSchema, pageMetadata } from "@/lib/seo";
 
 const pageUi = {
   en: {
     quickAnswer: "Quick answer",
-    recommendedSize: "Recommended size",
+    recommendedSize: "Baseline size to test",
     printScale: "Print scale",
     orientation: "Orientation",
     portrait: "Portrait",
+    landscape: "Landscape",
     fallbackTool: "English tool",
     fallbackGuide: "English guide",
     opens: "Opens",
@@ -44,18 +46,19 @@ const pageUi = {
     fixScale: "Fix print scale",
     opensEnglishTool: " · Opens English tool",
     symptomLed: "Symptom-led fix",
-    sourceText1: "This guide is based on recurring seller-support patterns: labels printed from browser previews, PDF viewers resizing files, thermal rolls loaded off-center, and barcodes losing quiet-zone whitespace.",
-    sourceText2: "When a platform or carrier offers a specific label-format setting, follow that official setting first, then use the checker and templates here to confirm print scale, paper size, orientation, and barcode quiet zone before shipping.",
-    troubleshooterSourceText: "For troubleshooting, prioritize fixes that include printer model, paper size, PDF viewer, and scale setting before reprinting paid postage.",
+    sourceText1: "This page is a practical print-setting checklist, not official carrier policy or a promise that a label will be accepted.",
+    sourceText2: "Confirm the current format in your platform or carrier account, keep the original PDF, and stop if a test print is cropped, blurred or incorrectly scaled.",
+    troubleshooterSourceText: "Troubleshooting advice is general. Record the printer model, paper size, PDF viewer and scale setting so you can verify each change.",
     lastReviewed: "Last reviewed",
     reviewChecklist: "Preflight checklist",
   },
   es: {
     quickAnswer: "Respuesta rápida",
-    recommendedSize: "Tamaño recomendado",
+    recommendedSize: "Tamaño de referencia",
     printScale: "Escala de impresión",
     orientation: "Orientación",
     portrait: "Vertical",
+    landscape: "Horizontal",
     fallbackTool: "herramienta en inglés",
     fallbackGuide: "guía en inglés",
     opens: "Abre",
@@ -75,18 +78,19 @@ const pageUi = {
     fixScale: "Corregir escala de impresión",
     opensEnglishTool: " · Abre herramienta en inglés",
     symptomLed: "Solución según el síntoma",
-    sourceText1: "Esta guía se basa en patrones recurrentes de soporte para vendedores: etiquetas impresas desde vistas previas del navegador, visores PDF que cambian el tamaño, rollos térmicos desalineados y códigos de barras que pierden margen libre.",
-    sourceText2: "Si una plataforma o transportista ofrece una configuración oficial de formato de etiqueta, sigue primero esa configuración. Después usa estas herramientas y plantillas para confirmar escala, tamaño de papel, orientación y margen libre del código de barras antes de enviar.",
-    troubleshooterSourceText: "Para solucionar problemas, prioriza correcciones que incluyan modelo de impresora, tamaño de papel, visor PDF y escala antes de reimprimir franqueo pagado.",
+    sourceText1: "Esta página es una lista práctica de ajustes de impresión, no una política oficial ni una promesa de aceptación del transportista.",
+    sourceText2: "Confirma el formato actual en tu plataforma o transportista, conserva el PDF original y detente si la prueba sale recortada, borrosa o con escala incorrecta.",
+    troubleshooterSourceText: "Los consejos son generales. Anota impresora, papel, visor PDF y escala para verificar cada cambio.",
     lastReviewed: "Última revisión",
     reviewChecklist: "Lista de comprobación previa",
   },
   zh: {
     quickAnswer: "快速答案",
-    recommendedSize: "推荐尺寸",
+    recommendedSize: "测试基准尺寸",
     printScale: "打印比例",
     orientation: "方向",
     portrait: "纵向",
+    landscape: "横向",
     fallbackTool: "英文工具",
     fallbackGuide: "英文指南",
     opens: "打开",
@@ -106,9 +110,9 @@ const pageUi = {
     fixScale: "修复打印比例",
     opensEnglishTool: " · 打开 英文工具",
     symptomLed: "按症状排查",
-    sourceText1: "本指南基于反复出现的卖家支持场景：从浏览器预览打印标签、PDF 阅读器调整文件大小、热敏卷纸偏移，以及条码失去空白区。",
-    sourceText2: "如果平台或承运商提供特定标签格式设置，请先遵循官方设置，再用这里的检查器和模板确认打印比例、纸张尺寸、方向和条码空白区。",
-    troubleshooterSourceText: "排查问题时，优先参考包含打印机型号、纸张尺寸、PDF 阅读器和比例设置的修复方法。",
+    sourceText1: "本页是实用打印设置清单，不是承运商官方政策，也不承诺标签一定会被接受。",
+    sourceText2: "请在平台或承运商账户中确认当前格式，保留原始 PDF；如果测试打印被裁切、模糊或比例错误，请停止使用。",
+    troubleshooterSourceText: "排查建议属于通用方法。记录打印机型号、纸张、PDF 阅读器和比例，逐项验证改动。",
     lastReviewed: "最后审查",
     reviewChecklist: "打印前检查清单",
   },
@@ -151,7 +155,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const page = getStaticSeoPages(locale).find((candidate) => candidate.slug === slug);
   if (!page) return {};
 
-  return pageMetadata({ title: page.title, description: page.description, path: `/${page.slug}`, locale, type: "article", keywords: page.keywords, modifiedDate: page.updatedAt });
+  return pageMetadata({ title: page.seoTitle ?? page.title, description: page.description, path: `/${page.slug}`, locale, type: "article", keywords: page.keywords, modifiedDate: page.updatedAt });
 }
 
 export default async function LocaleSeoPage({ params }: PageProps) {
@@ -171,6 +175,9 @@ export default async function LocaleSeoPage({ params }: PageProps) {
   const combo = page.defaultCombo;
   const rule = combo ? lookup(combo.platform, combo.carrier, "4x6", "thermal") : null;
   const isTemplate = page.kind === "template";
+  const officialSource = combo
+    ? officialDocs[page.kind === "platform" ? combo.platform : combo.carrier]
+    : null;
   const schema = articleSchema({ title: page.h1, description: page.description, path: `/${page.slug}`, locale, keywords: page.keywords, modifiedDate: page.updatedAt });
   const howToJsonLd = page.reviewChecklist?.length ? howToSchema({ title: `${page.h1} checklist`, description: page.quickAnswer, path: `/${page.slug}`, locale, steps: page.reviewChecklist }) : null;
   const fallbackLabel = (path: string, label: string) => (locale !== defaultLocale && !hasLocalizedPath(path, locale) ? label : null);
@@ -199,11 +206,13 @@ export default async function LocaleSeoPage({ params }: PageProps) {
         <section className="mt-8 rounded-3xl bg-white p-6 shadow-sm ring-1 ring-sky-100 sm:p-8">
           <h2 className="text-xl font-bold tracking-tight text-[#12324A]">{ui.quickAnswer}</h2>
           <p className="mt-3 leading-7 text-slate-700">{page.quickAnswer}</p>
-          <dl className="mt-5 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.recommendedSize}</dt><dd className="mt-1 font-bold text-[#12324A]">4 × 6 in</dd></div>
-            <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.printScale}</dt><dd className="mt-1 font-bold text-[#12324A]">100%</dd></div>
-            <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.orientation}</dt><dd className="mt-1 font-bold text-[#12324A]">{ui.portrait}</dd></div>
-          </dl>
+          {isTemplate || shouldShowChecker ? (
+            <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.recommendedSize}</dt><dd className="mt-1 font-bold text-[#12324A]">{templateOrRuleSize(page, rule)}</dd></div>
+              <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.printScale}</dt><dd className="mt-1 font-bold text-[#12324A]">{rule?.print_scale ?? "100% / Actual Size"}</dd></div>
+              <div className="rounded-2xl bg-[#f7fbff] p-4"><dt className="text-xs font-semibold uppercase text-slate-500">{ui.orientation}</dt><dd className="mt-1 font-bold text-[#12324A]">{rule?.orientation === "landscape" ? ui.landscape : ui.portrait}</dd></div>
+            </dl>
+          ) : null}
         </section>
 
         {shouldShowChecker && combo && rule ? (
@@ -226,7 +235,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
           ))}
         </article>
 
-        <CommunityCitationPlaceholder kind={page.kind} locale={locale} />
+        <SourceNotes kind={page.kind} locale={locale} source={officialSource} />
         <div className="mt-8">
           <FAQ heading={ui.faq} items={page.faq} />
         </div>
@@ -311,7 +320,14 @@ function TroubleshootingDecisionTree({ locale, tree }: { locale: Locale; tree: N
   );
 }
 
-function CommunityCitationPlaceholder({ kind, locale }: { kind: string; locale: Locale }) {
+function templateOrRuleSize(page: SeoPage, rule: ReturnType<typeof lookup> | null) {
+  if (rule) return `${rule.recommended_size.width_in} × ${rule.recommended_size.height_in} in`;
+  if (page.slug === "a4-shipping-label-template") return "A4 · 210 × 297 mm";
+  if (page.slug === "letter-shipping-label-template") return "Letter · 8.5 × 11 in";
+  return "4 × 6 in";
+}
+
+function SourceNotes({ kind, locale, source }: { kind: string; locale: Locale; source: { url: string; label: string } | null }) {
   const ui = getPageUi(locale);
 
   return (
@@ -320,6 +336,12 @@ function CommunityCitationPlaceholder({ kind, locale }: { kind: string; locale: 
       <p className="mt-3">{ui.sourceText1}</p>
       <p className="mt-3">{ui.sourceText2}</p>
       {kind === "troubleshooter" ? <p className="mt-3 font-medium text-slate-700">{ui.troubleshooterSourceText}</p> : null}
+      {source ? (
+        <p className="mt-4">
+          <a className="font-bold text-sky-800 underline" href={source.url} rel="noreferrer">{source.label}</a>
+          <span className="text-slate-500"> · Official starting point · Link checked {officialDocLastChecked}</span>
+        </p>
+      ) : null}
     </section>
   );
 }

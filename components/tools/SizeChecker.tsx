@@ -81,6 +81,51 @@ const baseOptions = {
   printer: { thermal: "Thermal (direct)", inkjet: "Inkjet", laser: "Laser" },
 } satisfies CheckerCopy["options"];
 
+const mediaMatchCopy: Record<Locale, { label: string; summary: string; fourBySix: string; sheet: string; generated: string }> = {
+  en: {
+    label: "Paper/printer match",
+    summary: "The paper and printer are a common baseline. Verify the actual platform or carrier label file.",
+    fourBySix: "A 4×6 thermal roll is a common media setup, not a carrier-acceptance check. Print one test and compare it with the source PDF.",
+    sheet: "A4 or Letter can match an inkjet/laser workflow when printed at Actual Size. Verify the source PDF and printable margins.",
+    generated: "This platform/carrier combination has not been validated individually. The result checks paper and printer fit only.",
+  },
+  es: {
+    label: "Papel e impresora coinciden",
+    summary: "El papel y la impresora forman una base habitual. Verifica el archivo real de la plataforma o transportista.",
+    fourBySix: "Un rollo térmico 4×6 es una configuración habitual, no una garantía de aceptación. Imprime una prueba y compárala con el PDF original.",
+    sheet: "A4 o Letter puede coincidir con una impresora inkjet/láser a Tamaño real. Verifica el PDF y los márgenes imprimibles.",
+    generated: "Esta combinación de plataforma y transportista no se ha validado por separado. El resultado solo comprueba papel e impresora.",
+  },
+  fr: {
+    label: "Papier et imprimante compatibles",
+    summary: "Le papier et l’imprimante forment une base courante. Vérifiez le fichier réel de la plateforme ou du transporteur.",
+    fourBySix: "Le rouleau thermique 4×6 est courant, sans garantir l’acceptation. Imprimez un test et comparez-le au PDF source.",
+    sheet: "A4 ou Letter peut convenir à une imprimante jet d’encre/laser en taille réelle. Vérifiez le PDF et les marges.",
+    generated: "Cette combinaison plateforme/transporteur n’a pas été validée séparément. Le résultat vérifie seulement le papier et l’imprimante.",
+  },
+  de: {
+    label: "Papier und Drucker passen",
+    summary: "Papier und Drucker bilden eine übliche Basis. Prüfen Sie die tatsächliche Datei von Plattform oder Versanddienst.",
+    fourBySix: "Eine 4×6-Thermorolle ist üblich, aber keine Annahmegarantie. Testdruck mit der Quelldatei vergleichen.",
+    sheet: "A4 oder Letter kann bei Tintenstrahl/Laser in tatsächlicher Größe passen. PDF und Druckränder prüfen.",
+    generated: "Diese Plattform-/Versanddienst-Kombination wurde nicht einzeln validiert. Das Ergebnis prüft nur Papier und Drucker.",
+  },
+  ja: {
+    label: "用紙とプリンターが一致",
+    summary: "用紙とプリンターの一般的な組み合わせです。実際のプラットフォームまたは配送会社のファイルを確認してください。",
+    fourBySix: "4×6 サーマルロールは一般的ですが、受理を保証しません。テスト印刷を元 PDF と比較してください。",
+    sheet: "A4 または Letter は実際のサイズで印刷すれば使用できる場合があります。PDF と印刷可能余白を確認してください。",
+    generated: "このプラットフォームと配送会社の組み合わせは個別検証されていません。結果は用紙とプリンターの適合だけを確認します。",
+  },
+  zh: {
+    label: "纸张与打印机匹配",
+    summary: "纸张和打印机属于常见基础组合；仍需核对平台或承运商实际生成的标签文件。",
+    fourBySix: "4×6 热敏卷纸是常见介质设置，但不代表承运商保证接受。请先测试打印，并与原始 PDF 对照。",
+    sheet: "A4 或 Letter 可在喷墨/激光打印机上按实际大小使用；请核对原始 PDF 和可打印边距。",
+    generated: "该平台与承运商组合未逐项验证。本结果只检查纸张与打印机是否匹配。",
+  },
+};
+
 const checkerCopy: Record<Locale, CheckerCopy> = {
   en: {
     englishTool: " (English tool)",
@@ -157,6 +202,7 @@ export function SizeChecker({
 }: SizeCheckerProps) {
   const router = useRouter();
   const copy = checkerCopy[locale];
+  const mediaCopy = mediaMatchCopy[locale];
   const fallbackLabel = (path: string) => (path.startsWith("/api/") || locale === defaultLocale || hasLocalizedPath(path, locale) ? "" : copy.englishTool);
   const [platform, setPlatform] = useState<Platform>(initialPlatform);
   const [carrier, setCarrier] = useState<Carrier>(initialCarrier);
@@ -175,9 +221,9 @@ export function SizeChecker({
     ? copy.ruleText.unusualNote
     : isTierOne
       ? isFourBySix
-        ? copy.ruleText.tier1FourBySixNote
-        : copy.ruleText.tier1SheetNote
-      : copy.ruleText.generatedNote;
+        ? mediaCopy.fourBySix
+        : mediaCopy.sheet
+      : mediaCopy.generated;
   const commonMistakes = printer === "thermal" ? copy.ruleText.thermalMistakes : copy.ruleText.sheetMistakes;
   const issueReason = getIssueReason({ locale, paper, printer, verdict: rule.verdict });
   const analyzerParams = new URLSearchParams({ platform, carrier, paper, printer }).toString();
@@ -297,10 +343,10 @@ export function SizeChecker({
               <p className="mt-2 text-sm leading-6 text-slate-600">{copy.result.basis}</p>
             </div>
             <span className={`rounded-full px-3 py-1 text-sm font-bold ring-1 ${verdictStyles[rule.verdict]}`}>
-              {copy.verdicts[rule.verdict]}
+              {rule.verdict === "compatible" ? mediaCopy.label : copy.verdicts[rule.verdict]}
             </span>
           </div>
-          <div className={`mt-4 rounded-2xl p-4 text-sm font-bold leading-6 ring-1 ${verdictStyles[rule.verdict]}`}>{copy.result.computed[rule.verdict]}</div>
+          <div className={`mt-4 rounded-2xl p-4 text-sm font-bold leading-6 ring-1 ${verdictStyles[rule.verdict]}`}>{rule.verdict === "compatible" ? mediaCopy.summary : copy.result.computed[rule.verdict]}</div>
           {issueReason ? <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900 ring-1 ring-amber-100">{issueReason}</p> : null}
           <p className="mt-4 text-sm leading-6 text-slate-700">{ruleNotes}</p>
 

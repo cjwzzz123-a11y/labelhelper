@@ -94,7 +94,9 @@ const copy = {
 const helperHrefs = ["/#checker", "/tools/scale-calculator", "/tools/calibration-sheet", "/shipping-label-not-centered", "/pricing"];
 
 function getCopy(locale: Locale) {
-  return locale === "zh" ? copy.zh : copy.en;
+  if (locale === "es") return copy.es;
+  if (locale === "zh") return copy.zh;
+  return copy.en;
 }
 
 export function generateStaticParams() {

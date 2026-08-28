@@ -46,7 +46,7 @@ export default function CalibrationSheetPage() {
             <p className="mt-3 text-sm leading-6 text-slate-600">The generator creates browser-local calibration PDFs after the license is unlocked. Guides and reference pages remain free.</p>
           </div>
         </div>
-        <div className="mt-8"><Paywall feature="watermark-free calibration sheets and saved printer profiles" /></div>
+        <div className="mt-8"><Paywall feature="browser-local calibration PDF downloads" /></div>
       </section>
     </main>
   );

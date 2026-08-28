@@ -28,7 +28,7 @@ const copy = {
     boundaryBadge: "Paid tool boundary",
     boundaryTitle: "Calibration downloads require Pro",
     boundaryText: "The generator creates browser-local calibration PDFs after the license is unlocked. Guides and reference pages remain free.",
-    paywallFeature: "watermark-free calibration sheets and saved printer profiles",
+    paywallFeature: "browser-local calibration PDF downloads",
   },
   zh: {
     title: "校准页生成器",
@@ -45,7 +45,7 @@ const copy = {
     boundaryBadge: "付费工具边界",
     boundaryTitle: "校准页下载需要 Pro",
     boundaryText: "许可证解锁后，生成器会在浏览器本地创建校准 PDF。指南和参考页面继续免费。",
-    paywallFeature: "无水印校准页和保存打印机配置",
+    paywallFeature: "浏览器本地校准 PDF 下载",
   },
 } satisfies Record<"en" | "zh", {
   title: string;

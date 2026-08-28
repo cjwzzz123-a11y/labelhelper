@@ -3,12 +3,18 @@
 ## Current state
 
 - Project: Shipping Label Helper
-- Repository path: `/Users/jiawei/Desktop/刘小排`
+- Repository path: `labelhelper`
 - Branch: `main`
-- SEO optimization round: second round completed and pushed on 2026-06-19
-- Validation status: `npm test`, `npm run lint`, and `npm run build` passed locally on commit `14a5345`
+- SEO optimization round: 2026-08-29 quality round validated locally; push/deployment pending
+- Validation status: 35 tests, lint, Next.js 16.3.3 build, 143-URL SEO smoke, and production dependency audit passed
 
 ## Latest SEO work
+
+- Added shared 1200×630 social artwork and complete OG/Twitter metadata.
+- Reduced indexed URLs from 176 to 143 by redirecting incomplete translations to English canonicals.
+- Cleared duplicate-title/description families in the local sitemap crawl.
+- Replaced false universal size and carrier-compatibility claims with page-specific facts and evidence limitations.
+- Added a repeatable full-site SEO smoke test and current quality log.
 
 - Expanded programmatic SEO coverage and internal guide hub coverage already present in working tree.
 - Fixed high-priority technical SEO risks before deployment:
@@ -24,5 +30,5 @@
 
 ## Deployment state
 
-- `main` is pushed to GitHub at commit `14a5345`.
-- Pushing `main` should trigger Vercel deployment for the connected project; confirm deployment in Vercel/GitHub checks when available.
+- `origin/main` was at `e72b7e2` before this round.
+- Push the validated local HEAD to trigger Vercel, then confirm the exact deployed SHA and recrawl production.

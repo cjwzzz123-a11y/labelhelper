@@ -91,7 +91,7 @@ export const papers = paperOptions.map((option) => option.value);
 export const canonicalRulePapers: Paper[] = ["4x6", "a4", "letter", "other"];
 export const printers = printerOptions.map((option) => option.value);
 
-const officialDocs: Record<Carrier | Platform, { url: string; label: string }> = {
+export const officialDocs: Record<Carrier | Platform, { url: string; label: string }> = {
   usps: { url: "https://postalpro.usps.com/", label: "USPS official shipping guidance" },
   ups: { url: "https://www.ups.com/us/en/support/shipping-support/print-shipping-labels.page", label: "UPS label printing support" },
   fedex: { url: "https://www.fedex.com/en-us/shipping/online/label-printing.html", label: "FedEx label printing guidance" },
@@ -110,7 +110,7 @@ const officialDocs: Record<Carrier | Platform, { url: string; label: string }> =
   other: { url: "https://postalpro.usps.com/", label: "General official shipping guidance" },
 };
 
-const officialDocLastChecked = "2026-05-12";
+export const officialDocLastChecked = "2026-05-12";
 const officialDocNote = "Carrier and platform rules may change. Confirm the label file before buying postage or printing live labels.";
 
 const recommendedSizes: Record<Paper, Rule["recommended_size"]> = {
@@ -179,8 +179,8 @@ function makeRule(
 
   const notes =
     tier === "tier1"
-      ? `${platformName} sellers using ${carrierName} should normally print at 100% scale. ${isFourBySix ? "A 4 × 6 thermal label is the safest setup for label printers." : `${paperName} works for inkjet/laser printers when the label is not scaled to fit.`}`
-      : `${platformName} + ${carrierName} + ${paperName} is supported, but this is not a primary tested setup. Print one calibration sheet before buying postage in volume.`;
+      ? `${isFourBySix ? "A 4 × 6 thermal roll is a common paper/printer baseline." : `${paperName} can match an inkjet/laser workflow at Actual Size.`} This does not validate ${platformName} + ${carrierName} acceptance; compare a test print with the source PDF.`
+      : `${platformName} + ${carrierName} has not been validated individually. This result estimates paper/printer fit for ${paperName}; print one calibration sheet and verify the source PDF before buying postage in volume.`;
 
   return {
     platform,

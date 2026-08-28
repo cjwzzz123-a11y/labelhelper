@@ -39,6 +39,78 @@ const enHomeCopy: HomeCopy = {
   ],
 };
 
+const esHomeCopy: HomeCopy = {
+  decisionEyebrow: "Elige tu ruta",
+  decisionPaths: [
+    { title: "Voy a configurar una etiqueta", text: "Desbloquea el verificador Pro para revisar plataforma, transportista, papel e impresora.", href: "/pricing", cta: "Ver opciones Pro" },
+    { title: "La impresión ya salió mal", text: "Empieza por la guía del síntoma y usa después la herramienta adecuada.", href: "/shipping-label-printing-too-small", cta: "Leer la guía" },
+    { title: "Quiero hacer una prueba segura", text: "Prueba primero una plantilla en blanco antes de imprimir franqueo pagado.", href: "/test-print", cta: "Abrir impresión de prueba" },
+  ],
+  nextEyebrow: "Flujo recomendado",
+  nextTitle: "Usa solo la comprobación que necesitas.",
+  nextText: "Revisa en este orden: tamaño del papel, escala, orientación, márgenes y espacio alrededor del código de barras.",
+  nextSteps: [
+    { href: "/test-print", title: "La configuración parece correcta", text: "Imprime una plantilla en blanco antes del franqueo.", kind: "tool" },
+    { href: "/tools/scale-calculator", title: "El tamaño impreso es incorrecto", text: "Calcula el porcentaje de impresión corregido.", kind: "tool" },
+    { href: "/tools/pdf-analyzer", title: "El tamaño del PDF parece extraño", text: "Comprueba el tamaño de página antes de cambiar la impresora.", kind: "tool" },
+    { href: "/shipping-label-barcode-not-scanning", title: "El código aún no escanea", text: "Revisa escala, nitidez, reflejos y espacio libre.", kind: "guide" },
+  ],
+};
+
+const frHomeCopy: HomeCopy = {
+  decisionEyebrow: "Choisissez votre parcours",
+  decisionPaths: [
+    { title: "Je configure une étiquette", text: "Débloquez le contrôle Pro pour vérifier plateforme, transporteur, papier et imprimante.", href: "/pricing", cta: "Voir les options Pro" },
+    { title: "Mon impression a échoué", text: "Commencez par le guide de dépannage en anglais, puis utilisez l’outil adapté.", href: "/shipping-label-printing-too-small", cta: "Ouvrir le guide anglais" },
+    { title: "Je veux tester sans risque", text: "Consultez le flux de test en anglais avant d’imprimer un affranchissement payé.", href: "/test-print", cta: "Ouvrir le test anglais" },
+  ],
+  nextEyebrow: "Ordre de vérification",
+  nextTitle: "Vérifiez une variable à la fois.",
+  nextText: "Contrôlez le format du papier, l’échelle, l’orientation, les marges, puis l’espace autour du code-barres.",
+  nextSteps: [
+    { href: "/test-print", title: "La configuration paraît correcte", text: "Imprimez un modèle vierge avant l’affranchissement.", kind: "tool" },
+    { href: "/tools/scale-calculator", title: "La taille imprimée est incorrecte", text: "Calculez le pourcentage d’impression corrigé.", kind: "tool" },
+    { href: "/tools/pdf-analyzer", title: "Le format PDF semble incorrect", text: "Vérifiez la taille de page avant les réglages d’imprimante.", kind: "tool" },
+    { href: "/shipping-label-barcode-not-scanning", title: "Le code-barres ne se lit pas", text: "Vérifiez l’échelle, la netteté, les reflets et la zone blanche.", kind: "guide" },
+  ],
+};
+
+const deHomeCopy: HomeCopy = {
+  decisionEyebrow: "Passenden Weg wählen",
+  decisionPaths: [
+    { title: "Ich richte ein Etikett ein", text: "Schalten Sie den Pro-Check für Plattform, Versanddienst, Papier und Drucker frei.", href: "/pricing", cta: "Pro-Optionen ansehen" },
+    { title: "Der Druck ist fehlgeschlagen", text: "Beginnen Sie mit dem englischen Fehlerleitfaden und wählen Sie dann das passende Werkzeug.", href: "/shipping-label-printing-too-small", cta: "Englischen Leitfaden öffnen" },
+    { title: "Ich möchte sicher testen", text: "Prüfen Sie zuerst den englischen Testablauf, bevor Sie bezahltes Porto drucken.", href: "/test-print", cta: "Englischen Test öffnen" },
+  ],
+  nextEyebrow: "Prüfreihenfolge",
+  nextTitle: "Prüfen Sie jeweils nur eine Variable.",
+  nextText: "Kontrollieren Sie Papierformat, Skalierung, Ausrichtung, Ränder und zuletzt den Freiraum um den Barcode.",
+  nextSteps: [
+    { href: "/test-print", title: "Die Einrichtung wirkt richtig", text: "Drucken Sie vor dem Porto eine leere Vorlage.", kind: "tool" },
+    { href: "/tools/scale-calculator", title: "Die Druckgröße stimmt nicht", text: "Berechnen Sie den korrigierten Druckprozentsatz.", kind: "tool" },
+    { href: "/tools/pdf-analyzer", title: "Die PDF-Größe wirkt falsch", text: "Prüfen Sie die Seitengröße vor Druckeränderungen.", kind: "tool" },
+    { href: "/shipping-label-barcode-not-scanning", title: "Der Barcode scannt nicht", text: "Prüfen Sie Skalierung, Schärfe, Reflexionen und Ruhezone.", kind: "guide" },
+  ],
+};
+
+const jaHomeCopy: HomeCopy = {
+  decisionEyebrow: "目的を選ぶ",
+  decisionPaths: [
+    { title: "ラベルを設定したい", text: "Pro チェックで販売先、配送会社、用紙、プリンターを確認します。", href: "/pricing", cta: "Pro の内容を見る" },
+    { title: "印刷に失敗した", text: "英語の症状別ガイドを確認してから、該当するツールを使います。", href: "/shipping-label-printing-too-small", cta: "英語ガイドを開く" },
+    { title: "安全にテストしたい", text: "有料の送り状を印刷する前に、英語のテスト手順を確認します。", href: "/test-print", cta: "英語テストを開く" },
+  ],
+  nextEyebrow: "確認する順番",
+  nextTitle: "一度に一つずつ確認します。",
+  nextText: "用紙サイズ、倍率、向き、余白、最後にバーコード周囲の空白を確認します。",
+  nextSteps: [
+    { href: "/test-print", title: "設定は正しそう", text: "送料ラベルの前に空白テンプレートを印刷します。", kind: "tool" },
+    { href: "/tools/scale-calculator", title: "印刷サイズが違う", text: "補正後の印刷倍率を計算します。", kind: "tool" },
+    { href: "/tools/pdf-analyzer", title: "PDF サイズが不自然", text: "プリンター設定を変える前にページサイズを確認します。", kind: "tool" },
+    { href: "/shipping-label-barcode-not-scanning", title: "バーコードを読めない", text: "倍率、鮮明さ、反射、余白を確認します。", kind: "guide" },
+  ],
+};
+
 const zhHomeCopy: HomeCopy = {
   decisionEyebrow: "选择你的路径",
   decisionPaths: [
@@ -58,8 +130,17 @@ const zhHomeCopy: HomeCopy = {
 };
 
 function getHomeCopy(locale: Locale) {
-  return locale === "zh" ? zhHomeCopy : enHomeCopy;
+  return { en: enHomeCopy, es: esHomeCopy, fr: frHomeCopy, de: deHomeCopy, ja: jaHomeCopy, zh: zhHomeCopy }[locale];
 }
+
+const homeMetadataCopy: Record<Locale, { title: string; description: string }> = {
+  en: { title: "Shipping Label Size Checker & Print Fixes", description: "Check label size, paper, scale, orientation and printer setup before printing 4×6, Letter or A4 shipping labels." },
+  es: { title: "Tamaño y escala de etiquetas de envío", description: "Comprueba papel, escala, orientación e impresora antes de imprimir etiquetas 4×6, Letter o A4." },
+  fr: { title: "Taille et impression des étiquettes d’envoi", description: "Vérifiez le papier, l’échelle, l’orientation et l’imprimante avant d’imprimer une étiquette 4×6, Letter ou A4." },
+  de: { title: "Versandetiketten: Größe und Druck prüfen", description: "Prüfen Sie Papier, Skalierung, Ausrichtung und Drucker vor dem Druck von 4×6-, Letter- oder A4-Versandetiketten." },
+  ja: { title: "配送ラベルのサイズと印刷設定", description: "4×6、Letter、A4 の配送ラベルを印刷する前に、用紙、倍率、向き、プリンター設定を確認します。" },
+  zh: { title: "运单标签尺寸与打印设置检查", description: "打印 4×6、Letter 或 A4 运单标签前，检查纸张、比例、方向和打印机设置。" },
+};
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -69,8 +150,8 @@ export async function generateMetadata({ params }: PageProps) {
   const { locale: requestedLocale } = await params;
   if (!isSupportedLocale(requestedLocale)) return {};
 
-  const t = await getTranslations({ locale: requestedLocale, namespace: "home" });
-  return pageMetadata({ title: t("heroTitle"), description: t("heroDescription"), path: "/", locale: requestedLocale });
+  const metadataCopy = homeMetadataCopy[requestedLocale];
+  return pageMetadata({ ...metadataCopy, path: "/", locale: requestedLocale });
 }
 
 export default async function LocaleHome({ params }: PageProps) {
@@ -84,8 +165,16 @@ export default async function LocaleHome({ params }: PageProps) {
   const description = t("heroDescription");
   const problemStatement = t("problemStatement");
   const homeCopy = getHomeCopy(requestedLocale);
-  const englishToolLabel = requestedLocale === "zh" ? "（打开英文工具）" : " (opens English tool)";
-  const englishGuideLabel = requestedLocale === "zh" ? "（打开英文指南）" : " (opens English guide)";
+  const fallbackLabels: Record<Locale, { tool: string; guide: string }> = {
+    en: { tool: "", guide: "" },
+    es: { tool: " (abre herramienta en inglés)", guide: " (abre guía en inglés)" },
+    fr: { tool: " (outil en anglais)", guide: " (guide en anglais)" },
+    de: { tool: " (englisches Tool)", guide: " (englischer Leitfaden)" },
+    ja: { tool: "（英語ツール）", guide: "（英語ガイド）" },
+    zh: { tool: "（打开英文工具）", guide: "（打开英文指南）" },
+  };
+  const englishToolLabel = fallbackLabels[requestedLocale].tool;
+  const englishGuideLabel = fallbackLabels[requestedLocale].guide;
 
   return (
     <main className="min-h-screen bg-[#f7fbff] text-slate-950">

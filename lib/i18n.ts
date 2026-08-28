@@ -35,8 +35,31 @@ const openGraphLocales: Record<Locale, string> = {
   zh: "zh_CN",
 };
 
+const localizedStaticPaths: Record<Locale, readonly string[]> = {
+  en: ["/"],
+  es: ["/", "/test-print", "/guides", "/templates", "/pricing"],
+  fr: ["/", "/pricing"],
+  de: ["/", "/pricing"],
+  ja: ["/", "/pricing"],
+  zh: [
+    "/",
+    "/tools",
+    "/tools/scale-calculator",
+    "/tools/pdf-analyzer",
+    "/tools/barcode-quiet-zone-checker",
+    "/tools/calibration-sheet",
+    "/tools/test-print-pack",
+    "/test-print",
+    "/guides",
+    "/templates",
+    "/pricing",
+    "/thanks",
+    "/unlock",
+  ],
+};
+
 const localizedPaths = new Map<Locale, Set<string>>(
-  locales.map((locale) => [locale, new Set<string>(["/", "/tools", "/tools/scale-calculator", "/tools/pdf-analyzer", "/tools/barcode-quiet-zone-checker", "/tools/calibration-sheet", "/tools/test-print-pack", "/test-print", "/guides", "/templates", "/pricing", "/thanks", "/unlock", "/privacy", "/terms", "/refunds", "/contact"])]),
+  locales.map((locale) => [locale, new Set<string>(localizedStaticPaths[locale])]),
 );
 
 export function isSupportedLocale(value: unknown): value is Locale {
@@ -65,8 +88,7 @@ export function unlocalizedPath(path: string) {
   const normalized = normalizePath(pathWithoutHash);
 
   for (const locale of locales) {
-    const prefix = localePrefixes[locale];
-    if (!prefix) continue;
+    const prefix = `/${locale}`;
     if (normalized === prefix) return `/${hash}`;
     if (normalized.startsWith(`${prefix}/`)) return `${normalized.slice(prefix.length) || "/"}${hash}`;
   }

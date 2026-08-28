@@ -20,6 +20,7 @@ export interface SeoPage {
   slug: string;
   kind: SeoPageKind;
   title: string;
+  seoTitle?: string;
   description: string;
   h1: string;
   quickAnswer: string;
@@ -57,7 +58,7 @@ function platformPage(slug: string, name: string, platform: Platform, carrier: C
   return {
     slug,
     kind: "platform",
-    title: `${name} Shipping Label Size — 2026 Guide`,
+    title: `${name} Shipping Label Size Guide`,
     description: `Find the right ${name} shipping label size, print scale, paper and printer setup for 4×6, Letter and A4 labels.`,
     h1: `${name} Shipping Label Size`,
     quickAnswer: `${name} sellers usually get the safest result with a 4 × 6 inch label printed at 100% scale on a thermal label printer. Letter and A4 can work for sheet printing if scaling is disabled and the barcode quiet zone is not cropped.`,
@@ -83,7 +84,7 @@ function carrierPage(slug: string, name: string, carrier: Carrier): SeoPage {
   return {
     slug,
     kind: "carrier",
-    title: `${name} Shipping Label Size — Complete Guide`,
+    title: `${name} Shipping Label Size Guide`,
     description: `Check recommended ${name} shipping label size, scale and paper setup for thermal, inkjet and laser printers.`,
     h1: `${name} Shipping Label Size`,
     quickAnswer: `${name} labels are usually safest as 4 × 6 inch thermal labels printed at 100% scale. Sheet printing can work when the barcode is not resized or cropped and the label remains flat on the package.`,
@@ -173,8 +174,8 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
   return {
     slug,
     kind: "troubleshooter",
-    title: `${symptom} — How to Fix Shipping Label Prints`,
-    description: `Fix shipping label printing problems: ${symptom.toLowerCase()}. Check scale, paper, margins, orientation and barcode quiet zones.`,
+    title: symptom,
+    description: `Fix ${symptom.toLowerCase()}. Check scale, paper size, margins, orientation and barcode whitespace before reprinting.`,
     h1: `${symptom} — How to Fix It`,
     quickAnswer: fix,
     decisionTree: tree,
@@ -206,7 +207,7 @@ function specificTroublePage(
 
   return {
     ...base,
-    description: `Fix ${symptom.toLowerCase()} without shrinking, cropping or blurring the barcode. Check paper size, scale, orientation and printer setup before shipping.`,
+    description: `Fix ${symptom.toLowerCase()}. Check paper size, print scale, orientation and printer setup before reprinting.`,
     sections,
     faq: faq.length ? faq : base.faq,
   };
@@ -886,7 +887,35 @@ const seoPageDrafts: SeoPage[] = [
   },
 ];
 
-export const seoPages: SeoPage[] = seoPageDrafts.map((page) => enrichSeoPage(page));
+const seoTitleOverrides: Record<string, string> = {
+  "shipping-label-preflight-checklist": "Shipping Label Preflight Checklist for USPS, UPS & FedEx",
+  "can-you-trim-fold-tape-shipping-label": "Can You Trim, Fold or Tape a Shipping Label Safely?",
+  "amazon-4x6-label-on-a4-or-letter": "Print Amazon 4×6 Labels on A4 or Letter Safely",
+  "label-wrong-paper-size-4x6-vs-letter-a4": "Wrong Label Paper Size: 4×6 vs Letter/A4 Risks",
+  "shopify-label-cut-off-parts-usps": "Can You Trim a Shopify Label? USPS Scan Risks",
+  "shipping-label-too-small-usps-ups-fedex-accept": "Will USPS, UPS or FedEx Accept a Small Shipping Label?",
+  "amazon-fba-label-wrong-paper-size": "Amazon FBA Label on the Wrong Paper Size",
+  "amazon-a4-label-to-4x6-thermal": "Convert Amazon A4 Labels to 4×6 Thermal",
+  "ebay-shipping-label-trimmed-or-taped": "Trim or Tape a Misprinted eBay Label?",
+  "convert-letter-shipping-label-to-4x6-thermal": "Convert Letter Labels to 4×6 Thermal",
+  "etsy-shipping-label-print-settings": "Etsy Label Print Settings: 4×6, Letter & A4",
+  "shopify-label-sideways-thermal-printer": "Fix Sideways Shopify Thermal Labels",
+  "ebay-4x6-label-sideways-thermal-printer": "Fix Sideways eBay 4×6 Thermal Labels",
+  "shopify-4x6-on-desktop-printer": "Print Shopify 4×6 Labels on a Regular Printer",
+  "shopify-shipping-labels-printing-incorrectly": "Fix Incorrect or Cut-Off Shopify Labels",
+  "pirate-ship-label-too-small-thermal-printer": "Fix Small Pirate Ship Thermal Labels",
+  "thermal-printer-feeds-extra-blank-labels": "Thermal Printer Feeds Extra Blank Labels",
+  "print-4x6-shipping-label-on-regular-printer": "Print 4×6 Labels on a Regular Printer",
+  "shopify-label-size-vs-printer-size": "Match Shopify Label and Printer Size",
+  "ebay-shipping-label-size-4x6-vs-letter": "eBay Label Size: 4×6 vs Letter",
+  "etsy-4x6-label-on-regular-printer": "Print Etsy 4×6 Labels on a Regular Printer",
+  "zebra-printer-4x6-label-cut-off-or-shrunk": "Fix Cut-Off or Shrunk Zebra 4×6 Labels",
+};
+
+export const seoPages: SeoPage[] = seoPageDrafts.map((page) => ({
+  ...enrichSeoPage(page),
+  seoTitle: seoTitleOverrides[page.slug],
+}));
 
 const localizedSeoPages: Partial<Record<Locale, SeoPage[]>> = {
   es: seoPagesEs.map((page) => enrichSeoPage(page, "es")),
