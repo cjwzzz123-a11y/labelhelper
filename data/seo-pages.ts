@@ -648,6 +648,74 @@ const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" |
       { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions say not to tape over barcodes." },
     ],
   },
+  "label-wrong-paper-size-4x6-vs-letter-a4": {
+    quickAnswer: "Separate the source page size from the paper you accidentally used. If the label content stayed at its original scale and is complete, move it to the correct workflow; if the barcode or required text was resized or cropped, reprint from the original PDF with matching 4 × 6, Letter or A4 media.",
+    sections: [
+      { heading: "Identify the source PDF size", body: "Check whether the PDF page itself is 4×6, Letter or A4. Do not infer the source from the sheet that came out of the printer: a 4×6 label can appear on a larger sheet, and a full sheet can be squeezed onto a thermal roll." },
+      { heading: "Classify the bad print", body: "If the complete label remained actual size on extra paper, the problem is mostly paper handling. If every element became smaller, an auto-fit setting changed scale. If one edge disappeared, paper size, orientation, margins or printable area caused a crop." },
+      { heading: "Reprint with a matched path", body: "For a true 4×6 source, use matching thermal media or place it unchanged on a desktop sheet. For Letter/A4 sources, use the matching desktop paper or extract a verified 4×6 label area without shrinking active content." },
+      { heading: "Do not certify a repaired label", body: "A readable address does not prove that barcode scale and routing marks survived. Reprint whenever active content changed, and check the issuing carrier or platform when the original format or acceptance requirement is uncertain." },
+    ],
+    faq: [
+      { question: "Is the wrong sheet automatically invalid?", answer: "Not necessarily. The important question is whether every active label element stayed complete and at its intended scale; this page cannot certify carrier acceptance." },
+      { question: "How do I know whether auto-fit changed the label?", answer: "Compare the printed boundary with the source page size or a ruler template. Uniform shrink usually points to Fit to Page or a media mismatch." },
+      { question: "Can I put a 4×6 label on Letter or A4?", answer: "A 4×6 label can sit unchanged on a larger sheet. Do not enlarge it to fill the sheet or cut into active content." },
+      { question: "Can a Letter/A4 label print on 4×6 stock?", answer: "Only when a true label area can be extracted without resizing barcode and routing content. Do not squeeze the entire sheet onto one roll label." },
+      { question: "What should trigger a reprint?", answer: "Any resized, cropped, blurred, folded or missing barcode, address, service text, tracking number or quiet zone." },
+    ],
+    reviewChecklist: ["Identify the source PDF page size.", "Classify extra paper, uniform shrink or edge crop.", "Reprint when active content changed."],
+  },
+  "shipping-label-keeps-getting-cropped": {
+    quickAnswer: "Repeated cropping is usually a reproducible mismatch, not bad luck. Check the source PDF page size, physical media, driver paper size, orientation and printable-area offset in that order; print a blank template after each change and never shrink the barcode merely to reveal a missing edge.",
+    sections: [
+      { heading: "Record one failing setup", body: "Write down the PDF page size, printer model, loaded paper or roll, driver media, orientation, scale and the exact edge that is missing. Changing several controls at once makes the crop difficult to reproduce and can hide the real cause." },
+      { heading: "Match all three sizes", body: "The source PDF, print-dialog paper and physical media need a coherent path. A Letter page sent to 4×6 stock, or a 4×6 file sent through an old Letter preset, often clips even when the preview appears centered." },
+      { heading: "Use the edge pattern as evidence", body: "One consistent missing edge points to roll alignment, printable area or origin offset. A rotated crop points to orientation. Different edges across successive labels point to media guides, feed calibration or roll drift." },
+      { heading: "Verify with a blank template", body: "Print a matching blank template at the same settings. If the template crops too, fix printer setup. If only the shipping PDF crops, inspect its page box and regenerate or extract the label without changing barcode scale." },
+    ],
+    faq: [
+      { question: "Why does the same edge always crop?", answer: "A fixed edge usually means printable-area, driver-origin, media-guide or roll-alignment error." },
+      { question: "Why do different edges crop on later labels?", answer: "That pattern points to feed calibration, loose guides or roll drift rather than the source PDF." },
+      { question: "Should I use Shrink to Fit?", answer: "No as the first fix. It can hide a margin problem by reducing the entire barcode and label." },
+      { question: "How do I separate printer from PDF?", answer: "Print a blank template using the same paper and driver settings. If it also crops, the printer path is responsible." },
+      { question: "When should I reprint the live label?", answer: "After the blank template passes, reprint the original label and confirm every active element is complete." },
+    ],
+    reviewChecklist: ["Record one exact failing configuration.", "Use the cropped edge pattern to isolate the cause.", "Require a clean blank-template test before live postage."],
+  },
+  "print-4x6-shipping-label-on-regular-printer": {
+    quickAnswer: "Use the original 4 × 6 PDF on Letter or A4 paper without enlarging it to fill the sheet. Select the desktop paper size, keep the label at 100% / Actual Size when the viewer preserves the 4×6 boundary, print one test, then trim only blank outer paper.",
+    sections: [
+      { heading: "Confirm the PDF is truly 4×6", body: "Open the PDF page properties or use the local analyzer. If the page is Letter or A4 with a label inside it, follow that sheet layout instead of treating the full page as a standalone 4×6 file." },
+      { heading: "Place 4×6 on the larger sheet", body: "Load Letter or A4 paper and select the same paper size in the print dialog. Keep the 4×6 label at its intended physical size; it does not need to fill the whole sheet or sit perfectly centered." },
+      { heading: "Print a measurable test", body: "Use a blank 4×6 template with the same viewer and printer. Measure the border. If it is not 4 × 6 inches, correct the scale or driver path before printing paid postage." },
+      { heading: "Trim and attach without touching active content", body: "Cut only unused paper outside barcode whitespace, addresses, tracking and service marks. Keep the final label flat and unobstructed; reprint if the active label is clipped or distorted." },
+    ],
+    faq: [
+      { question: "Can a regular printer print a 4×6 shipping label?", answer: "Yes. It can place the unchanged 4×6 label on Letter or A4 paper, which you then trim outside active content." },
+      { question: "Should the label fill the whole sheet?", answer: "No. Enlarging it to fill Letter/A4 changes barcode scale." },
+      { question: "Which paper size goes in the print dialog?", answer: "Choose the physical desktop paper—Letter or A4—while preserving the 4×6 label boundary inside the page." },
+      { question: "How do I verify actual size?", answer: "Print a blank 4×6 template with the same settings and measure it with a ruler." },
+      { question: "Where can I trim?", answer: "Only remove blank outer sheet paper; do not cut barcode quiet zones or any label text or marks." },
+    ],
+    reviewChecklist: ["Verify the source PDF is 4×6.", "Keep the 4×6 boundary unchanged on Letter/A4.", "Measure a blank test before paid postage."],
+  },
+  "convert-letter-shipping-label-to-4x6-thermal": {
+    quickAnswer: "Do not scale the entire Letter page down to 4 × 6. First determine whether the Letter PDF contains one self-contained 4×6 label area; crop or extract that area without resampling it, verify the output boundary and barcode, and keep using the original sheet workflow if the active content does not fit.",
+    sections: [
+      { heading: "Inspect the Letter layout", body: "A Letter PDF may contain one 4×6 label, two labels, instructions, a packing slip or customs documents. Identify every element required for the shipment before extracting anything." },
+      { heading: "Extract; do not squeeze", body: "When a self-contained label area fits 4×6, crop or split the page boundary around that area without shrinking its barcode. If the required label is larger or depends on adjacent content, use the original Letter workflow." },
+      { heading: "Set true 4×6 output media", body: "After extraction, set the thermal driver to 4 × 6 / 100 × 150 mm and print at 100% / Actual Size. A second Fit to Page step can undo the careful extraction." },
+      { heading: "Validate before live use", body: "Print a blank or watermarked sample, measure the 4×6 boundary, and compare every barcode, tracking number, address and service mark with the original Letter PDF. Stop if any required content was left behind or resized." },
+    ],
+    faq: [
+      { question: "Can every Letter label be converted to 4×6?", answer: "No. Conversion is safe only when a complete required label area fits 4×6 without shrinking or losing adjacent documents." },
+      { question: "Why not scale the whole Letter page?", answer: "It miniaturizes the barcode and all page content onto one thermal label." },
+      { question: "What if the page has two labels?", answer: "Split each complete label into its own page only when both boundaries and all required content are clear." },
+      { question: "What if there is a customs form or packing slip?", answer: "Keep and print every required document separately; do not discard it merely to make a 4×6 label." },
+      { question: "How do I verify the conversion?", answer: "Measure a test print and compare every active field with the original PDF before using live postage." },
+    ],
+    reviewChecklist: ["Inventory all required Letter-page content.", "Extract a complete label without resampling.", "Measure and compare one test before live printing."],
+  },
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },

@@ -149,4 +149,17 @@ describe("SEO metadata contracts", () => {
     );
     expect(seoPages.every((page) => page.related.every((link) => link.href !== `/${page.slug}`))).toBe(true);
   });
+
+  it("keeps cross-platform print tasks on distinct decision paths", () => {
+    const slugs = [
+      "label-wrong-paper-size-4x6-vs-letter-a4",
+      "shipping-label-keeps-getting-cropped",
+      "print-4x6-shipping-label-on-regular-printer",
+      "convert-letter-shipping-label-to-4x6-thermal",
+    ];
+    const firstHeadings = slugs.map((slug) => getSeoPage(slug)?.sections[0]?.heading);
+
+    expect(firstHeadings.every(Boolean)).toBe(true);
+    expect(new Set(firstHeadings).size).toBe(slugs.length);
+  });
 });

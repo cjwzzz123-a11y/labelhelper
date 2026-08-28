@@ -55,6 +55,7 @@ The first production deployment of this round succeeded at commit `c36d603`. A l
 - Replaced generic Mercari, ShipStation and DYMO fallbacks with product-specific setup paths backed by their current first-party help or manuals.
 - Corrected two Pirate Ship guides against current first-party behavior, including template-specific scaling and the refund/replacement path for a label purchased at the wrong size.
 - Rebuilt six eBay/Shopify print-failure pages around each platform's current format-selection and reprint flow, with USPS/FedEx handling evidence where a page discusses trimming or tape.
+- Replaced four cross-platform fallback pages with decision-specific workflows for wrong paper, recurring crop, desktop 4×6 printing, and Letter-to-thermal extraction.
 - Changed the About title from a generic one-word label to a task-descriptive search title.
 
 The smoke test uses language-aware description thresholds so Chinese and Japanese are not padded merely to satisfy a Latin-text rule.
@@ -62,7 +63,7 @@ The smoke test uses language-aware description thresholds so Chinese and Japanes
 ## Remaining evidence-backed work
 
 1. The official-source registry was last fully checked on 2026-05-12. Each carrier/platform claim needs a precise first-party URL and claim-level review before changing that date.
-2. Thirteen long-tail troubleshooting pages still share generic fallback sections. Preserve URLs until real Search Console query/page data exists, but rewrite them in priority order: Amazon; cross-platform paper/scale; then the five core symptom pages.
+2. Nine long-tail troubleshooting pages still share generic fallback sections: four Amazon variants plus five core symptom pages whose decision trees are already unique. Preserve URLs until real Search Console query/page data exists and prioritize the Amazon claims for first-party review.
 3. Public HTML currently uses `private, no-cache, no-store`. Investigate the `next-intl` request-locale architecture before changing caching; do not trade correct locale output for a speculative performance win.
 4. Search Console and Vercel Analytics were not available in the local audit. Index coverage, impressions, CTR, Core Web Vitals, and conversions must be evaluated after deployment with real data.
 5. Development-only dependency advisories remain in the local toolchain; production dependencies are clean. Upgrade those packages separately with their own test cycle.
