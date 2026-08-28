@@ -14,6 +14,7 @@
 - Correct Pirate Ship desktop/thermal guidance against its current template and purchased-size rules.
 - Align eBay and Shopify failure guides with their current format-selection and reprint workflows.
 - Replace cross-platform paper, crop, desktop-print and Letter-to-thermal fallback copy with task-specific decision paths.
+- Replace the four Amazon and five core-symptom fallback pages with evidence-scoped, device-aware decision paths and automated uniqueness checks.
 
 - Audit current SEO working tree.
 - Fix high-priority technical SEO risks.
@@ -34,6 +35,6 @@
 ## Future SEO backlog
 
 - Add claim-level first-party sources and recheck dates for carrier/platform assertions.
-- Review the remaining nine shared-section pages: four Amazon claims first, then decide whether the five core symptom pages need unique sections beyond their existing decision trees.
+- Validate the nine rewritten long-tail pages with Search Console query/page data before any merge or redirect decision.
 - Investigate the public `private, no-cache, no-store` response without breaking locale correctness.
 - Upgrade development-only vulnerable dependencies in a separate verified cycle.

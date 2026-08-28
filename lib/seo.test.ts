@@ -162,4 +162,60 @@ describe("SEO metadata contracts", () => {
     expect(firstHeadings.every(Boolean)).toBe(true);
     expect(new Set(firstHeadings).size).toBe(slugs.length);
   });
+
+  it("keeps the nine reviewed long-tail pages evidence-scoped and independently actionable", () => {
+    const symptomSlugs = [
+      "shipping-label-printing-too-small",
+      "shipping-label-cut-off-when-printing",
+      "shipping-label-barcode-not-scanning",
+      "shipping-label-not-centered",
+      "fit-to-page-vs-actual-size-shipping-label",
+    ];
+    const amazonSlugs = [
+      "amazon-shipping-label-too-small-blurry",
+      "amazon-4x6-label-on-a4-or-letter",
+      "amazon-fba-label-wrong-paper-size",
+      "amazon-a4-label-to-4x6-thermal",
+    ];
+    const pages = [...symptomSlugs, ...amazonSlugs].map((slug) => getSeoPage(slug));
+
+    expect(pages.every(Boolean)).toBe(true);
+    for (const page of pages) {
+      expect(page?.updatedAt).toBe("2026-08-29");
+      expect(page?.evidenceNote?.length).toBeGreaterThan(80);
+      expect(page?.sources?.length).toBeGreaterThanOrEqual(2);
+      expect(page?.sources?.every((source) => source.url.startsWith("https://") && source.checkedAt === "2026-08-29")).toBe(true);
+      expect(page?.decisionTree?.steps).toHaveLength(3);
+
+      const actionableCopy = [
+        page?.quickAnswer,
+        ...(page?.sections.map((section) => `${section.heading} ${section.body}`) ?? []),
+        ...(page?.reviewChecklist ?? []),
+      ].join(" ");
+      expect(actionableCopy).toMatch(/\b(stop|do not|don't)\b/i);
+      expect(actionableCopy).toMatch(/\b(reprint|regenerate)\b/i);
+    }
+
+    for (const slug of symptomSlugs) {
+      expect(getSeoPage(slug)?.evidenceNote).toContain("General troubleshooting framework");
+    }
+    for (const slug of amazonSlugs) {
+      expect(getSeoPage(slug)?.evidenceNote).toContain("Amazon workflow evidence");
+    }
+
+    const sectionFingerprints = pages.map((page) => page?.sections.map((section) => section.heading).join(" | "));
+    const treeFingerprints = pages.map((page) => page?.decisionTree?.steps.map((step) => step.title).join(" | "));
+    expect(new Set(sectionFingerprints).size).toBe(pages.length);
+    expect(new Set(treeFingerprints).size).toBe(pages.length);
+
+    const fbaWrongPaperCopy = JSON.stringify(getSeoPage("amazon-fba-label-wrong-paper-size"));
+    expect(fbaWrongPaperCopy).toMatch(/box ID/i);
+    expect(fbaWrongPaperCopy).toMatch(/carrier label/i);
+    expect(fbaWrongPaperCopy).toMatch(/product barcode/i);
+
+    const amazonA4Copy = JSON.stringify(getSeoPage("amazon-a4-label-to-4x6-thermal"));
+    expect(amazonA4Copy).toMatch(/AWD/);
+    expect(amazonA4Copy).toMatch(/SSCC/);
+    expect(amazonA4Copy).toMatch(/do not (convert|rescale|crop)/i);
+  });
 });

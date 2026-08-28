@@ -33,6 +33,7 @@ export interface SeoPage {
   quickAnswer: string;
   keywords?: string[];
   updatedAt?: string;
+  evidenceNote?: string;
   reviewChecklist?: string[];
   sources?: ContentSource[];
   defaultCombo?: {
@@ -147,33 +148,64 @@ function troubleshootingTree(slug: string): SeoPage["decisionTree"] {
   };
   const trees: Record<string, TroubleshooterStep[]> = {
     "shipping-label-printing-too-small": [
-      { title: "Whole label is smaller", symptom: "The 4×6 boundary measures around 3.7×5.6 or the barcode looks compressed.", action: "Disable Fit to Page, choose Actual Size, then calculate the correction if the ruler measurement is still off.", href: "/tools/scale-calculator", cta: "Calculate corrected scale" },
-      { title: "Printed from browser preview", symptom: "The browser added margins or shrank the PDF to fit the sheet.", action: "Download the label PDF and print from a PDF viewer at 100% before changing marketplace settings.", href: "/tools/pdf-analyzer", cta: "Check PDF page size" },
-      { title: "New printer or roll", symptom: "Every label from this printer is slightly small.", action: "Run a calibration sheet so you know whether the printer driver or the label file is causing the shrink.", href: "/tools/calibration-sheet", cta: "Print calibration sheet" },
+      { title: "The PDF page is larger than the roll", symptom: "A full Letter or A4 page is being fitted onto one 4×6 thermal label.", action: "Inspect the PDF page box. Get the issuer's 4×6 format or extract only a complete label area; do not enlarge the miniature output.", href: "/tools/pdf-analyzer", cta: "Inspect the PDF page" },
+      { title: "The whole boundary is uniformly small", symptom: "A true 4×6 source prints proportionally smaller on matching 4×6 media.", action: "Confirm 4×6 in the driver, disable Fit, print one blank template, then calculate a correction only if the media path already matches.", href: "/tools/scale-calculator", cta: "Measure the scale error" },
+      { title: "Only the bars or text look weak", symptom: "The label boundary is correct, but fine lines are fuzzy, gray or broken.", action: "Treat this as print quality, not page scale. Test density, speed, media and printhead condition before another live label.", href: "/tools/test-print-pack", cta: "Run a print-quality test" },
     ],
     "shipping-label-cut-off-when-printing": [
-      { title: "One edge is missing", symptom: "Address or barcode is clipped on the left, right, top or bottom.", action: "Match the paper size and orientation to the PDF before scaling anything.", href: "/#checker", cta: "Check paper setup" },
-      { title: "Thermal roll drifts", symptom: "The first label is close, then later labels move sideways or upward.", action: "Use a blank template to isolate roll alignment and printable-area problems.", href: "/4x6-shipping-label-template", cta: "Download 4×6 template" },
-      { title: "Sheet printer crops", symptom: "Letter or A4 output cuts the label near the unprintable margin.", action: "Run a calibration page and confirm the printer margins before using real postage.", href: "/tools/calibration-sheet", cta: "Print calibration sheet" },
+      { title: "The edge is missing in the PDF", symptom: "The downloaded file is already incomplete before it reaches the print dialog.", action: "Stop. Return to the issuing order or shipment workflow and regenerate the document; printer scaling cannot restore missing source content.", href: "/tools/pdf-analyzer", cta: "Inspect the source PDF" },
+      { title: "The same thermal edge is clipped", symptom: "The PDF is complete, but every roll label loses the same side.", action: "Match driver media, reload the guides and calibrate the printer. Do not shrink the whole barcode to hide an origin or feed error.", href: "/tools/calibration-sheet", cta: "Test thermal alignment" },
+      { title: "A sheet edge is clipped", symptom: "Letter or A4 output reaches the printer's non-printable area.", action: "Use the source's matching sheet size and orientation. Print a blank page boundary before deciding whether a workflow-native sheet layout is required.", href: "/letter-shipping-label-template", cta: "Test the sheet boundary" },
     ],
     "shipping-label-barcode-not-scanning": [
-      { title: "Barcode is too small", symptom: "The full label is scaled down or the bars are visibly compressed.", action: "Fix print scale first; barcode checks are unreliable if the whole label is the wrong size.", href: "/tools/scale-calculator", cta: "Fix print scale" },
-      { title: "Whitespace was cropped", symptom: "The barcode touches text, a label edge, tape, or package folds.", action: "Use the image checker to estimate quiet-zone whitespace around the barcode.", href: "/tools/barcode-quiet-zone-checker", cta: "Check quiet zone" },
-      { title: "Print looks gray or shiny", symptom: "The barcode is faded, streaky, wrinkled or covered with glossy tape.", action: "Reprint one test after increasing density or changing paper/tape placement.", href: "/tools/test-print-pack", cta: "Download test print pack" },
+      { title: "The label was resized or cropped", symptom: "The printed boundary differs from the source, or barcode whitespace disappeared.", action: "Fix page size and scale first. A scan test is not meaningful evidence while the whole symbol has been changed.", href: "/tools/scale-calculator", cta: "Verify physical scale" },
+      { title: "Bars are faint, broken or spread", symptom: "The boundary is correct, but thermal streaks or ink bleed change the bars.", action: "Run a print-quality test. For thermal printers check media, density, speed and printhead condition; for inkjet or laser printers use clean, high-contrast output.", href: "/tools/test-print-pack", cta: "Test print quality" },
+      { title: "The printed code looks clean", symptom: "The barcode still touches an edge, fold, tape or nearby print, or only a phone app says it scans.", action: "Check clear surrounding space and flat placement. Reprint damaged output and ask the issuer or carrier when acceptance remains uncertain.", href: "/tools/barcode-quiet-zone-checker", cta: "Review surrounding space" },
     ],
     "shipping-label-not-centered": [
-      { title: "Consistent offset", symptom: "Every label starts too far left, right, high or low.", action: "Print a calibration sheet to separate driver offset from marketplace label layout.", href: "/tools/calibration-sheet", cta: "Print calibration sheet" },
-      { title: "Wrong media size", symptom: "The preview is centered but the physical output is shifted or rotated.", action: "Check platform, carrier, paper and printer combination before editing margins.", href: "/#checker", cta: "Check label setup" },
-      { title: "Template also off-center", symptom: "A blank 4×6 test has the same alignment problem.", action: "Fix printer guides, roll loading or driver offsets before reprinting postage.", href: "/4x6-shipping-label-template", cta: "Download 4×6 template" },
+      { title: "The PDF itself is off-center", symptom: "The page box or label artwork is already shifted in the downloaded file.", action: "Return to the issuer's matching format or extract a complete label intentionally. Do not add a printer offset to compensate for a bad source.", href: "/tools/pdf-analyzer", cta: "Inspect the PDF box" },
+      { title: "Every thermal label has one offset", symptom: "A matching 4×6 template and live label start at the same wrong position.", action: "Reload the roll, center the guides, calibrate media sensing and only then use a documented horizontal or vertical offset for your model.", href: "/tools/calibration-sheet", cta: "Measure the offset" },
+      { title: "Only sheet placement looks uneven", symptom: "The complete label is actual size on Letter or A4 but is not visually centered.", action: "Do not move or scale scan-critical content merely for symmetry. Verify that the whole label fits the printable area; reprint only if content is clipped or rotated.", href: "/letter-shipping-label-template", cta: "Check sheet fit" },
     ],
     "fit-to-page-vs-actual-size-shipping-label": [
-      { title: "Choosing the print scale", symptom: "Fit to Page looks safer in preview but changes the barcode size.", action: "Use Actual Size first, then measure the output rather than trusting the screen preview.", href: "/tools/scale-calculator", cta: "Measure and calculate" },
-      { title: "Unsure what the PDF size is", symptom: "The label file may be Letter, A4 or 4×6 and the print dialog is guessing.", action: "Read the PDF page box locally before choosing paper or scale settings.", href: "/tools/pdf-analyzer", cta: "Analyze PDF size" },
-      { title: "Need a safe test", symptom: "You are about to print paid postage with a new setup.", action: "Print a watermarked test pack first so real labels are not wasted.", href: "/tools/test-print-pack", cta: "Download test pack" },
+      { title: "Source and media already match", symptom: "The PDF page and loaded paper are both 4×6, Letter or A4.", action: "Use Actual Size / 100% and verify one measured test. Adobe defines Actual Size as printing without scaling.", href: "/tools/scale-calculator", cta: "Measure the result" },
+      { title: "The source is larger than the media", symptom: "A Letter or A4 page is being sent to one 4×6 roll label.", action: "Do not use Fit to miniaturize the full page. Get the correct format or extract one complete label area when the document structure permits it.", href: "/tools/pdf-analyzer", cta: "Inspect before converting" },
+      { title: "Actual Size would clip the page", symptom: "The source page does not fit the selected sheet or the printer's printable area.", action: "Choose matching paper or regenerate the correct layout. Adobe notes that Actual Size can crop pages that do not fit; that is a stop signal, not a reason to guess.", href: "/tools/test-print-pack", cta: "Test the matched layout" },
+    ],
+    "amazon-shipping-label-too-small-blurry": [
+      { title: "Identify the Amazon document", symptom: "The file may be an FBM Buy Shipping carrier label, an FBA box ID label, or an FBA product barcode.", action: "Return to the same Amazon workflow and confirm the document type before changing size. These labels are not interchangeable.", href: "/tools/pdf-analyzer", cta: "Inspect the PDF page" },
+      { title: "Source is sharp; print is small", symptom: "The original PDF is complete, but the physical boundary is uniformly reduced.", action: "Match the source page to thermal or sheet media and use Actual Size. For FBA box labels, prefer the paper option offered in Send to Amazon.", href: "/tools/scale-calculator", cta: "Measure Amazon output" },
+      { title: "Boundary is right; barcode is blurry", symptom: "The label fits, but bars or fine text are gray, streaked or broken.", action: "Run one printer-quality test. Reprint from the original Amazon PDF after correcting density, speed, media or printhead condition; never sharpen a screenshot.", href: "/tools/test-print-pack", cta: "Test print quality" },
+    ],
+    "amazon-4x6-label-on-a4-or-letter": [
+      { title: "The source is one true 4×6 label", symptom: "PDF properties show a single 4×6 page with all required content inside it.", action: "Place that page unchanged on A4 or Letter at Actual Size. Extra sheet paper is acceptable for testing; filling the sheet is not the goal.", href: "/tools/pdf-analyzer", cta: "Confirm true 4×6" },
+      { title: "Amazon offers a sheet format", symptom: "The Send to Amazon print step offers Letter or another workflow-native paper choice.", action: "Regenerate the label in that sheet format instead of converting a thermal file after download.", href: "/letter-shipping-label-template", cta: "Test Letter output" },
+      { title: "The page contains required extras", symptom: "The A4/Letter file contains multiple unique labels, an SSCC label, customs material or other shipment documents.", action: "Stop. Keep the issued sheet workflow and every required page; do not crop the document down merely to make a 4×6 print.", href: "/tools/test-print-pack", cta: "Verify the sheet path" },
+    ],
+    "amazon-fba-label-wrong-paper-size": [
+      { title: "It is an FBA box ID label", symptom: "The label identifies a specific inbound carton in Send to Amazon.", action: "Use the paper option offered in the same shipment workflow and reprint that box's unique label. Do not copy or reuse it on another box.", href: "/tools/pdf-analyzer", cta: "Check the box-label PDF" },
+      { title: "It is the carrier label", symptom: "The label routes the carton with UPS, FedEx or another small-parcel carrier.", action: "Keep it paired with the correct FBA box ID label. Return to the partnered-carrier or carrier workflow if it was resized, cropped or damaged.", href: "/shipping-label-preflight-checklist", cta: "Run the handoff check" },
+      { title: "It is a product barcode", symptom: "The small label belongs on an individual FBA unit and includes an Amazon barcode such as an FNSKU.", action: "Use Amazon's product-label workflow and requirements. A 4×6 carton-label fix does not apply to unit labels.", href: "/shipping-label-barcode-not-scanning", cta: "Review barcode quality" },
+    ],
+    "amazon-a4-label-to-4x6-thermal": [
+      { title: "Send to Amazon offers 4×6", symptom: "The FBA box-label step provides both Letter and 4×6 thermal paper choices.", action: "Regenerate the unique box label with the 4×6 option in that workflow; do not rescale the downloaded A4/Letter PDF.", href: "/tools/pdf-analyzer", cta: "Confirm the regenerated page" },
+      { title: "The file is an AWD A4 SSCC label", symptom: "The carton is going to Amazon Warehousing and Distribution and the workflow issued an A4 SSCC label.", action: "Stop. Amazon's AWD guidance identifies A4 SSCC box labels for this workflow; keep A4 and do not convert it to thermal 4×6.", href: "/a4-shipping-label-template", cta: "Test A4 printing" },
+      { title: "No native 4×6 option appears", symptom: "The current marketplace, shipment type or carrier flow exposes only a sheet document.", action: "Use the offered sheet size or ask Amazon support. Do not discard adjacent documents or guess a crop boundary that Amazon has not identified.", href: "/tools/test-print-pack", cta: "Validate the sheet setup" },
     ],
   };
+  const pageSpecificIntro: Partial<Record<string, Omit<NonNullable<SeoPage["decisionTree"]>, "steps">>> = {
+    "shipping-label-printing-too-small": { headline: "Separate page-size shrink from print-quality blur", intro: "Measure the page boundary first, then follow the branch that matches the source PDF, physical media and printed symptom.", firstAction: "Do not enlarge the label until you know whether the source page is 4×6, Letter or A4." },
+    "shipping-label-cut-off-when-printing": { headline: "Find where the edge disappeared", intro: "Compare the original PDF with the physical output before changing scale; a source crop and a printer crop require different fixes.", firstAction: "Stop using the print if any barcode, address, service or routing content is missing." },
+    "shipping-label-barcode-not-scanning": { headline: "Check geometry before print quality", intro: "A barcode can fail because the whole page changed, the bars printed badly, or the surrounding space and placement were damaged.", firstAction: "A phone scan is a diagnostic clue, not carrier acceptance or standards verification." },
+    "shipping-label-not-centered": { headline: "Decide whether centering is cosmetic or destructive", intro: "Trace the offset to the source PDF, a thermal feed path or a sheet printer's printable area before moving content.", firstAction: "Do not shrink a complete label merely to make its whitespace look symmetrical." },
+    "fit-to-page-vs-actual-size-shipping-label": { headline: "Choose scale from the source-to-media relationship", intro: "Actual Size preserves dimensions; Fit changes them. Neither setting repairs a source page that does not belong on the selected media.", firstAction: "Read the PDF page size and confirm the loaded media before choosing either option." },
+    "amazon-shipping-label-too-small-blurry": { headline: "Identify the Amazon workflow before fixing the print", intro: "Merchant-fulfilled carrier labels, FBA carton labels and unit barcodes have different source workflows and stop conditions.", firstAction: "Keep the original PDF and confirm which Amazon document you printed." },
+    "amazon-4x6-label-on-a4-or-letter": { headline: "Prove the source is a standalone 4×6 label", intro: "A single 4×6 page can sit unchanged on a larger sheet; a multi-document or workflow-required sheet must stay intact.", firstAction: "Inspect the PDF page count, page size and required adjacent content before printing." },
+    "amazon-fba-label-wrong-paper-size": { headline: "Classify the FBA label before deciding to reprint", intro: "A carton ID, carrier label and product barcode solve different handoff tasks and cannot share one paper-size rule.", firstAction: "Do not hand off or relabel units until you know which identifier the print contains." },
+    "amazon-a4-label-to-4x6-thermal": { headline: "Regenerate when Amazon offers 4×6; stop when it does not", intro: "Workflow-native output preserves unique identifiers and required documents better than resizing an issued A4 page.", firstAction: "Check the shipment type—standard FBA, FBM Buy Shipping or AWD—before any conversion." },
+  };
 
-  return { ...shared, steps: trees[slug] ?? trees["shipping-label-printing-too-small"] };
+  return { ...shared, ...pageSpecificIntro[slug], steps: trees[slug] ?? trees["shipping-label-printing-too-small"] };
 }
 
 function troublePage(slug: string, symptom: string, fix: string): SeoPage {
@@ -335,7 +367,205 @@ function mergeRelated(page: SeoPage) {
   return links.slice(0, 6);
 }
 
-const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" | "sections" | "faq" | "reviewChecklist" | "sources">>> = {
+const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "title" | "description" | "h1" | "quickAnswer" | "updatedAt" | "evidenceNote" | "decisionTree" | "sections" | "faq" | "reviewChecklist" | "sources">>> = {
+  "shipping-label-printing-too-small": {
+    description: "Diagnose a shipping label that prints too small by separating full-sheet shrink, true 4×6 scale errors and weak output on thermal or desktop printers.",
+    quickAnswer: "First determine whether a full Letter/A4 page was squeezed onto 4 × 6 media, a true 4×6 page was uniformly scaled down, or only the print quality is weak. Match the source page, driver media and physical paper before using a custom scale, then reprint from the unchanged original PDF only after a blank test passes.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "General troubleshooting framework: Adobe documents what Fit and Actual Size do, while Zebra documents thermal-media calibration. These sources support the diagnostic branches, not carrier acceptance or every printer model.",
+    sections: [
+      { heading: "1. Decide whether the page or only the label is small", body: "Read the PDF page box before touching scale. A Letter or A4 page fitted onto a 4×6 roll makes every element miniature; a true 4×6 page that prints at 3.8×5.7 inches points to a driver or scaling change. If the physical boundary is correct but thin bars look weak, move to print-quality checks instead of enlarging the page." },
+      { heading: "2. Use the thermal-printer branch", body: "For a standalone 4×6 source, set the operating-system driver and print dialog to the loaded 4×6 media. Disable Fit and print a blank 4×6 template. If the template is also small, review the driver media and the printer's model-specific calibration procedure before applying a custom percentage." },
+      { heading: "3. Use the inkjet or laser branch", body: "On Letter or A4 paper, keep a true 4×6 label at its intended dimensions rather than stretching it to fill the sheet. When the source is already a sheet layout, select that exact sheet size. Adobe defines Fit as resizing a page to the printable area and Actual Size as no scaling, so preview appearance alone is not proof of physical size." },
+      { heading: "4. Stop before a live reprint", body: "Do not use the small output when the barcode, surrounding white space, address, tracking number or service text changed. Keep the original transaction and PDF, pass one measured blank test, then use the issuer's current reprint path if it remains available. Do not buy duplicate postage merely to diagnose printer settings." },
+    ],
+    faq: [
+      { question: "Why did a Letter PDF become tiny on my thermal printer?", answer: "The print path likely fitted the entire Letter page onto one 4×6 label. Obtain the issuer's 4×6 format or extract one complete label area only when the document structure allows it." },
+      { question: "Should I increase scale above 100%?", answer: "Only after the PDF page, driver media and physical paper match and a measured blank test still shows a uniform error. Guessing a larger value can crop another edge." },
+      { question: "What is different on an inkjet or laser printer?", answer: "A 4×6 label may sit unchanged on Letter or A4 paper. Select the physical sheet size and preserve the label boundary instead of filling the page." },
+      { question: "What is different on a thermal printer?", answer: "The source page and driver should match the roll, and the printer may need model-specific media calibration. A full sheet should not be fitted onto one roll label." },
+      { question: "When should I stop and reprint?", answer: "Stop when any scan-critical content changed or the blank test is still wrong. Reprint the original label only after the corrected setup passes." },
+    ],
+    reviewChecklist: ["Identify the source PDF page size before changing scale.", "Use the thermal or sheet-printer branch that matches the loaded media.", "Require one measured blank test before reprinting a live label."],
+    sources: [
+      { label: "Adobe Acrobat page sizing for printing", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe defines Fit, Actual Size, Shrink Oversized Pages and custom scaling behavior." },
+      { label: "Zebra SmartCal media calibration", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documents how a representative thermal printer measures label media and sensing parameters." },
+    ],
+  },
+  "shipping-label-cut-off-when-printing": {
+    description: "Find whether a shipping label was cropped in the source PDF, thermal feed path or Letter/A4 printable area, then set a safe reprint gate.",
+    quickAnswer: "Compare the original PDF with the print. If the edge is already missing in the file, regenerate it in the issuing workflow. If only the paper output is clipped, follow the thermal roll or desktop sheet branch; never shrink the whole label merely to expose a missing barcode edge.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "General troubleshooting framework: Adobe supports the PDF sizing behavior and Zebra supports the thermal calibration branch. Printer-specific buttons, offsets and printable areas still come from the exact model manual.",
+    sections: [
+      { heading: "1. Locate the first missing edge", body: "Open the untouched PDF and inspect every page before printing. If the barcode, address or service mark is absent there, stop and return to the issuer; no print setting can reconstruct source content. If the PDF is complete, record the selected paper, scale, orientation and which physical edge is clipped." },
+      { heading: "2. Diagnose a thermal one-edge crop", body: "When every 4×6 label loses the same edge, confirm the driver media, reload and center the guides, and run the printer's documented media calibration. When the crop moves over successive labels, investigate feed sensing or loose media rather than changing PDF scale." },
+      { heading: "3. Diagnose a Letter or A4 edge crop", body: "A desktop printer may have a non-printable margin. Adobe notes that Actual Size does not scale and can crop a page that does not fit the selected paper. Use the source's matching sheet size and orientation, or regenerate a workflow-native sheet layout; Fit can hide the margin problem by shrinking everything." },
+      { heading: "4. Define the reprint gate", body: "A blank template using the same viewer, driver and media must print completely before another paid label. Reprint from the original PDF when any barcode, quiet-zone space, tracking number, address, service text or routing mark was clipped. Escalate to the issuer when the source remains incomplete." },
+    ],
+    faq: [
+      { question: "How do I know whether the PDF or printer cropped the label?", answer: "If the original PDF is missing the edge, regenerate it. If the PDF is complete but a blank template and live label lose the same edge, the printer path is responsible." },
+      { question: "Why is the same thermal edge always missing?", answer: "A fixed edge suggests media size, roll guides, printable origin or calibration. Follow the exact printer manual before using offsets." },
+      { question: "Why does the cropped edge move between labels?", answer: "Changing edges point more strongly to feed sensing, roll drift or loose guides than to one static PDF crop." },
+      { question: "Will Fit to Page solve a sheet-printer crop?", answer: "It can reveal the edge by resizing the whole page, but that also changes the barcode. Prefer matching paper or a correct source layout." },
+      { question: "When must I stop?", answer: "Stop whenever active content is missing, a template still crops, or the source PDF is incomplete. Reprint only after the responsible path is corrected." },
+    ],
+    reviewChecklist: ["Verify the edge exists in the original PDF.", "Use fixed-versus-moving crop patterns to choose the printer branch.", "Pass a complete blank-template print before reprinting postage."],
+    sources: [
+      { label: "Adobe Acrobat page sizing for printing", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe states that Actual Size prints without scaling and crops pages or selections that do not fit." },
+      { label: "Zebra SmartCal media calibration", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documents media sensing and calibration for representative gap, mark and continuous thermal media." },
+    ],
+  },
+  "shipping-label-barcode-not-scanning": {
+    description: "Troubleshoot a shipping label barcode that will not scan by checking scale, quiet zones, contrast, damage and printer output without claiming carrier approval.",
+    quickAnswer: "Treat a failed phone or handheld scan as a symptom, not a carrier verdict. First restore the original page geometry, then inspect barcode whitespace, contrast, bar damage and flat placement. Reprint from the original file if the symbol was resized, cropped, streaked, wrinkled or covered.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "General troubleshooting framework: GS1 identifies common barcode-quality factors, Zebra documents one thermal print-quality path, and carrier sources cover placement. This page is not barcode verification or a guarantee of carrier acceptance.",
+    sections: [
+      { heading: "1. Restore geometry before testing scans", body: "Compare the physical boundary and barcode with the original PDF. If Fit, a screenshot, a crop or the wrong media changed the symbol or its surrounding white space, fix page size and scale first. Repeated scanning of altered output does not validate it." },
+      { heading: "2. Check quiet space, contrast and damage", body: "GS1 lists quiet-zone size, contrast, symbol size, bar height, packaging interference, deterioration and position among common quality checks. Use those as diagnostic categories, not universal numeric limits for a carrier-specific symbol." },
+      { heading: "3. Split thermal and sheet print quality", body: "For direct-thermal output, test media, printhead condition, density and speed using the model's manual; Zebra documents that heat, speed and media work together. For inkjet or laser output, use clean black output on suitable white stock and reject bleed, dropout or low contrast." },
+      { heading: "4. Stop on an obstructed or uncertain code", body: "Keep the barcode flat and away from folds, seams and glossy tape. Reprint if bars are broken, quiet space is missing or the label is damaged. A phone-camera success is only a quick check; ask the issuing platform or carrier when handoff remains uncertain." },
+    ],
+    faq: [
+      { question: "Does a phone scan prove that a shipping label is acceptable?", answer: "No. It is a diagnostic clue, not standards verification or carrier approval." },
+      { question: "What should I check before changing printer darkness?", answer: "Confirm the page boundary and barcode were not resized or cropped. Geometry errors come before density tuning." },
+      { question: "What should thermal-printer users test?", answer: "Use the exact model's procedure to test media, printhead condition, density and speed after page size and calibration are correct." },
+      { question: "What should inkjet or laser users test?", answer: "Look for black-to-white contrast, clean bar edges, ink bleed, dropout and damage, then keep tape and folds off the code." },
+      { question: "When is a reprint safer than another scan test?", answer: "Reprint when the symbol is resized, cropped, streaked, blurred, wrinkled, wet or covered, or when required surrounding space is missing." },
+    ],
+    reviewChecklist: ["Restore the original label geometry before scan tests.", "Inspect quiet space, contrast, bar damage and placement separately.", "Reprint damaged output; do not treat a phone scan as approval."],
+    sources: [
+      { label: "GS1 barcode quality checks", url: "https://support.gs1.org/support/solutions/articles/43000734141-what-should-i-check-to-ensure-good-quality-barcodes-", checkedAt: "2026-08-29", supports: "GS1 lists quiet zones, contrast, symbol size, bar height, damage, packaging interference and position as quality factors." },
+      { label: "Zebra adjusting thermal print quality", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/c-zd620-420-print-operations/t-zd421-zd621-ug-adjusting-the-print-quality.html", checkedAt: "2026-08-29", supports: "Zebra documents the interaction of heat or density, print speed and loaded media for representative thermal printers." },
+      { label: "FedEx shipping-label placement", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx advises keeping barcodes flat, away from seams and edges, and free of clear tape." },
+    ],
+  },
+  "shipping-label-not-centered": {
+    description: "Decide whether an off-center shipping label is cosmetic or caused by PDF layout, thermal feed, driver origin or sheet-printer margins before reprinting.",
+    quickAnswer: "A label does not need symmetrical blank margins to be usable. First confirm that the PDF is complete and at the intended scale. Fix a thermal feed or origin offset only when the same measured shift repeats; on A4 or Letter, leave complete actual-size content alone unless it is clipped or rotated.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "General troubleshooting framework: the sources explain PDF sizing and representative thermal calibration. Visual centering is not presented as a carrier requirement, and model-specific offsets require the printer manual.",
+    sections: [
+      { heading: "1. Separate cosmetic whitespace from lost content", body: "Inspect the original PDF and measure the output. If the whole label is complete, actual size and within the paper, uneven outer whitespace on a desktop sheet may be cosmetic. If a barcode, quiet zone, address or service mark is clipped, treat the offset as a print failure." },
+      { heading: "2. Trace a thermal offset", body: "A repeatable shift on both a blank 4×6 template and live label points to media guides, sensing, driver origin or a documented position setting. Reload and calibrate first. Do not shrink the whole label or use undocumented offsets to hide a feed problem." },
+      { heading: "3. Trace a Letter or A4 placement", body: "Confirm the selected sheet and orientation match the PDF. Adobe's Actual Size keeps dimensions but may crop when the page does not fit; Fit changes dimensions. Choose a matching source layout instead of moving barcode artwork for visual symmetry." },
+      { heading: "4. Stop when position changes active content", body: "Reprint after the blank template passes if the live output is clipped, rotated, folded or too close to an edge for flat placement. If only the source PDF is shifted or incomplete, return to the issuing workflow instead of compensating in the printer." },
+    ],
+    faq: [
+      { question: "Does a shipping label have to be centered on Letter or A4 paper?", answer: "Not for visual symmetry alone. The important print checks are complete content, intended scale and a layout that can be attached flat without cutting active areas." },
+      { question: "Why is every thermal label shifted the same amount?", answer: "A repeatable shift points to media guides, sensing, driver origin or a position setting. Test a blank template and follow the exact model manual." },
+      { question: "Should I shrink the label to center it?", answer: "No. Shrinking changes barcode geometry. Correct media, orientation, calibration or source layout instead." },
+      { question: "What if only the original PDF is off-center?", answer: "Return to the issuer's correct format or intentionally extract a complete label area when permitted. Do not stack a printer offset on top of a source-layout problem." },
+      { question: "When should I reprint?", answer: "Reprint when the offset clips or rotates active content, prevents flat placement, or persists after the correct blank-template test." },
+    ],
+    reviewChecklist: ["Confirm whether the offset is cosmetic or clips active content.", "Calibrate a repeated thermal shift before applying offsets.", "Reprint only after the matching blank template fits completely."],
+    sources: [
+      { label: "Adobe Acrobat page sizing for printing", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe distinguishes no-scaling Actual Size from Fit and documents the crop risk when a page does not fit." },
+      { label: "Zebra SmartCal media calibration", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documents media loading, sensing and calibration for representative thermal printers." },
+    ],
+  },
+  "fit-to-page-vs-actual-size-shipping-label": {
+    description: "Choose Fit or Actual Size from the PDF page and printer media. Learn when Actual Size preserves scale, when it crops, and when to regenerate the label.",
+    quickAnswer: "Use Actual Size / 100% when the PDF page and loaded media already match. Adobe defines Fit as resizing to the selected paper's printable area and Actual Size as no scaling; Actual Size can still crop a page that does not fit. If source and media differ, get the correct format instead of assuming either button is safe.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "General troubleshooting framework: Adobe and Apple document viewer behavior. The correct shipping-label format still comes from the issuing marketplace or carrier, not from this page.",
+    sections: [
+      { heading: "1. Start with source size and physical media", body: "Read whether the PDF page is 4×6, Letter, A4 or a larger sheet containing a smaller label. Then confirm the paper or roll loaded in the selected printer. A scale choice should be the last step after those two facts match." },
+      { heading: "2. Use Actual Size for a matched path", body: "Adobe says Actual Size prints without scaling. Use it when a true 4×6 page goes to matching 4×6 media, or a Letter/A4 page goes to the same sheet size. Measure one blank test because the final driver can still apply its own media settings." },
+      { heading: "3. Treat Fit as a transformation", body: "Adobe says Fit reduces or enlarges a page to the selected printable area. That is useful for ordinary documents but can change barcode geometry. On macOS, Apple likewise documents Scale to Fit and separate choices that preserve the whole page or fill and crop the paper." },
+      { heading: "4. Stop when neither option preserves the document", body: "If Actual Size crops required content and Fit miniaturizes or enlarges it, the source layout does not belong on the selected media. Regenerate the issuer's correct format, use matching paper, or intentionally extract one complete label area when the document permits it; do not trial-and-error a live barcode." },
+    ],
+    faq: [
+      { question: "Is Actual Size always safe for shipping labels?", answer: "No. It preserves scale, but Adobe notes that content can crop when the page does not fit the selected paper." },
+      { question: "Is Fit to Page always wrong?", answer: "It is a documented resizing operation. Do not use it when preserving the issued barcode dimensions is the goal; obtain a matching source format instead." },
+      { question: "What should I use for a true 4×6 PDF and 4×6 roll?", answer: "Start with 4×6 media and Actual Size / 100%, then measure one blank test before live postage." },
+      { question: "What should I use for a Letter PDF on a thermal printer?", answer: "Neither Fit nor blind enlargement. Get a 4×6 format or extract one complete label area only when all required content fits." },
+      { question: "When should I stop and regenerate?", answer: "Stop when Actual Size crops, Fit changes the barcode, the page contains required adjacent documents, or the issuer gives a format-specific instruction." },
+    ],
+    reviewChecklist: ["Read the PDF page size and confirm loaded media.", "Use Actual Size only for a source-to-media match.", "Regenerate the correct format when Actual Size crops and Fit resizes."],
+    sources: [
+      { label: "Adobe Acrobat page sizing for printing", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe defines Fit, Actual Size, Shrink Oversized Pages and custom scaling behavior." },
+      { label: "Apple Preview print options", url: "https://support.apple.com/en-gb/guide/preview/prvw15175/mac", checkedAt: "2026-08-29", supports: "Apple documents Preview Scale, Scale to Fit, Print Entire Image and Fill Entire Paper behavior." },
+    ],
+  },
+  "amazon-shipping-label-too-small-blurry": {
+    description: "Fix a small or blurry Amazon label after identifying FBM Buy Shipping, an FBA box ID or a product barcode, with workflow-specific reprint limits.",
+    quickAnswer: "Do not enlarge an Amazon label until you identify it as an FBM Buy Shipping carrier label, an FBA box ID label, or a product barcode. Compare the untouched PDF with the print, use the paper format offered by that same Amazon workflow, and stop for a clean reprint if any barcode, identifier or required text was resized, cropped or blurred.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Amazon workflow evidence: current sources distinguish Buy Shipping, FBA box IDs and FBA product barcodes. Options can vary by marketplace, shipment type and account, so the live Seller Central workflow remains authoritative.",
+    sections: [
+      { heading: "1. Name the Amazon document", body: "For a merchant-fulfilled customer order, Amazon directs sellers to Manage Orders and Buy Shipping. For inbound FBA, the carton uses a unique FBA box ID label and may also need a separate carrier label. An FNSKU or other Amazon product barcode belongs on the unit, not the shipping carton. Do not apply one page's size fix to all three." },
+      { heading: "2. Compare the source PDF and physical print", body: "If the Amazon PDF is sharp and complete but the paper output is uniformly small, match the source page, driver media and physical paper before changing scale. If the boundary is correct but bars are gray or broken, test print quality. If the original PDF itself looks incomplete, return to the issuing workflow rather than editing an image." },
+      { heading: "3. Follow the printer path Amazon issued", body: "Amazon staff currently describes Letter 8.5×11 and 4×6 thermal choices in the Send to Amazon box-label step. Use that workflow-native option for an FBA box ID label. Do not assume those FBA choices also control an FBM carrier label or a product barcode." },
+      { heading: "4. Reprint without changing identity", body: "Keep each label with its exact order, unit or box. Amazon's FBA shipping guidance says box labels are unique and should not be photocopied, reused or modified for additional boxes. Reprint the same source after correcting settings, and use Seller Central support if the needed format is not offered." },
+    ],
+    faq: [
+      { question: "Which Amazon label am I fixing?", answer: "Check whether it came from FBM Buy Shipping, Send to Amazon box-label printing, or the FBA product-barcode flow. The correct size and reprint route depend on that answer." },
+      { question: "Can I sharpen an Amazon label screenshot?", answer: "No. Return to the original PDF or regenerate it in the same workflow so the barcode and identifiers are not resampled." },
+      { question: "Does FBA offer a 4×6 box-label option?", answer: "Amazon staff currently documents 4×6 for thermal printers and 8.5×11 for Letter output in the Send to Amazon box-label step." },
+      { question: "Can I copy one clear FBA box label to another carton?", answer: "No. Amazon says each FBA box ID label is unique and should not be photocopied, reused or modified for another box." },
+      { question: "When should I stop before handoff?", answer: "Stop when the label type is uncertain, the original PDF is unavailable, required content changed, or the live Amazon workflow does not offer the format you are trying to create." },
+    ],
+    reviewChecklist: ["Classify Buy Shipping, FBA box ID or product barcode.", "Compare the untouched PDF with the physical output.", "Reprint the same unique label only after the matched setup passes."],
+    sources: [
+      { label: "Amazon Shipping for seller-fulfilled orders", url: "https://sell.amazon.com/programs/shipping", checkedAt: "2026-08-29", supports: "Amazon describes purchasing and printing labels through Manage Orders and Buy Shipping for seller-fulfilled orders." },
+      { label: "Amazon staff: Send to Amazon box-label paper choices", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/bf5635af-4afc-4588-bb03-31da456950b7", checkedAt: "2026-08-29", supports: "An Amazon staff response describes unique FBA box ID PDFs with Letter 8.5×11 and 4×6 thermal choices in step 3." },
+      { label: "Amazon FBA shipping label requirements", url: "https://sellercentral.amazon.com/help/hub/reference/200178470", checkedAt: "2026-08-29", supports: "Amazon's Seller Central help is the primary source for unique box-label use and placement; sign-in may be required." },
+    ],
+  },
+  "amazon-4x6-label-on-a4-or-letter": {
+    description: "Print a true Amazon 4×6 label on A4 or Letter without resizing it, and stop for FBA sheet, AWD SSCC or multi-document workflows.",
+    quickAnswer: "Print a standalone Amazon 4 × 6 PDF on A4 or Letter only after confirming that the page contains one complete label. Select the physical sheet, use Actual Size so the 4×6 boundary stays unchanged, and trim only unused paper. Prefer Amazon's native Letter option for FBA box labels, and do not crop AWD SSCC or multi-document pages.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Amazon workflow evidence plus PDF-viewer behavior: the page distinguishes standard FBA box labels from AWD SSCC and generic desktop placement. It does not claim that every Amazon document can be moved between sizes.",
+    sections: [
+      { heading: "1. Prove the PDF is a standalone 4×6 label", body: "Check the PDF page size, page count and visible content. Continue only when one 4×6 page contains the complete barcode, identifiers, addresses and service text for one shipment. A sheet with multiple unique labels, customs material, packing content or instructions is not the same task." },
+      { heading: "2. Prefer Amazon's native sheet output", body: "For standard FBA box labels, Amazon staff currently describes Letter 8.5×11 and 4×6 thermal choices in the Print Box Labels step. If you need a desktop printer, regenerate the unique box label using the offered Letter option instead of post-processing a thermal PDF." },
+      { heading: "3. Place a true 4×6 page on A4 or Letter", body: "When the source really is one 4×6 page, select the loaded A4 or Letter sheet and use Actual Size. Adobe defines Actual Size as no scaling. The label can sit within extra paper; do not enlarge it to fill the sheet, and trim only outside all active content." },
+      { heading: "4. Stop for workflow-required sheets", body: "Do not use this path for an AWD A4 SSCC carton label or any page whose required content extends beyond the 4×6 area. Keep the Amazon-issued sheet format and every unique label. If the print still clips at Actual Size, use matching paper or return to Seller Central rather than switching to Fit." },
+    ],
+    faq: [
+      { question: "Can I print a true Amazon 4×6 label on Letter paper?", answer: "Yes as a desktop-printing layout when the complete 4×6 page remains Actual Size and all active content is intact. This does not convert a sheet document into 4×6." },
+      { question: "Should the 4×6 label fill the Letter or A4 sheet?", answer: "No. Filling the sheet enlarges the label. Preserve the 4×6 boundary and leave extra paper around it." },
+      { question: "Should I use Amazon's Letter option instead?", answer: "For FBA box labels, prefer the workflow-native Letter option when it is offered. It preserves the unique label without a second layout transformation." },
+      { question: "Can I crop an Amazon page with multiple labels or customs content?", answer: "Not with this workflow. Keep every required document and unique identifier, or use the exact Amazon option for that shipment." },
+      { question: "When should I stop?", answer: "Stop when the source is not a single 4×6 page, required content lies outside the label, Actual Size clips, or Amazon issues a specific sheet-only format." },
+    ],
+    reviewChecklist: ["Confirm one complete 4×6 source page.", "Prefer Amazon's native Letter output when offered.", "Stop on AWD SSCC, multi-document pages or any clipped active content."],
+    sources: [
+      { label: "Amazon staff: Send to Amazon box-label paper choices", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/bf5635af-4afc-4588-bb03-31da456950b7", checkedAt: "2026-08-29", supports: "An Amazon staff response documents Letter 8.5×11 and 4×6 thermal choices for FBA box labels." },
+      { label: "Adobe Acrobat page sizing for printing", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe defines Actual Size as printing without scaling and explains Fit as a resizing operation." },
+      { label: "Amazon staff: AWD uses A4 SSCC box labels", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/b8827237-c287-418f-8f76-2a6ac4866ea8", checkedAt: "2026-08-29", supports: "An Amazon staff response states that the AWD workflow provides A4 SSCC box labels and says not to reuse or modify them." },
+    ],
+  },
+  "amazon-a4-label-to-4x6-thermal": {
+    title: "Amazon A4 Label to 4×6 Thermal: Regenerate or Stop",
+    description: "Decide whether an Amazon A4 label can be regenerated as 4×6 thermal. Separate standard FBA box labels, FBM Buy Shipping and AWD SSCC before resizing.",
+    h1: "Amazon A4 Label to 4×6 Thermal — Regenerate or Stop?",
+    quickAnswer: "Prefer regeneration, not conversion. If standard Send to Amazon offers a 4 × 6 thermal box-label option, generate that unique format there. Do not convert an AWD A4 SSCC carton label, shrink a full A4 page, or discard required adjacent documents. If no native 4×6 option appears, keep the issued sheet format or ask Amazon support.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Amazon workflow evidence: standard FBA box-label, seller-fulfilled Buy Shipping and AWD SSCC paths are deliberately separated. Available options can vary by marketplace and shipment type; the live workflow controls.",
+    sections: [
+      { heading: "1. Identify standard FBA, FBM or AWD", body: "Standard FBA inbound box labels come from Send to Amazon. Merchant-fulfilled customer labels come from Manage Orders and Buy Shipping. AWD cartons use a different SSCC workflow. Confirm that identity before using a thermal printer because a page size that is valid in one path is not permission to alter another." },
+      { heading: "2. Regenerate standard FBA box labels", body: "Amazon staff currently documents Letter 8.5×11 and 4×6 thermal choices in the Send to Amazon Print Box Labels step. When that option is present for the same shipment, generate the 4×6 version there and keep each unique box label matched to its carton." },
+      { heading: "3. Keep AWD A4 SSCC labels on A4", body: "Amazon staff states that the AWD workflow provides A4 SSCC box labels and that every carton needs its unique issued label. That is a hard stop for this generic conversion page: do not crop or rescale the AWD A4 SSCC label to 4×6." },
+      { heading: "4. Use the issued format when 4×6 is absent", body: "For FBM Buy Shipping or any account and shipment type that exposes only a sheet document, use the current offered format or contact Amazon support. Do not squeeze the full page, remove customs or packing material, or infer a crop boundary merely because the barcode appears to fit." },
+    ],
+    faq: [
+      { question: "What is the safest way to convert an Amazon A4 label to 4×6?", answer: "Regenerate it in the same Amazon workflow when a native 4×6 option exists. Do not rescale the issued A4 PDF." },
+      { question: "Can standard FBA box labels be generated for thermal printers?", answer: "Amazon staff currently documents a 4×6 thermal option alongside Letter in the Send to Amazon box-label step." },
+      { question: "Can an AWD A4 SSCC box label be converted to 4×6?", answer: "No according to the cited Amazon AWD guidance. Keep the issued A4 SSCC label and its unique carton assignment." },
+      { question: "What if Buy Shipping only shows a sheet format?", answer: "Use the format offered for that order or ask Amazon support. FBA box-label options do not prove that the FBM carrier-label flow supports the same output." },
+      { question: "When must conversion stop?", answer: "Stop when there is no native 4×6 option, the page is AWD SSCC, multiple unique labels or required documents share the sheet, or any content would be resized or removed." },
+    ],
+    reviewChecklist: ["Classify standard FBA, FBM Buy Shipping or AWD.", "Regenerate 4×6 only when the same workflow offers it.", "Keep AWD A4 SSCC and required multi-document sheets unchanged."],
+    sources: [
+      { label: "Amazon staff: Send to Amazon box-label paper choices", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/bf5635af-4afc-4588-bb03-31da456950b7", checkedAt: "2026-08-29", supports: "An Amazon staff response documents Letter 8.5×11 and 4×6 thermal choices for standard FBA box-label printing." },
+      { label: "Amazon staff: AWD uses A4 SSCC box labels", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/b8827237-c287-418f-8f76-2a6ac4866ea8", checkedAt: "2026-08-29", supports: "An Amazon staff response says AWD step 3 provides A4 SSCC box labels and each carton needs its unique label." },
+      { label: "Amazon Shipping for seller-fulfilled orders", url: "https://sell.amazon.com/programs/shipping", checkedAt: "2026-08-29", supports: "Amazon directs seller-fulfilled orders to Manage Orders and Buy Shipping, a separate workflow from FBA inbound box labels." },
+    ],
+  },
   "shipping-label-too-small-usps-ups-fedex-accept": {
     quickAnswer: "Do not treat physical size alone as proof that USPS, UPS or FedEx will accept a label. If the barcode, tracking number, address, service text or surrounding white space was compressed, cropped or blurred, stop and reprint the original label at the correct paper size and scale.",
     sections: [
@@ -765,20 +995,29 @@ const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" |
     reviewChecklist: ["Download the Shopify label PDF.", "Print one test before batch printing.", "Confirm carrier marks, barcode and address are complete."],
   },
   "amazon-fba-label-wrong-paper-size": {
+    description: "Classify an FBA box ID, carrier label or product barcode before deciding whether a wrong-paper print must be regenerated in Seller Central.",
+    quickAnswer: "Do not decide from paper alone. First identify an FBA box ID label, the separate carrier label, or an Amazon product barcode. Reprint the same unique box or unit label from its Amazon workflow when the output was resized, cropped or blurred; never copy one clear label onto another box or product.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Amazon workflow evidence: cited Amazon sources distinguish unique inbound box IDs, carrier labels and product barcodes. This checklist cannot approve an inbound shipment, and the current Seller Central workflow controls available formats.",
     sections: [
-      { heading: "Separate FBA workflow data from print layout", body: "A wrong paper-size print can be a layout mistake even when the shipment data is correct. If the barcode or label text was distorted, reprint the FBA label before the shipment enters the fulfillment workflow." },
-      { heading: "Do not force a sheet label onto thermal stock", body: "If the Amazon FBA PDF is Letter or A4, sending the whole page to 4×6 stock can shrink or crop the barcode. Extract the actual label area only when it can fit without resizing scan-critical content." },
-      { heading: "Use the paper expected by the PDF", body: "For sheet output, choose Letter or A4 and 100% / Actual Size. For thermal output, use a true 4×6 label format or a verified conversion workflow that preserves barcode size." },
-      { heading: "Inspect every FBA handoff label", body: "Before boxing or handoff, confirm each barcode, shipment identifier and address/service text is sharp, complete and not folded or covered by tape." },
+      { heading: "1. Identify the label's job", body: "An FBA box ID identifies one inbound carton. A partnered or non-partnered carrier label routes that carton. An Amazon product barcode such as an FNSKU identifies one unit. The print can contain more than one label type, and a 4×6 carton workflow is not a product-label sizing rule." },
+      { heading: "2. Reprint a unique FBA box ID from Send to Amazon", body: "Amazon staff currently describes Letter 8.5×11 and 4×6 thermal options in the Print Box Labels step. If you selected the wrong one or the print changed scale, return to that same shipment and generate or reprint the format offered there. Amazon's shipping guidance says each box label is unique and must not be photocopied, reused or modified for another box." },
+      { heading: "3. Keep the carrier and product paths separate", body: "Keep the carrier label paired with the correct box ID and correct a damaged carrier label in the partnered-carrier or carrier workflow. For a unit barcode, return to Amazon's product-barcode flow; Amazon's product-label guidance covers different stock, placement and obscuring of other product barcodes." },
+      { heading: "4. Stop before FBA handoff", body: "Do not hand off a carton when a unique identifier, barcode, address or required text was resized, cropped, blurred, folded or covered. Reprint from the original workflow and keep every label matched to its box or unit. If Seller Central does not offer the expected format, use Amazon support rather than improvising a conversion." },
     ],
     faq: [
-      { question: "Can I still ship an FBA label printed on the wrong paper?", answer: "Only if the barcode and required text remain intact, sharp and unscaled. Distorted or clipped labels should be reprinted." },
-      { question: "Should I resize an Amazon FBA label to fill 4×6?", answer: "No. Preserve barcode scale and crop/extract only when the source layout supports it." },
-      { question: "Is paper size more important than barcode quality?", answer: "Barcode integrity and readable shipment text matter most. Correct paper with distorted barcode is still risky." },
-      { question: "What should I check before FBA handoff?", answer: "Check barcode sharpness, full label boundary, shipment text, address text and that labels are flat on the package or carton." },
-      { question: "Does this tool generate Amazon postage?", answer: "No. It only helps troubleshoot print size and layout for labels you already have." },
+      { question: "Can I still ship an FBA label printed on the wrong paper?", answer: "This page cannot approve it from paper alone. Identify the label type and confirm it is the unmodified output of the current Amazon workflow; reprint whenever active content or scale changed." },
+      { question: "How is an FBA box ID different from the carrier label?", answer: "The box ID identifies the inbound carton to Amazon; the carrier label routes it. Amazon guidance expects both for small-parcel workflows where a carrier label applies." },
+      { question: "Is an FNSKU a 4×6 shipping label?", answer: "No. It is a product barcode for an individual unit and follows Amazon's product-label workflow, not the carton-label decision path." },
+      { question: "Can I reuse a clear FBA box label on another carton?", answer: "No. Amazon says each FBA box ID label is unique and should not be photocopied, reused or modified for another box." },
+      { question: "When must I reprint?", answer: "Reprint when any unique identifier, barcode, address or required text is resized, clipped, blurred, damaged or assigned to the wrong box or unit." },
     ],
-    reviewChecklist: ["Confirm whether the problem is print layout or shipment data.", "Use the paper size expected by the Amazon PDF.", "Reprint before FBA handoff if barcode or required text is distorted."],
+    reviewChecklist: ["Identify box ID, carrier label or product barcode.", "Keep every unique label matched to its box or unit.", "Stop and reprint from the same Amazon workflow when content changed."],
+    sources: [
+      { label: "Amazon FBA shipping label requirements", url: "https://sellercentral.amazon.com/help/hub/reference/200178470", checkedAt: "2026-08-29", supports: "Amazon's Seller Central help is the primary source for unique FBA box labels and placement; sign-in may be required." },
+      { label: "Amazon staff: Send to Amazon box-label paper choices", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/bf5635af-4afc-4588-bb03-31da456950b7", checkedAt: "2026-08-29", supports: "An Amazon staff response describes unique FBA box ID PDFs with Letter 8.5×11 and 4×6 thermal choices." },
+      { label: "Amazon staff: FBA product barcode requirements", url: "https://sellercentral.amazon.com/seller-forums/discussions/t/84e2c23e-e36b-4cfd-b0cd-c104bd0ab35c", checkedAt: "2026-08-29", supports: "An Amazon staff guide distinguishes manufacturer, Amazon and Transparency product barcodes and gives unit-label quality and placement guidance." },
+    ],
   },
   "rollo-printer-label-too-small": {
     sections: [
@@ -1283,7 +1522,7 @@ const seoTitleOverrides: Record<string, string> = {
   "shopify-label-cut-off-parts-usps": "Can You Trim a Shopify Label? USPS Scan Risks",
   "shipping-label-too-small-usps-ups-fedex-accept": "Will USPS, UPS or FedEx Accept a Small Shipping Label?",
   "amazon-fba-label-wrong-paper-size": "Amazon FBA Label on the Wrong Paper Size",
-  "amazon-a4-label-to-4x6-thermal": "Convert Amazon A4 Labels to 4×6 Thermal",
+  "amazon-a4-label-to-4x6-thermal": "Amazon A4 to 4×6: Regenerate, Don't Resize",
   "ebay-shipping-label-trimmed-or-taped": "Trim or Tape a Misprinted eBay Label?",
   "convert-letter-shipping-label-to-4x6-thermal": "Convert Letter Labels to 4×6 Thermal",
   "etsy-shipping-label-print-settings": "Etsy Label Print Settings: 4×6, Letter & A4",

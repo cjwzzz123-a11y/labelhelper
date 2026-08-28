@@ -38,7 +38,7 @@ The baseline was technically crawlable: all sitemap pages returned 200, had a se
 
 Passed locally:
 
-- `npm test`: 35/35 tests
+- `npm test`: 38/38 tests
 - `npm run lint`
 - `npm run build`: 254 generated route variants
 - `npm run smoke:seo`: 143 sitemap URLs, 160 internal paths, one 1200×630 PNG social route, and six 308 redirect contracts
@@ -60,10 +60,36 @@ The first production deployment of this round succeeded at commit `c36d603`. A l
 
 The smoke test uses language-aware description thresholds so Chinese and Japanese are not padded merely to satisfy a Latin-text rule.
 
+## Third long-tail content-quality pass
+
+The remaining nine shared-section pages were reviewed page by page. Search Console query/page data and MediaClaw demand assets were not available, so the intent decisions below are evidence-limited: they use each route's explicit task, the existing internal-link cluster, and current first-party product documentation. They do not claim search volume, growth or keyword demand.
+
+| Page | Search task and differentiation | Evidence boundary | Index decision |
+| --- | --- | --- | --- |
+| `/shipping-label-printing-too-small` | Separate a full-sheet-to-thermal shrink, a true 4×6 scale error and weak print quality. | Explicit general troubleshooting framework; Adobe PDF behavior plus representative Zebra thermal calibration. | Keep; distinct measurement-and-scale job. |
+| `/shipping-label-cut-off-when-printing` | Locate whether an edge disappeared in the source PDF, thermal feed path or desktop printable area. | Explicit general troubleshooting framework; no universal carrier acceptance claim. | Keep; distinct source-versus-output crop job. |
+| `/shipping-label-barcode-not-scanning` | Restore geometry, then check quiet space, contrast, damage and flat placement. | GS1 quality factors and printer/carrier placement sources; a phone scan is not verification. | Keep; distinct barcode-quality job. |
+| `/shipping-label-not-centered` | Decide whether placement is merely cosmetic or a destructive PDF, feed or origin offset. | Explicit general troubleshooting framework; model-specific offsets remain in the printer manual. | Keep; distinct alignment decision. |
+| `/fit-to-page-vs-actual-size-shipping-label` | Choose a print mode only after comparing source page and physical media. | Adobe and Apple define viewer behavior; the issuer still controls label format. | Keep; distinct print-dialog decision. |
+| `/amazon-shipping-label-too-small-blurry` | Identify FBM Buy Shipping, FBA box ID or product barcode before fixing size or quality. | Amazon workflow sources; options may vary by marketplace, shipment and account. | Keep; distinct Amazon document-classification job. |
+| `/amazon-4x6-label-on-a4-or-letter` | Put one true 4×6 page unchanged on a desktop sheet, while stopping on multi-document or required sheet workflows. | Amazon FBA/AWD plus Adobe page-sizing sources. | Keep; distinct thermal-to-desktop placement job. |
+| `/amazon-fba-label-wrong-paper-size` | Classify box ID, carrier label and unit barcode, then reprint from the matching workflow. | Amazon inbound-shipment and product-barcode sources; no inbound approval promise. | Keep; distinct FBA identity and handoff decision. |
+| `/amazon-a4-label-to-4x6-thermal` | Regenerate a native 4×6 box label when offered; do not resize AWD A4 SSCC or required multi-document output. | Amazon standard FBA, FBM and AWD workflows are explicitly separated. | Keep with a safer title; distinct conversion-stop decision. |
+
+Implemented controls:
+
+- Added a visible evidence note to all nine pages and independent decision-tree copy for every route.
+- Split thermal-printer and Letter/A4 desktop-printer paths instead of presenting one universal setting.
+- Added explicit stop, regenerate and reprint conditions; removed blanket implications that intact-looking output is acceptable.
+- Added claim-level sources checked on 2026-08-29 and updated the nine pages' `dateModified` value.
+- Added an automated regression test requiring evidence scope, current sources, independent section/tree fingerprints, and Amazon document-type/AWD stop terms.
+
+No redirects were introduced. The four Amazon URLs address materially different tasks, and the five core pages separate symptom-specific diagnoses. Reconsider consolidation only with Search Console evidence of the same queries landing on multiple pages without distinct engagement.
+
 ## Remaining evidence-backed work
 
 1. The official-source registry was last fully checked on 2026-05-12. Each carrier/platform claim needs a precise first-party URL and claim-level review before changing that date.
-2. Nine long-tail troubleshooting pages still share generic fallback sections: four Amazon variants plus five core symptom pages whose decision trees are already unique. Preserve URLs until real Search Console query/page data exists and prioritize the Amazon claims for first-party review.
+2. Validate the nine rewritten long-tail pages with real Search Console query/page data. Merge or redirect only if the same intent consistently lands on multiple URLs without distinct engagement.
 3. Public HTML currently uses `private, no-cache, no-store`. Investigate the `next-intl` request-locale architecture before changing caching; do not trade correct locale output for a speculative performance win.
 4. Search Console and Vercel Analytics were not available in the local audit. Index coverage, impressions, CTR, Core Web Vitals, and conversions must be evaluated after deployment with real data.
 5. Development-only dependency advisories remain in the local toolchain; production dependencies are clean. Upgrade those packages separately with their own test cycle.

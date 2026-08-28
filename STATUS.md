@@ -6,7 +6,7 @@
 - Repository path: `labelhelper`
 - Branch: `main`
 - SEO optimization round: first batch deployed; evidence-sensitive content batch validated locally and pending push
-- Validation status: 35 tests, lint, Next.js 16.3.3 build, 143-URL SEO smoke, and production dependency audit passed
+- Validation status: 38 tests, lint, Next.js 16.3.3 build, 143-URL SEO smoke, and production dependency audit passed
 
 ## Latest SEO work
 
@@ -17,6 +17,7 @@
 - Added a repeatable full-site SEO smoke test and current quality log.
 - Production-crawled 143/143 sitemap pages after `c36d603`; every page returned 200 and exposed an Open Graph image, with no duplicate title or description groups.
 - Rewrote three high-risk carrier-handling pages around first-party evidence, explicit reprint conditions, and non-guarantee language.
+- Rebuilt the four Amazon and five core-symptom long-tail pages with distinct device/workflow decisions, visible evidence scope, stop/reprint gates and current source citations.
 
 - Expanded programmatic SEO coverage and internal guide hub coverage already present in working tree.
 - Fixed high-priority technical SEO risks before deployment:

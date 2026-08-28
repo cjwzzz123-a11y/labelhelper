@@ -34,7 +34,7 @@
 
 ## Validation
 
-- `npm test` passed: 5 files, 35 tests.
+- `npm test` passed: 5 files, 38 tests.
 - `npm run lint` passed.
 - `npm run build` passed with Next.js 16.3.3 and generated 254 route variants.
 - `npm run smoke:seo` passed: 143 sitemap URLs, 160 internal paths, one 1200×630 social image route, and six redirect contracts.

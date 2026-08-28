@@ -235,7 +235,7 @@ export default async function LocaleSeoPage({ params }: PageProps) {
           ))}
         </article>
 
-        <SourceNotes kind={page.kind} locale={locale} source={officialSource} sources={page.sources} />
+        <SourceNotes kind={page.kind} locale={locale} source={officialSource} sources={page.sources} evidenceNote={page.evidenceNote} />
         <div className="mt-8">
           <FAQ heading={ui.faq} items={page.faq} />
         </div>
@@ -327,12 +327,13 @@ function templateOrRuleSize(page: SeoPage, rule: ReturnType<typeof lookup> | nul
   return "4 × 6 in";
 }
 
-function SourceNotes({ kind, locale, source, sources }: { kind: string; locale: Locale; source: { url: string; label: string } | null; sources?: SeoPage["sources"] }) {
+function SourceNotes({ kind, locale, source, sources, evidenceNote }: { kind: string; locale: Locale; source: { url: string; label: string } | null; sources?: SeoPage["sources"]; evidenceNote?: string }) {
   const ui = getPageUi(locale);
 
   return (
     <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 text-sm leading-6 text-slate-600 shadow-sm sm:p-8">
       <h2 className="text-xl font-bold tracking-tight text-[#12324A]">{ui.sourceNotes}</h2>
+      {evidenceNote ? <p className="mt-3 font-semibold text-slate-800">{evidenceNote}</p> : null}
       <p className="mt-3">{ui.sourceText1}</p>
       <p className="mt-3">{ui.sourceText2}</p>
       {kind === "troubleshooter" ? <p className="mt-3 font-medium text-slate-700">{ui.troubleshooterSourceText}</p> : null}
