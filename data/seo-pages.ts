@@ -400,6 +400,86 @@ const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" |
       { label: "FedEx shipping-label guidance", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx covers flat placement, seams, edges, barcode purpose and tape glare." },
     ],
   },
+  "mercari-shipping-label-4x6-vs-8x11": {
+    quickAnswer: "Mercari currently offers 4 × 6 inch labels for thermal printers and 8.5 × 11 inch labels for inkjet or laser printers. Set the preferred paper size from the order's Shipping Information area, then print the matching file without forcing one layout into the other.",
+    sections: [
+      { heading: "Choose the size in Mercari first", body: "Mercari's current help page says sellers can open the item's Order Status page, go to Shipping Information > Label, choose Set paper size, and save either 4 × 6 or 8.5 × 11. Make that product-level choice before changing printer scale." },
+      { heading: "Use 4×6 for the thermal workflow", body: "Select 4 × 6 when the printer is loaded with matching thermal stock. Also choose 4 × 6 in the printer driver and print at 100% / Actual Size so a sheet layout is not compressed onto one label." },
+      { heading: "Use 8.5×11 for desktop printers", body: "Select 8.5 × 11 for a Letter-size inkjet or laser workflow. Keep the generated label at its original scale and trim only unused paper after confirming the barcode, address and service text are complete." },
+      { heading: "Reprint instead of recreating a good label", body: "Mercari documents a View Label reprint flow for in-progress sales. If the first output used the wrong paper setting, correct the setting and reprint the existing label before considering a new transaction." },
+    ],
+    faq: [
+      { question: "Does Mercari support 4×6 labels?", answer: "Yes. Mercari's current help page lists 4 × 6 for thermal printers and 8.5 × 11 for inkjet and laser printers." },
+      { question: "Where do I change Mercari paper size?", answer: "Open the sold item's Order Status page, find Shipping Information > Label, choose Set paper size, and save the matching option." },
+      { question: "Should I use Fit to Page?", answer: "No. Generate the correct Mercari paper size first, then print with matching media at 100% / Actual Size." },
+      { question: "Can I reprint a Mercari label?", answer: "Mercari says you can open Profile > Selling > In Progress, select the item, and tap View Label." },
+      { question: "Do I need a printer for every Mercari label?", answer: "Mercari documents print-free QR codes for eligible USPS and UPS prepaid labels; follow the current order screen because eligibility varies." },
+    ],
+    reviewChecklist: ["Select paper size in the Mercari order first.", "Match printer media to 4×6 or 8.5×11.", "Use the existing View Label flow for a clean reprint."],
+    sources: [
+      { label: "Mercari shipping labels and carrier options", url: "https://www.mercari.com/us/help_center/article/6000/", checkedAt: "2026-08-29", supports: "Mercari documents 4×6 and 8.5×11 choices, where to set them, QR-code eligibility and label reprinting." },
+    ],
+  },
+  "mercari-label-prints-too-small": {
+    quickAnswer: "A tiny Mercari label usually means the saved paper size, source PDF, print dialog or printer media do not match. Set 4 × 6 for thermal stock or 8.5 × 11 for Letter printing in Mercari, then reprint the original label at 100% / Actual Size.",
+    sections: [
+      { heading: "Check the Mercari paper-size preference", body: "On the sold item's Order Status page, open Shipping Information > Label > Set paper size. Mercari currently identifies 4 × 6 as the thermal-printer option and 8.5 × 11 as the inkjet/laser option." },
+      { heading: "Download the newly matched label", body: "After saving the paper size, reopen or download the label so the source file matches the intended workflow. Do not try to rescue a sheet PDF on 4×6 stock with a guessed enlargement percentage." },
+      { heading: "Match the driver and print at actual size", body: "Choose the same physical media in the printer driver, turn off Fit to Page, and print at 100% / Actual Size. A browser or driver preset from a previous paper size can still shrink the correct Mercari file." },
+      { heading: "Use Mercari's reprint path", body: "Mercari documents reprinting from Profile > Selling > In Progress > View Label. Correct the settings and reprint the existing label when the order still exposes it; do not reuse one label on multiple packages." },
+    ],
+    faq: [
+      { question: "Why is my Mercari label tiny?", answer: "The most likely cause is a mismatch among Mercari's saved paper size, the downloaded file, printer media and Fit to Page settings." },
+      { question: "Which Mercari size is for a thermal printer?", answer: "Mercari currently lists 4 × 6 for thermal printers." },
+      { question: "Which Mercari size is for a regular printer?", answer: "Mercari currently lists 8.5 × 11 for inkjet and laser printers." },
+      { question: "Can I reprint the same label?", answer: "Mercari documents a View Label reprint path for in-progress sales. Use the current order screen as the authority." },
+      { question: "Can I reuse one label on another package?", answer: "No. Mercari's help page warns not to use the same label twice." },
+    ],
+    reviewChecklist: ["Confirm Mercari's saved paper size.", "Download the matching label and disable Fit to Page.", "Reprint the existing order label; never reuse it on another package."],
+    sources: [
+      { label: "Mercari shipping labels and carrier options", url: "https://www.mercari.com/us/help_center/article/6000/", checkedAt: "2026-08-29", supports: "Mercari documents paper-size selection, 4×6 and 8.5×11 use cases, reprinting and the prohibition on label reuse." },
+    ],
+  },
+  "shipstation-label-too-small-or-too-large": {
+    quickAnswer: "Start in ShipStation's Label Document Options, not with an arbitrary scale percentage. Choose the label layout that matches the physical printer—4 × 6 for a thermal workflow—then align the operating-system driver and print one test at 100% / Actual Size.",
+    sections: [
+      { heading: "Set the layout in ShipStation", body: "ShipStation's current help directs users to Settings > Printing > Printing Setup > Label Document Options. Choose the document format that matches the printer before troubleshooting browser or driver scale." },
+      { heading: "Use the documented 4×6 thermal option", body: "ShipStation identifies 4 × 6 as the option for thermal label printers. If the source layout is a larger sheet, do not shrink the entire page onto one thermal label; switch the document option and regenerate or reopen the label." },
+      { heading: "Match the operating-system printer media", body: "After ShipStation's layout is correct, set the printer driver to the same physical media and use 100% / Actual Size. Conflicting app and driver sizes can make output too small, too large, sideways or clipped." },
+      { heading: "Test one job before batch printing", body: "Use a blank template or one non-production test to confirm size, alignment and barcode sharpness. Do not save a new default or print a batch until the page boundary fits one label without crop or automatic scaling." },
+    ],
+    faq: [
+      { question: "Where are ShipStation label-size settings?", answer: "ShipStation documents them under Settings > Printing > Printing Setup > Label Document Options." },
+      { question: "Which ShipStation layout is for thermal printers?", answer: "ShipStation currently identifies 4 × 6 as the thermal-label option." },
+      { question: "Should I fix a wrong size by changing scale?", answer: "Choose the correct ShipStation document option and driver media first. Use 100% / Actual Size after they match." },
+      { question: "Why is the label still wrong after changing ShipStation?", answer: "The operating-system driver, browser print dialog or saved printer preset may still use a different paper size." },
+      { question: "When should I batch print?", answer: "Only after one test fits the physical label and the barcode is sharp, complete and unscaled." },
+    ],
+    reviewChecklist: ["Choose the ShipStation document option first.", "Match the printer driver to the same media.", "Pass one 100% test before batch printing."],
+    sources: [
+      { label: "ShipStation Print Labels", url: "https://help.shipstation.com/hc/en-us/articles/360026157671-Print-Labels", checkedAt: "2026-08-29", supports: "ShipStation documents Label Document Options and the 4×6 thermal-printer layout." },
+    ],
+  },
+  "dymo-4xl-label-prints-too-small": {
+    quickAnswer: "For a DYMO LabelWriter 4XL, first confirm the source file is a true 4 × 6 label and the driver is using matching large-format label stock. Print at 100% / Actual Size; if a full Letter or A4 page is being squeezed onto the roll, fix or extract the source layout instead of enlarging blindly.",
+    sections: [
+      { heading: "Confirm the source page before blaming the printer", body: "Open the label PDF properties or analyze its page box. A full sheet sent to 4×6 stock will look miniature because the printer is fitting the whole page, even when the DYMO hardware and roll are working correctly." },
+      { heading: "Select matching large-format stock", body: "Use the 4XL driver or DYMO software setting that matches the loaded 4×6 shipping-label stock. Paper-size choices can exist in both the system driver and the print dialog, so confirm both when the output remains small." },
+      { heading: "Keep scale at 100% after sizes match", body: "Disable Fit to Page and print at 100% / Actual Size only after the PDF and driver media agree. A guessed enlargement can crop the barcode or tracking number at the label edge." },
+      { heading: "Run a hardware and feed check", body: "If a blank 4×6 template is also wrong, reload the roll and follow the current DYMO user guide for hardware, media and feed troubleshooting. If only the carrier PDF is wrong, fix the source layout instead." },
+    ],
+    faq: [
+      { question: "Why does my DYMO 4XL print a tiny shipping label?", answer: "The source may be a full Letter/A4 page, or the driver media and print-dialog paper sizes may not match the 4×6 roll." },
+      { question: "Should I increase scale above 100%?", answer: "Not until the source page and driver media match. Blind enlargement can crop scan-critical content." },
+      { question: "How do I isolate a DYMO hardware problem?", answer: "Print a blank 4×6 template. If it is also undersized or misfed, use the official DYMO guide for media and hardware checks." },
+      { question: "Can the 4XL print a full Letter page?", answer: "No. Extract a true 4×6 label area rather than shrinking the entire sheet onto one label." },
+      { question: "Is this official DYMO support?", answer: "No. This is independent print-layout guidance linked to the official LabelWriter 4XL user guide for hardware instructions." },
+    ],
+    reviewChecklist: ["Verify the PDF is 4×6 or safely extractable.", "Match DYMO driver media to the loaded stock.", "Use the official guide when a blank template also fails."],
+    sources: [
+      { label: "DYMO LabelWriter 4XL user guide", url: "https://download.dymo.com/UserManuals/labelwriter%20user%20guides/LabelWriter4XL_UserGuide.pdf", checkedAt: "2026-08-29", supports: "DYMO's manual is the first-party reference for 4XL hardware, media loading and printer operation." },
+    ],
+  },
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },
