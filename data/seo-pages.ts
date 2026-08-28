@@ -522,6 +522,132 @@ const longTailEnhancements: Record<string, Partial<Pick<SeoPage, "quickAnswer" |
       { label: "Pirate Ship: Change label size", url: "https://support.pirateship.com/en/articles/4140701-how-can-i-change-the-size-of-my-label", checkedAt: "2026-08-29", supports: "Pirate Ship documents pre-purchase size selection and refund/replacement when a purchased size is wrong." },
     ],
   },
+  "ebay-4x6-label-sideways-thermal-printer": {
+    quickAnswer: "Choose eBay's 4 × 6 print format before purchasing the label, then set the thermal printer to matching 4 × 6 media. A sideways or miniature print is a format, orientation or driver mismatch; correct those inputs instead of rotating or enlarging the barcode image.",
+    sections: [
+      { heading: "Choose the eBay print format first", body: "eBay currently offers 8 × 11, 4 × 6, and—for USPS only—2 × 7 print formats. Select 4 × 6 for the thermal workflow before purchasing, because eBay says the label-size format can only be adjusted before purchase." },
+      { heading: "Match the thermal driver", body: "Set the printer's media size to 4 × 6 and use the orientation shown by the source PDF. If the preview contains a full 8 × 11 sheet or is rotated across the roll, stop before printing and return to the eBay format or driver setup." },
+      { heading: "Do not solve rotation with arbitrary scaling", body: "Auto-rotate, Fit to Page and a saved desktop-printer preset can make a correct 4×6 label sideways or tiny. Clear the conflicting preset, keep the barcode unchanged, and print one test before a batch." },
+      { heading: "Use eBay's current management flow", body: "eBay documents print, reprint and cancel actions in My eBay, Seller Hub and the app. Use the order's current Manage shipping options if a purchased label needs attention; do not print a second paid label without checking the first transaction." },
+    ],
+    faq: [
+      { question: "Which eBay format is for a thermal printer?", answer: "eBay currently offers a 4 × 6 print format that matches common thermal label stock." },
+      { question: "Why is my eBay label sideways?", answer: "The eBay print format, PDF orientation, driver media or auto-rotate setting does not match the 4×6 roll." },
+      { question: "Can I change the eBay print size after purchase?", answer: "eBay says the label-size format can only be adjusted before purchase. Use the order's current manage/cancel flow if the purchased label is wrong." },
+      { question: "Should I rotate a screenshot?", answer: "No. Use the original eBay label file and correct the format or printer orientation so the barcode is not resampled." },
+      { question: "Can I reprint from the eBay app?", answer: "eBay documents reprint and label-management actions in the app; open Selling > Orders and Manage shipping for the current options." },
+    ],
+    reviewChecklist: ["Choose eBay 4×6 before purchase.", "Match driver media and source orientation.", "Use Manage shipping instead of editing the barcode image."],
+    sources: [
+      { label: "eBay printing and canceling shipping labels", url: "https://www.ebay.com/help/-/-/-/shipping-labels?id=4157", checkedAt: "2026-08-29", supports: "eBay documents available print formats, pre-purchase size selection, QR options, and print/reprint/cancel flows." },
+    ],
+  },
+  "ebay-shipping-label-cut-off-left-side": {
+    quickAnswer: "First verify that the eBay print format matches the physical paper: 4 × 6 for matching thermal stock or 8 × 11 for a desktop workflow. A left-edge crop is usually a media, orientation, margin or roll-alignment problem; do not shrink the whole label to hide it.",
+    sections: [
+      { heading: "Confirm the format selected in eBay", body: "eBay currently offers 8 × 11, 4 × 6, and USPS-only 2 × 7 print formats. The print-size setting must be chosen before purchase, so verify the order's label format before debugging printer margins." },
+      { heading: "Separate source crop from printer crop", body: "Open the original label PDF and confirm the left edge is present. If it is missing in the file, return to the eBay order flow. If the PDF is complete but paper output is clipped, the printer media, printable area, roll guides or origin offset is responsible." },
+      { heading: "Fix alignment without shrinking", body: "Set the driver to the same paper size, reload or calibrate the roll, clear borderless/photo presets, and print at the intended orientation. Shrinking can reveal the left edge while making the barcode and quiet zone too small." },
+      { heading: "Stop when active content is missing", body: "Reprint or use eBay's current label-management flow if the barcode, tracking number, address, service text or routing mark is clipped. A partial label should not be repaired with a screenshot or pasted fragment." },
+    ],
+    faq: [
+      { question: "Why does only the left side get cut off?", answer: "A consistent one-edge crop usually points to printable area, driver media, roll alignment or origin offset rather than global scale." },
+      { question: "Should I shrink the eBay label?", answer: "No. Match format, media and alignment first so barcode scale is preserved." },
+      { question: "Which formats does eBay currently offer?", answer: "eBay documents 8 × 11, 4 × 6, and 2 × 7 for USPS only." },
+      { question: "Can eBay label size be changed after purchase?", answer: "eBay says label-size format is adjusted before purchase. Check the order's manage or cancel options if it is wrong." },
+      { question: "What content makes a reprint necessary?", answer: "Reprint when barcode, tracking number, address, service or routing content is clipped or distorted." },
+    ],
+    reviewChecklist: ["Verify the eBay format and original PDF.", "Fix one-edge alignment without shrinking.", "Reprint when active content is missing."],
+    sources: [
+      { label: "eBay printing and canceling shipping labels", url: "https://www.ebay.com/help/-/-/-/shipping-labels?id=4157", checkedAt: "2026-08-29", supports: "eBay documents print formats, when format is selected, and label-management routes." },
+    ],
+  },
+  "ebay-shipping-label-trimmed-or-taped": {
+    quickAnswer: "Use eBay's matching print format so repair is unnecessary. Trim only unused outer paper, never active label content; keep every barcode flat and free of tape. If the print requires cutting, folding or taping across a barcode, tracking number, address or service mark, use eBay's reprint/manage flow.",
+    sections: [
+      { heading: "Start with the right eBay format", body: "eBay currently offers 8 × 11, 4 × 6, and USPS-only 2 × 7 formats. Select the option that matches the printer before purchase rather than cutting a mismatched sheet or thermal output after printing." },
+      { heading: "Trim blank paper, not the label", body: "Only remove clearly unused sheet margins. Keep the barcode, surrounding white space, tracking number, address, service text and routing marks complete. If those boundaries are unclear, reprint instead of trimming." },
+      { heading: "Keep tape off barcodes", body: "USPS and FedEx publish warnings against tape over barcodes; FedEx specifically notes reflection risk from clear tape. Attach the label around its outer paper or use a suitable pouch while leaving scan-critical areas flat and unobstructed." },
+      { heading: "Use eBay's reprint or cancel controls", body: "eBay documents print, reprint and cancel actions in its order-management flows. When a label is damaged or the purchased format is wrong, inspect those current options before purchasing another label or attempting a patch." },
+    ],
+    faq: [
+      { question: "Can I trim an eBay label?", answer: "Only trim unused outer paper while every barcode, quiet zone, tracking number, address and service mark remains untouched." },
+      { question: "Can clear tape cover the barcode?", answer: "No. USPS and FedEx instructions warn against tape over barcodes because it can interfere with scanning." },
+      { question: "Can I fold the barcode around an edge?", answer: "Keep the barcode flat. Use a better format, placement or reprint when the package surface is too small." },
+      { question: "Which eBay print format should I choose?", answer: "Match 4 × 6 to thermal stock or 8 × 11 to a desktop printer; 2 × 7 is documented for USPS only." },
+      { question: "Can I reprint a damaged eBay label?", answer: "eBay documents reprint and cancel controls. Use the current order's Manage shipping flow to see what is available." },
+    ],
+    reviewChecklist: ["Match eBay format before purchase.", "Trim only unused outer paper.", "Keep every barcode flat, complete and free of tape."],
+    sources: [
+      { label: "eBay printing and canceling shipping labels", url: "https://www.ebay.com/help/-/-/-/shipping-labels?id=4157", checkedAt: "2026-08-29", supports: "eBay documents print formats and label-management actions." },
+      { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions say not to tape over barcodes." },
+      { label: "FedEx shipping-label guidance", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx advises flat placement and no tape over barcodes." },
+    ],
+  },
+  "shopify-label-sideways-thermal-printer": {
+    quickAnswer: "Select Shopify's Thermal 4 × 6 / 100 × 150 mm / A6 paper format, then match the printer driver to the same media. Sideways output is an orientation or format mismatch; close the print popup, choose the correct label size, and reprint instead of rotating a screenshot.",
+    sections: [
+      { heading: "Use Shopify's thermal paper format", body: "Shopify currently lists Thermal 4 × 6 inch / 100 × 150 mm / A6 for label printers. Choose that format in Shopify before changing driver rotation or scale." },
+      { heading: "Match the driver and preview", body: "Select the same physical media in the printer driver and check that the preview shows one portrait label on one sheet. Disable a saved Letter/A4 or photo preset that rotates the label across the roll." },
+      { heading: "Correct the format from Shopify", body: "Shopify's troubleshooting guide says that while on the Print shipping label page you can close the initial popup, select the correct label size from the dropdown, and click Print shipping labels again." },
+      { heading: "Verify one reprint before a batch", body: "Shopify supports reprinting shipping documents. Print one corrected label and confirm the barcode, tracking number, address and service marks are sharp and complete before printing up to the documented bulk limit." },
+    ],
+    faq: [
+      { question: "Which Shopify format is for thermal printers?", answer: "Shopify currently lists Thermal 4 × 6 inch / 100 × 150 mm / A6." },
+      { question: "Why is my Shopify label sideways?", answer: "The Shopify paper format, source orientation or printer-driver media likely does not match the thermal roll." },
+      { question: "How do I correct label size in Shopify?", answer: "Close the initial print popup, select the correct label size from the dropdown, and click Print shipping labels again." },
+      { question: "Should I rotate a screenshot?", answer: "No. Reprint the original Shopify label in the matching format so the barcode is not resampled." },
+      { question: "Can Shopify labels be reprinted?", answer: "Yes. Shopify's help page says shipping labels and documents can be reprinted." },
+    ],
+    reviewChecklist: ["Select Shopify Thermal 4×6/A6.", "Match driver media and orientation.", "Reprint from Shopify rather than editing an image."],
+    sources: [
+      { label: "Shopify printing shipping documents", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/managing-labels/printing-shipping-documents", checkedAt: "2026-08-29", supports: "Shopify documents thermal, Letter and A4 formats plus reprinting." },
+      { label: "Shopify troubleshooting shipping labels", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/buying-labels/troubleshooting-labels", checkedAt: "2026-08-29", supports: "Shopify documents correcting the label-size dropdown and reprinting from the print page." },
+    ],
+  },
+  "shopify-4x6-on-desktop-printer": {
+    quickAnswer: "For a regular inkjet or laser printer, choose Shopify's Letter or A4 paper format instead of forcing the thermal 4 × 6 layout onto a desktop page. Match the selected format to the loaded paper, then reprint the original shipping document and inspect the barcode before handoff.",
+    sections: [
+      { heading: "Use Shopify's desktop-printer format", body: "Shopify currently lists Letter 8.5 × 11 and A4 210 × 297 mm for desktop printers, while Thermal 4 × 6 / 100 × 150 mm / A6 is for label printers. Select the format that matches the actual printer." },
+      { heading: "Correct the label size before reprinting", body: "If the first popup used the wrong format, Shopify says to close it, choose the correct label size from the dropdown, and click Print shipping labels again. This preserves the original document better than scaling a screenshot." },
+      { heading: "Keep the generated layout intact", body: "Choose the same Letter or A4 paper in the system print dialog and inspect the preview. Do not stretch a 4×6 barcode to fill the whole sheet or crop active content simply to center it." },
+      { heading: "Trim only unused sheet paper", body: "After printing, remove only blank outer paper. Keep barcode whitespace, tracking number, address, service text and any customs or packing-slip content required by the shipment complete and readable." },
+    ],
+    faq: [
+      { question: "Which Shopify format is for a regular printer?", answer: "Shopify lists Letter for 8.5 × 11 paper and A4 for 210 × 297 mm paper." },
+      { question: "Should I choose Thermal 4×6 on a desktop printer?", answer: "Use Shopify's Letter or A4 format for a desktop printer unless your physical setup specifically prints 4×6 media." },
+      { question: "Can I reprint after choosing the wrong format?", answer: "Yes. Shopify documents choosing the correct label size and reprinting from the Print shipping label page." },
+      { question: "Should the barcode fill the sheet?", answer: "No. Preserve the generated barcode scale and trim only unused outer paper." },
+      { question: "Can shipping documents be combined?", answer: "Shopify documents combining labels with customs forms or packing slips and resizing them to the selected paper format." },
+    ],
+    reviewChecklist: ["Choose Shopify Letter or A4 for desktop printing.", "Match the physical paper in the print dialog.", "Trim only unused outer paper after a clean reprint."],
+    sources: [
+      { label: "Shopify printing shipping documents", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/managing-labels/printing-shipping-documents", checkedAt: "2026-08-29", supports: "Shopify documents Thermal, Letter and A4 formats, combined documents and reprinting." },
+      { label: "Shopify troubleshooting shipping labels", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/buying-labels/troubleshooting-labels", checkedAt: "2026-08-29", supports: "Shopify documents correcting the label size and reprinting." },
+    ],
+  },
+  "shopify-label-cut-off-parts-usps": {
+    quickAnswer: "Do not cut away any USPS barcode, tracking number, address, service text or surrounding barcode space. First reprint from Shopify with the matching Thermal 4 × 6, Letter or A4 format; if active USPS content remains cropped, stop and resolve the source label rather than trimming it for handoff.",
+    sections: [
+      { heading: "Correct the Shopify format first", body: "Shopify documents Thermal 4 × 6/A6 for label printers and Letter or A4 for desktop printers. Its troubleshooting flow lets you close the print popup, select the correct label size and reprint the original document." },
+      { heading: "Compare the reprint with the original", body: "Confirm that the full USPS barcode, tracking number, recipient and return addresses, service text and routing marks are present. A crop caused by the wrong media or orientation should disappear after a correctly formatted reprint." },
+      { heading: "Trim only blank outer paper", body: "Do not trim into the barcode or its surrounding white space. USPS Click-N-Ship guidance also says not to tape over barcodes, so attach the corrected label without glossy tape across scan-critical content." },
+      { heading: "Stop if required content is still missing", body: "This page cannot promise USPS acceptance. If the Shopify source file itself is incomplete, the package shape prevents flat placement, or any active content remains damaged, use Shopify or USPS support before drop-off." },
+    ],
+    faq: [
+      { question: "Can I cut off blank parts of a Shopify USPS label?", answer: "Only remove unused outer paper. Do not cut barcode whitespace, tracking, address, service or routing content." },
+      { question: "How do I fix the Shopify label size?", answer: "Close the print popup, choose the paper format that matches the printer, and click Print shipping labels again." },
+      { question: "Can clear tape cover a USPS barcode?", answer: "No. USPS Click-N-Ship guidance says not to tape over barcodes." },
+      { question: "Does a readable address make a cropped label acceptable?", answer: "No. Barcode, tracking and routing content must also remain complete; ask the issuing platform or carrier when uncertain." },
+      { question: "Which Shopify format should I use?", answer: "Use Thermal 4×6/A6 for a matching label printer, Letter for 8.5×11 desktop paper, or A4 for 210×297 mm desktop paper." },
+    ],
+    reviewChecklist: ["Reprint using Shopify's matching format.", "Keep every USPS barcode and quiet zone intact.", "Stop when active content remains cropped or cannot lie flat."],
+    sources: [
+      { label: "Shopify printing shipping documents", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/managing-labels/printing-shipping-documents", checkedAt: "2026-08-29", supports: "Shopify documents paper formats and reprinting." },
+      { label: "Shopify troubleshooting shipping labels", url: "https://help.shopify.com/en/manual/fulfillment/fulfilling-orders/shipping-labels/buying-labels/troubleshooting-labels", checkedAt: "2026-08-29", supports: "Shopify documents correcting label size from the print page." },
+      { label: "USPS Click-N-Ship basics", url: "https://faq.usps.com/articles/Knowledge/Click-N-Ship-The-Basics", checkedAt: "2026-08-29", supports: "USPS instructions say not to tape over barcodes." },
+    ],
+  },
   "etsy-shipping-label-print-settings": {
     sections: [
       { heading: "Choose the Etsy format before opening the print dialog", body: "Decide whether this order should use a 4×6 thermal label or a Letter/A4 sheet workflow before changing printer scale. The safest setting is the Etsy label format that already matches the paper or roll loaded in the printer." },

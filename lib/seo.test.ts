@@ -36,6 +36,12 @@ describe("SEO metadata contracts", () => {
       "dymo-4xl-label-prints-too-small",
       "pirate-ship-4x6-label-prints-on-letter-paper",
       "pirate-ship-label-too-small-thermal-printer",
+      "ebay-4x6-label-sideways-thermal-printer",
+      "ebay-shipping-label-cut-off-left-side",
+      "ebay-shipping-label-trimmed-or-taped",
+      "shopify-label-sideways-thermal-printer",
+      "shopify-4x6-on-desktop-printer",
+      "shopify-label-cut-off-parts-usps",
     ];
 
     for (const slug of slugs) {

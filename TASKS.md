@@ -12,6 +12,7 @@
 - Rewrite the acceptance, trim/fold/tape, and preflight pages with claim-level USPS/UPS/FedEx sources and stop conditions.
 - Replace generic Mercari, ShipStation, and DYMO pages with first-party, product-specific setup paths.
 - Correct Pirate Ship desktop/thermal guidance against its current template and purchased-size rules.
+- Align eBay and Shopify failure guides with their current format-selection and reprint workflows.
 
 - Audit current SEO working tree.
 - Fix high-priority technical SEO risks.
@@ -32,6 +33,6 @@
 ## Future SEO backlog
 
 - Add claim-level first-party sources and recheck dates for carrier/platform assertions.
-- Rewrite the remaining 19 generic fallback pages in priority order: Amazon FBA, eBay/Shopify variants, and other printer-specific issues.
+- Rewrite the remaining 13 generic fallback pages in priority order: Amazon, cross-platform paper/scale, and the five core symptom guides.
 - Investigate the public `private, no-cache, no-store` response without breaking locale correctness.
 - Upgrade development-only vulnerable dependencies in a separate verified cycle.
