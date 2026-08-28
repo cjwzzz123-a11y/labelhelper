@@ -94,7 +94,7 @@ export const printers = printerOptions.map((option) => option.value);
 export const officialDocs: Record<Carrier | Platform, { url: string; label: string }> = {
   usps: { url: "https://postalpro.usps.com/", label: "USPS official shipping guidance" },
   ups: { url: "https://www.ups.com/us/en/support/shipping-support/print-shipping-labels.page", label: "UPS label printing support" },
-  fedex: { url: "https://www.fedex.com/en-us/shipping/online/label-printing.html", label: "FedEx label printing guidance" },
+  fedex: { url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", label: "FedEx label creation guidance" },
   dhl: { url: "https://www.dhl.com/", label: "DHL official shipping guidance" },
   royal_mail: { url: "https://www.royalmail.com/", label: "Royal Mail official shipping guidance" },
   canada_post: { url: "https://www.canadapost-postescanada.ca/", label: "Canada Post official shipping guidance" },

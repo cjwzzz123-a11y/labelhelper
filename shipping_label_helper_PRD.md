@@ -687,7 +687,7 @@ The project owner must answer these BEFORE Day 5:
 ### 15.2 Carrier official label-size docs (for citations)
 - USPS: PostalPro Parcel Labeling Guide (postalpro.usps.com)
 - UPS: ups.com/content/us/en/help-center/sri/printer-setup
-- FedEx: fedex.com/en-us/shipping/online/label-printing.html
+- FedEx: fedex.com/en-us/shipping/create-shipping-label.html
 - DHL: dhl.com (search "shipping label specifications")
 - Etsy: help.etsy.com (search "shipping label printer")
 - Shopify: help.shopify.com/manual/orders/shipping-labels
