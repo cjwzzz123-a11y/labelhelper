@@ -1,7 +1,7 @@
 import type { Carrier, Platform } from "./rules";
 import type { FAQItem } from "@/components/FAQ";
 import type { RelatedLink } from "@/components/RelatedLinks";
-import type { SeoPage, SeoPageKind, TroubleshooterStep } from "./seo-pages";
+import type { SeoPage, SeoPageKind } from "./seo-pages";
 
 const commonRelated: RelatedLink[] = [
   { href: "/#checker", title: "运单标签尺寸检查器", description: "打印前检查纸张、比例和方向。" },
@@ -80,45 +80,188 @@ function templatePage(slug: string, label: string): SeoPage {
   };
 }
 
-function troubleshootingTree(slug: string): SeoPage["decisionTree"] {
-  const shared = {
-    headline: "重打前先找到原因",
-    intro: "选择最接近你坏打印的症状。每一步都指向重买运费前最安全的下一步工具。",
-    firstAction: "先用 100% / 实际大小打一张测试。",
-  };
-  const trees: Record<string, TroubleshooterStep[]> = {
-    "shipping-label-printing-too-small": [
-      { title: "整张标签变小", symptom: "4×6 边界大约只有 3.7×5.6，或条码看起来被压缩。", action: "关闭适合页面，选择实际大小；如果尺子测量仍不对，再计算修正比例。", href: "/tools/scale-calculator", cta: "计算修正比例" },
-      { title: "从浏览器预览打印", symptom: "浏览器添加边距，或把 PDF 缩小到纸张内。", action: "先下载标签 PDF，用 PDF 阅读器按 100% 打印，再改平台设置。", href: "/tools/pdf-analyzer", cta: "检查 PDF 尺寸" },
-      { title: "新打印机或新卷纸", symptom: "这台打印机打出的每张标签都略小。", action: "打印校准页，判断是驱动缩放还是标签文件问题。", href: "/tools/calibration-sheet", cta: "打印校准页" },
-    ],
-    "shipping-label-cut-off-when-printing": [
-      { title: "缺少一边", symptom: "地址或条码在左、右、上、下任一边被裁掉。", action: "先让纸张尺寸和方向匹配 PDF，再考虑缩放。", href: "/#checker", cta: "检查纸张设置" },
-      { title: "热敏卷纸跑偏", symptom: "第一张接近正常，后面的标签逐渐横向或纵向偏移。", action: "用空白模板区分卷纸对齐和可打印区域问题。", href: "/4x6-shipping-label-template", cta: "下载 4×6 模板" },
-      { title: "普通打印机裁切", symptom: "Letter 或 A4 输出在不可打印边距附近裁掉标签。", action: "先运行校准页，确认打印机边距，再打印真实运费。", href: "/tools/calibration-sheet", cta: "打印校准页" },
-    ],
-    "shipping-label-barcode-not-scanning": [
-      { title: "条码太小", symptom: "整张标签被缩小，或条码线条明显被压缩。", action: "先修复打印比例；整张标签尺寸不对时，条码检查不可靠。", href: "/tools/scale-calculator", cta: "修复打印比例" },
-      { title: "空白区被裁掉", symptom: "条码贴近文字、标签边缘、胶带或包裹折角。", action: "使用图片检查器估算条码周围空白区。", href: "/tools/barcode-quiet-zone-checker", cta: "检查条码空白区" },
-      { title: "打印发灰或反光", symptom: "条码褪色、有断线、起皱，或被亮面胶带覆盖。", action: "提高打印浓度或调整纸张/胶带后，先重打一张测试。", href: "/tools/test-print-pack", cta: "下载测试打印包" },
-    ],
-    "shipping-label-not-centered": [
-      { title: "固定偏移", symptom: "每张标签都偏左、偏右、偏上或偏下。", action: "打印校准页，区分驱动偏移和平台标签布局问题。", href: "/tools/calibration-sheet", cta: "打印校准页" },
-      { title: "介质尺寸错误", symptom: "预览居中，但实物输出偏移或旋转。", action: "先检查平台、承运商、纸张和打印机组合，再修改边距。", href: "/#checker", cta: "检查标签设置" },
-      { title: "模板也偏移", symptom: "空白 4×6 测试也有同样的对齐问题。", action: "先修复导纸器、卷纸装载或驱动偏移，再重打运费。", href: "/4x6-shipping-label-template", cta: "下载 4×6 模板" },
-    ],
-    "fit-to-page-vs-actual-size-shipping-label": [
-      { title: "选择打印比例", symptom: "适合页面在预览里看起来更安全，但会改变条码大小。", action: "先使用实际大小，再测量输出，不要只相信屏幕预览。", href: "/tools/scale-calculator", cta: "测量并计算" },
-      { title: "不确定 PDF 尺寸", symptom: "标签文件可能是 Letter、A4 或 4×6，打印对话框在猜测。", action: "先本地读取 PDF 页面尺寸，再选择纸张或比例设置。", href: "/tools/pdf-analyzer", cta: "分析 PDF 尺寸" },
-      { title: "需要安全测试", symptom: "你准备在新设置下打印真实已付运费。", action: "先打印带水印测试包，避免浪费真实标签。", href: "/tools/test-print-pack", cta: "下载测试包" },
-    ],
-  };
+type ReviewedTroublePage = Pick<SeoPage, "description" | "quickAnswer" | "updatedAt" | "evidenceNote" | "decisionTree" | "sections" | "faq" | "reviewChecklist" | "sources">;
 
-  return { ...shared, steps: trees[slug] ?? trees["shipping-label-printing-too-small"] };
+const reviewedTroublePages: Record<string, ReviewedTroublePage> = {
+  "shipping-label-printing-too-small": {
+    description: "诊断运单标签为何打印过小，区分整页被压缩、真实 4×6 比例错误，以及热敏或普通打印机输出偏淡。",
+    quickAnswer: "先判断是整张 Letter/A4 页面被压进 4×6 介质、真实 4×6 页面被等比缩小，还是只有打印质量偏弱。使用自定义比例前，让源页面、驱动介质和实体纸张相互匹配；空白测试通过后，再从未修改的原始 PDF 重打。",
+    updatedAt: "2026-08-29",
+    evidenceNote: "通用排错框架：Adobe 说明“适合”和“实际大小”的行为，Zebra 说明热敏介质校准。这些来源只支持诊断分支，不代表承运商验收结论，也不覆盖所有打印机型号。",
+    decisionTree: {
+      headline: "区分页面缩小与打印质量不佳",
+      intro: "先测量页面边界，再按源 PDF、实体介质和打印症状所对应的分支处理。",
+      firstAction: "确认源页面是 4×6、Letter 还是 A4 之前，不要放大标签。",
+      steps: [
+        { title: "PDF 页面比卷纸大", symptom: "整张 Letter 或 A4 页面被适配到一张 4×6 热敏标签上。", action: "检查 PDF 页面框。向签发方获取 4×6 格式，或只提取一个完整标签区域；不要放大已经微缩的输出。", href: "/tools/pdf-analyzer", cta: "检查 PDF 页面" },
+        { title: "整个边界等比变小", symptom: "真实 4×6 源文件在匹配的 4×6 介质上按比例缩小。", action: "确认驱动设为 4×6，关闭“适合”，打印一次空白模板；只有介质路径已经匹配时，才计算修正比例。", href: "/tools/scale-calculator", cta: "测量比例误差" },
+        { title: "只有条线或文字偏弱", symptom: "标签边界正确，但细线模糊、发灰或断裂。", action: "把它当作打印质量而非页面比例问题。再次打印真实标签前，测试浓度、速度、介质和打印头状态。", href: "/tools/test-print-pack", cta: "测试打印质量" },
+      ],
+    },
+    sections: [
+      { heading: "1. 判断变小的是页面还是打印内容", body: "调整比例前先读取 PDF 页面框。Letter 或 A4 页面若被适配到 4×6 卷纸，所有元素都会变小；真实 4×6 页面若打印成 3.8×5.7 英寸，则更像驱动或缩放发生变化。如果实体边界正确而细条偏弱，应转查打印质量，不要放大页面。" },
+      { heading: "2. 按热敏打印机分支处理", body: "对于独立 4×6 源文件，让操作系统驱动和打印对话框都匹配已装入的 4×6 介质。关闭“适合”并打印空白 4×6 模板。模板也偏小时，先检查驱动介质和该型号的校准流程，再考虑自定义百分比。" },
+      { heading: "3. 按喷墨或激光打印机分支处理", body: "在 Letter 或 A4 纸上，真实 4×6 标签应保持原定尺寸，而不是拉伸填满纸张。如果源文件本身就是整页布局，请选择同尺寸纸张。Adobe 将“适合”定义为缩放到可打印区域，将“实际大小”定义为不缩放，因此屏幕预览不能证明实体尺寸。" },
+      { heading: "4. 重打真实标签前设置停止线", body: "若条码、周围留白、地址、追踪号或服务文字发生变化，不要使用过小的输出。保留原交易和原 PDF，先通过一次有测量结果的空白测试；签发方仍允许时，再走当前重打流程。不要为了排查打印设置而重复购买运费。" },
+    ],
+    faq: [
+      { question: "为什么 Letter PDF 在热敏打印机上变得很小？", answer: "打印路径很可能把整张 Letter 页面适配到一张 4×6 标签。请获取签发方的 4×6 格式；只有文档结构允许时，才提取一个完整标签区域。" },
+      { question: "应该把比例提高到 100% 以上吗？", answer: "只有 PDF 页面、驱动介质、实体纸张都匹配，而有测量结果的空白测试仍显示等比误差时才考虑。盲猜更高比例可能裁掉另一边。" },
+      { question: "喷墨或激光打印有什么不同？", answer: "4×6 标签可以按原尺寸放在 Letter 或 A4 纸上。选择实际装入的纸张并保留标签边界，不要让标签填满整页。" },
+      { question: "热敏打印有什么不同？", answer: "源页面和驱动应与卷纸匹配，打印机还可能需要按具体型号校准介质。不要把整张纸面布局适配到一张卷纸标签。" },
+      { question: "什么时候应停止并重打？", answer: "任何扫描关键内容发生变化，或空白测试仍不正确时都应停止。只有修正后的设置通过测试，才重打原始标签。" },
+    ],
+    reviewChecklist: ["改变比例前先识别源 PDF 页面尺寸。", "按已装介质选择热敏或纸张打印分支。", "重打真实标签前，必须通过一次有测量结果的空白测试。"],
+    sources: [
+      { label: "Adobe Acrobat 打印页面大小设置", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe 定义“适合”“实际大小”“缩小过大页面”和自定义缩放的行为。" },
+      { label: "Zebra SmartCal 介质校准", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra 说明代表性热敏打印机如何测量标签介质及感测参数。" },
+    ],
+  },
+  "shipping-label-cut-off-when-printing": {
+    description: "判断运单标签是在源 PDF、热敏走纸路径还是 Letter/A4 可打印区域中被裁切，并设置安全的重打门槛。",
+    quickAnswer: "对比原始 PDF 和实物打印。如果文件里已经缺边，请回到签发流程重新生成；如果只有纸面输出被裁切，请分别走热敏卷纸或桌面纸张分支。不要为了露出缺失的条码边缘而缩小整张标签。",
+    updatedAt: "2026-08-29",
+    evidenceNote: "通用排错框架：Adobe 支持 PDF 尺寸行为判断，Zebra 支持热敏校准分支。具体按键、偏移量和可打印区域仍须以准确型号的打印机手册为准。",
+    decisionTree: {
+      headline: "找到边缘最早消失的位置",
+      intro: "改变比例前先对比原始 PDF 和实体输出；源文件裁切与打印机裁切需要不同修复。",
+      firstAction: "只要缺少条码、地址、服务或路由内容，就停止使用该打印件。",
+      steps: [
+        { title: "PDF 里已经缺少边缘", symptom: "下载的文件在进入打印对话框前就不完整。", action: "停止。回到生成它的订单或发货流程重新生成文档；打印缩放无法恢复源文件中不存在的内容。", href: "/tools/pdf-analyzer", cta: "检查源 PDF" },
+        { title: "热敏打印总是裁掉同一边", symptom: "PDF 完整，但每张卷纸标签都丢失相同一侧。", action: "匹配驱动介质，重新装入并居中导纸器，然后校准打印机。不要缩小整个条码来掩盖起点或走纸错误。", href: "/tools/calibration-sheet", cta: "测试热敏对齐" },
+        { title: "纸张边缘被裁切", symptom: "Letter 或 A4 输出触及打印机的不可打印区域。", action: "使用与源文件匹配的纸张尺寸和方向。先打印空白页面边界，再判断是否需要该流程原生的整页布局。", href: "/letter-shipping-label-template", cta: "测试纸张边界" },
+      ],
+    },
+    sections: [
+      { heading: "1. 定位最先缺失的边缘", body: "打印前打开未修改的 PDF 并检查每一页。如果条码、地址或服务标识在文件中已经缺失，请停止并返回签发方，因为任何打印设置都无法重建源内容。PDF 完整时，记录所选纸张、比例、方向以及被裁掉的实体边缘。" },
+      { heading: "2. 诊断单侧热敏裁切", body: "每张 4×6 标签都丢失同一边时，请确认驱动介质，重新装入并居中导纸器，再运行文档所述的介质校准。若连续标签的裁切位置变化，应检查走纸感测或介质松动，而不是改变 PDF 比例。" },
+      { heading: "3. 诊断 Letter 或 A4 边缘裁切", body: "桌面打印机可能存在不可打印边距。Adobe 说明“实际大小”不缩放，页面不适合所选纸张时可能被裁掉。请选择与源文件一致的纸张尺寸和方向，或重新生成流程原生的整页布局；“适合”只是通过缩小全部内容来掩盖边距问题。" },
+      { heading: "4. 定义允许重打的条件", body: "相同阅读器、驱动和介质下的空白模板必须完整打印，才能重打付费标签。如果条码、空白区、追踪号、地址、服务文字或路由标识被裁切，请从原始 PDF 重打。源文件仍不完整时，应向签发方升级处理。" },
+    ],
+    faq: [
+      { question: "怎么判断是 PDF 还是打印机裁掉了标签？", answer: "原始 PDF 已经缺边时需重新生成。PDF 完整，但空白模板和真实标签丢失同一边时，问题来自打印路径。" },
+      { question: "为什么热敏标签总是缺少同一边？", answer: "固定缺边通常指向介质尺寸、导纸器、打印起点或校准。使用偏移设置前，请先按准确型号的手册操作。" },
+      { question: "为什么不同标签被裁的位置会变化？", answer: "裁切边缘不断变化，更可能是走纸感测、卷纸漂移或导纸器松动，而不是静态 PDF 裁切。" },
+      { question: "“适合页面”能解决纸张裁切吗？", answer: "它可以通过缩小整页来露出边缘，但也会改变条码。应优先使用匹配纸张或正确的源布局。" },
+      { question: "什么时候必须停止？", answer: "有效内容缺失、模板仍被裁切或源 PDF 不完整时都应停止。修正责任路径后才可以重打。" },
+    ],
+    reviewChecklist: ["确认原始 PDF 中确实存在该边缘。", "根据裁切位置固定或变化选择对应打印机分支。", "重打运费前必须通过完整的空白模板打印。"],
+    sources: [
+      { label: "Adobe Acrobat 打印页面大小设置", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe 说明“实际大小”不缩放，并会裁掉无法装入纸张的页面或选区。" },
+      { label: "Zebra SmartCal 介质校准", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra 说明代表性的间隙、黑标和连续热敏介质的感测与校准。" },
+    ],
+  },
+  "shipping-label-barcode-not-scanning": {
+    description: "从比例、条码空白区、对比度、损坏和打印输出诊断无法扫描的运单条码，不把测试结果表述为承运商批准。",
+    quickAnswer: "把手机或手持设备扫描失败视为症状，而不是承运商结论。先恢复原始页面几何，再检查条码留白、对比度、条线损坏和平整粘贴。如果条码被缩放、裁切、拉出条纹、起皱或覆盖，请从原文件重打。",
+    updatedAt: "2026-08-29",
+    evidenceNote: "通用排错框架：GS1 列出常见条码质量因素，Zebra 说明一种热敏打印质量路径，承运商来源说明粘贴位置。本页不提供条码验证，也不保证承运商验收。",
+    decisionTree: {
+      headline: "先检查几何，再检查打印质量",
+      intro: "条码可能因为整页发生变化、条线打印不良，或周围空间及粘贴位置受损而失效。",
+      firstAction: "手机扫描只是诊断线索，不是标准验证或承运商验收。",
+      steps: [
+        { title: "标签被缩放或裁切", symptom: "打印边界与源文件不同，或条码周围留白消失。", action: "先修复页面尺寸和比例。整个符号已经改变时，扫描测试不能提供有效证据。", href: "/tools/scale-calculator", cta: "验证实体比例" },
+        { title: "条线偏淡、断裂或扩散", symptom: "边界正确，但热敏条纹或油墨渗开改变了条线。", action: "运行打印质量测试。热敏打印检查介质、浓度、速度和打印头；喷墨或激光打印应使用清晰、高对比输出。", href: "/tools/test-print-pack", cta: "测试打印质量" },
+        { title: "打印条码看起来清晰", symptom: "条码仍触及边缘、折痕、胶带或相邻文字，或者只有手机应用显示能扫。", action: "检查周围留白和平整粘贴。输出损坏时重打；交接是否会被接受仍不确定时，询问签发方或承运商。", href: "/tools/barcode-quiet-zone-checker", cta: "检查周围留白" },
+      ],
+    },
+    sections: [
+      { heading: "1. 扫描测试前先恢复几何", body: "把实体边界和条码与原始 PDF 对比。如果“适合”、截图、裁切或错误介质改变了符号或周围留白，请先修复页面尺寸和比例。反复扫描已经改变的输出并不能验证它。" },
+      { heading: "2. 分别检查空白区、对比度和损坏", body: "GS1 将空白区尺寸、对比度、符号尺寸、条高、包装干扰、老化损坏和位置列为常见质量检查。应把它们当作诊断类别，而不是某一承运商条码的通用数值上限。" },
+      { heading: "3. 区分热敏和纸张打印质量", body: "直接热敏输出应按具体型号手册测试介质、打印头、浓度和速度；Zebra 说明热量、速度和介质会共同影响质量。喷墨或激光输出应在合适白色介质上保持清晰黑色，并拒绝渗墨、缺线或低对比打印。" },
+      { heading: "4. 条码被遮挡或结果不确定时停止", body: "让条码平整，远离折痕、接缝和亮面胶带。条线断裂、空白区缺失或标签损坏时请重打。手机相机扫出结果只是一项快速检查；交接仍不确定时，请询问签发平台或承运商。" },
+    ],
+    faq: [
+      { question: "手机能扫出条码，就能证明运单会被接受吗？", answer: "不能。它只是诊断线索，不是标准验证或承运商批准。" },
+      { question: "调整打印浓度前应该检查什么？", answer: "先确认页面边界和条码没有被缩放或裁切。几何错误应先于浓度调节处理。" },
+      { question: "热敏打印机用户应该测试什么？", answer: "页面尺寸和校准正确后，按准确型号的流程测试介质、打印头、浓度和速度。" },
+      { question: "喷墨或激光打印机用户应该测试什么？", answer: "检查黑白对比、条线边缘、渗墨、缺线和损坏，并让胶带和折痕远离条码。" },
+      { question: "什么时候重打比继续扫码更安全？", answer: "符号被缩放、裁切、拉出条纹、模糊、起皱、浸湿或覆盖，或者缺少所需周围留白时，应重打。" },
+    ],
+    reviewChecklist: ["扫描测试前恢复标签原始几何。", "分别检查空白区、对比度、条线损坏和粘贴位置。", "损坏的输出应重打；不要把手机扫描当作批准。"],
+    sources: [
+      { label: "GS1 条码质量检查", url: "https://support.gs1.org/support/solutions/articles/43000734141-what-should-i-check-to-ensure-good-quality-barcodes-", checkedAt: "2026-08-29", supports: "GS1 将空白区、对比度、符号尺寸、条高、损坏、包装干扰和位置列为质量因素。" },
+      { label: "Zebra 热敏打印质量调整", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/c-zd620-420-print-operations/t-zd421-zd621-ug-adjusting-the-print-quality.html", checkedAt: "2026-08-29", supports: "Zebra 说明代表性热敏打印机的热量或浓度、打印速度与已装介质之间的关系。" },
+      { label: "FedEx 运单标签粘贴位置", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx 建议保持条码平整、远离接缝和边缘，并且不要覆盖透明胶带。" },
+    ],
+  },
+  "shipping-label-not-centered": {
+    description: "判断运单标签偏移只是视觉问题，还是由 PDF 布局、热敏走纸、驱动起点或纸张打印边距造成，再决定是否重打。",
+    quickAnswer: "可用标签不要求四周留白完全对称。先确认 PDF 完整且比例正确。只有同一实测偏移反复出现时，才修复热敏走纸或打印起点；在 A4 或 Letter 上，完整且按实际大小打印的内容若未被裁切或旋转，不应随意移动。",
+    updatedAt: "2026-08-29",
+    evidenceNote: "通用排错框架：来源说明 PDF 页面缩放和代表性热敏校准。本页不把视觉居中描述为承运商要求；具体型号的偏移设置必须查对应打印机手册。",
+    decisionTree: {
+      headline: "判断偏心是外观问题还是破坏性问题",
+      intro: "移动内容前，先确认偏移发生在源 PDF、热敏走纸路径，还是纸张打印机的可打印区域。",
+      firstAction: "不要为了让留白看起来对称而缩小一张内容完整的标签。",
+      steps: [
+        { title: "PDF 本身已经偏移", symptom: "下载文件中的页面框或标签图形本来就偏向一侧。", action: "回到签发方选择匹配格式，或有意提取一个完整标签。不要用打印机偏移补偿有问题的源文件。", href: "/tools/pdf-analyzer", cta: "检查 PDF 页面框" },
+        { title: "每张热敏标签偏移相同", symptom: "匹配的 4×6 模板和真实标签都从同一个错误位置开始。", action: "重新装卷、居中导纸器并校准介质感测；之后只使用该型号文档明确支持的水平或垂直偏移。", href: "/tools/calibration-sheet", cta: "测量偏移" },
+        { title: "只有纸张位置看起来不均匀", symptom: "完整标签在 Letter 或 A4 上按实际大小打印，但视觉上没有居中。", action: "不要只为对称而移动或缩放扫描关键内容。确认整张标签位于可打印区域；只有内容被裁切或旋转时才重打。", href: "/letter-shipping-label-template", cta: "检查纸张适配" },
+      ],
+    },
+    sections: [
+      { heading: "1. 区分视觉留白与内容丢失", body: "检查原始 PDF 并测量输出。若整张标签完整、比例正确且位于纸内，桌面纸张外圈留白不均可能只是视觉问题。如果条码、空白区、地址或服务标识被裁切，则应把偏移视为打印失败。" },
+      { heading: "2. 追踪热敏偏移", body: "空白 4×6 模板和真实标签都重复出现相同偏移，通常指向介质导轨、感测、驱动起点或文档化的位置设置。先重新装载并校准。不要缩小整张标签，也不要用未记录的偏移掩盖走纸问题。" },
+      { heading: "3. 追踪 Letter 或 A4 上的位置", body: "确认所选纸张和方向与 PDF 匹配。Adobe 的“实际大小”保持尺寸，但页面不适合时可能裁切；“适合”则会改变尺寸。应选择匹配的源布局，不要为视觉对称而移动条码图形。" },
+      { heading: "4. 位置影响有效内容时停止", body: "如果真实输出被裁切、旋转、折叠或离边缘太近而无法平整粘贴，请在空白模板通过后重打。如果只有源 PDF 偏移或不完整，应回到签发流程，而不是在打印机中做补偿。" },
+    ],
+    faq: [
+      { question: "运单标签必须在 Letter 或 A4 纸上居中吗？", answer: "不需要仅为视觉对称而居中。关键是内容完整、比例正确，并能平整粘贴且不裁掉有效区域。" },
+      { question: "为什么每张热敏标签偏移量都一样？", answer: "重复偏移通常指向导纸器、感测、驱动起点或位置设置。请先测试空白模板，并按准确型号手册处理。" },
+      { question: "应该缩小标签让它居中吗？", answer: "不应该。缩小会改变条码几何。应修复介质、方向、校准或源布局。" },
+      { question: "如果只有原始 PDF 偏心怎么办？", answer: "回到签发方获取正确格式；允许时也可有意提取一个完整标签。不要在源布局问题之上叠加打印机偏移。" },
+      { question: "什么时候应该重打？", answer: "偏移裁切或旋转有效内容、妨碍平整粘贴，或正确空白模板测试后仍存在时，应重打。" },
+    ],
+    reviewChecklist: ["确认偏移只是视觉问题，还是裁掉了有效内容。", "使用偏移值前，先校准反复出现的热敏偏移。", "匹配的空白模板完整打印后才重打。"],
+    sources: [
+      { label: "Adobe Acrobat 打印页面大小设置", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe 区分不缩放的“实际大小”和“适合”，并说明页面放不下时的裁切风险。" },
+      { label: "Zebra SmartCal 介质校准", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra 说明代表性热敏打印机的介质装载、感测与校准。" },
+    ],
+  },
+  "fit-to-page-vs-actual-size-shipping-label": {
+    description: "根据 PDF 页面与打印介质选择“适合”或“实际大小”，判断何时保留比例、何时会裁切，以及何时应重新生成标签。",
+    quickAnswer: "PDF 页面和已装介质相互匹配时，使用“实际大小”/ 100%。Adobe 将“适合”定义为缩放到所选纸张的可打印区域，将“实际大小”定义为不缩放；页面放不下时，后者仍可能裁切。源文件与介质不同时，应获取正确格式，不能假设任一按钮都安全。",
+    updatedAt: "2026-08-29",
+    evidenceNote: "通用排错框架：Adobe 和 Apple 说明阅读器的打印行为。正确的运单标签格式仍由签发它的平台或承运商决定，而不是由本页决定。",
+    decisionTree: {
+      headline: "按源页面与介质的关系选择比例",
+      intro: "“实际大小”保留尺寸，“适合”改变尺寸；两者都不能修复与所选介质不匹配的源页面。",
+      firstAction: "选择任一选项前，先读取 PDF 页面尺寸并确认已装介质。",
+      steps: [
+        { title: "源页面和介质已经匹配", symptom: "PDF 页面与装入的纸张同为 4×6、Letter 或 A4。", action: "使用“实际大小”/ 100%，并测量一次测试。Adobe 将“实际大小”定义为不缩放打印。", href: "/tools/scale-calculator", cta: "测量结果" },
+        { title: "源页面比介质大", symptom: "Letter 或 A4 页面正被送到一张 4×6 卷纸标签。", action: "不要用“适合”把整页微缩。获取正确格式；文档结构允许时，只提取一个完整标签区域。", href: "/tools/pdf-analyzer", cta: "转换前先检查" },
+        { title: "实际大小会裁掉页面", symptom: "源页面无法装入所选纸张或打印机的可打印区域。", action: "选择匹配纸张或重新生成正确布局。Adobe 说明“实际大小”可能裁掉放不下的页面；这是停止信号，不是猜比例的理由。", href: "/tools/test-print-pack", cta: "测试匹配布局" },
+      ],
+    },
+    sections: [
+      { heading: "1. 从源页面和实体介质开始", body: "先读取 PDF 页面是 4×6、Letter、A4，还是包含小标签的更大纸面；再确认所选打印机里装入的纸张或卷纸。只有这两个事实相匹配后，才应选择比例。" },
+      { heading: "2. 在匹配路径中使用实际大小", body: "Adobe 说明“实际大小”不应用缩放。真实 4×6 页面送往匹配的 4×6 介质，或 Letter/A4 页面送往同尺寸纸张时可以使用。仍应测量一次空白测试，因为最终驱动可能应用自己的介质设置。" },
+      { heading: "3. 把适合页面视为一次变换", body: "Adobe 说明“适合”会缩小或放大页面以进入所选可打印区域。这对普通文档有用，却会改变条码几何。在 macOS 上，Apple 同样说明“缩放以适合”，以及保留完整页面或填满并裁切纸张的不同选项。" },
+      { heading: "4. 两个选项都不能保全文档时停止", body: "如果“实际大小”裁掉必需内容，而“适合”又将其微缩或放大，说明源布局不属于所选介质。应重新生成签发方的正确格式、使用匹配纸张，或仅在文档允许时有意提取一个完整标签；不要用真实条码反复试错。" },
+    ],
+    faq: [
+      { question: "“实际大小”对运单标签总是安全吗？", answer: "不是。它保留比例，但 Adobe 说明页面不适合所选纸张时仍可能裁掉内容。" },
+      { question: "“适合页面”总是错误的吗？", answer: "它是有明确行为的缩放操作。目标是保留签发条码尺寸时不要使用，应获取匹配的源格式。" },
+      { question: "真实 4×6 PDF 和 4×6 卷纸应该选什么？", answer: "从 4×6 介质和“实际大小”/ 100% 开始，打印真实运费前先测量一次空白测试。" },
+      { question: "Letter PDF 送往热敏打印机应该选什么？", answer: "既不要使用“适合”，也不要盲目放大。获取 4×6 格式；只有全部必需内容都能保留时，才提取一个完整标签。" },
+      { question: "什么时候应该停止并重新生成？", answer: "“实际大小”会裁切、“适合”会改变条码、页面含有必需的相邻文档，或签发方给出特定格式要求时，请停止并重新生成。" },
+    ],
+    reviewChecklist: ["读取 PDF 页面尺寸并确认已装介质。", "只有源页面与介质匹配时才使用“实际大小”。", "“实际大小”裁切且“适合”缩放时，重新生成正确格式。"],
+    sources: [
+      { label: "Adobe Acrobat 打印页面大小设置", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe 定义“适合”“实际大小”“缩小过大页面”和自定义缩放的行为。" },
+      { label: "Apple 预览打印选项", url: "https://support.apple.com/en-gb/guide/preview/prvw15175/mac", checkedAt: "2026-08-29", supports: "Apple 说明预览中的缩放、缩放以适合、打印完整图像和填满整张纸等行为。" },
+    ],
+  },
+};
+
+function troubleshootingTree(slug: string): SeoPage["decisionTree"] {
+  return reviewedTroublePages[slug]?.decisionTree;
 }
 
 function troublePage(slug: string, symptom: string, fix: string): SeoPage {
-  return {
+  const base: SeoPage = {
     slug,
     kind: "troubleshooter",
     title: symptom,
@@ -141,6 +284,8 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
     ],
     related: commonRelated,
   };
+
+  return { ...base, ...reviewedTroublePages[slug] };
 }
 
 function commonFaq(name: string): FAQItem[] {

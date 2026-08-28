@@ -1,7 +1,7 @@
 import type { Carrier, Platform } from "./rules";
 import type { FAQItem } from "@/components/FAQ";
 import type { RelatedLink } from "@/components/RelatedLinks";
-import type { SeoPage, SeoPageKind, TroubleshooterStep } from "./seo-pages";
+import type { SeoPage, SeoPageKind } from "./seo-pages";
 
 const commonRelated: RelatedLink[] = [
   { href: "/#checker", title: "Comprobador de tamaño de etiquetas", description: "Revisa papel, escala y orientación antes de imprimir." },
@@ -80,45 +80,188 @@ function templatePage(slug: string, label: string): SeoPage {
   };
 }
 
-function troubleshootingTree(slug: string): SeoPage["decisionTree"] {
-  const shared = {
-    headline: "Encuentra la causa antes de reimprimir",
-    intro: "Sigue el síntoma que más se parezca a tu mala impresión. Cada paso apunta a la herramienta más segura antes de comprar franqueo de nuevo.",
-    firstAction: "Imprime primero una prueba al 100% / Tamaño real.",
-  };
-  const trees: Record<string, TroubleshooterStep[]> = {
-    "shipping-label-printing-too-small": [
-      { title: "Toda la etiqueta queda más pequeña", symptom: "El borde 4×6 mide cerca de 3.7×5.6 o el código de barras se ve comprimido.", action: "Desactiva Ajustar a página, elige Tamaño real y calcula la corrección si la medida con regla sigue fallando.", href: "/tools/scale-calculator", cta: "Calcular escala corregida" },
-      { title: "Impresión desde vista previa del navegador", symptom: "El navegador agregó márgenes o redujo el PDF para ajustarlo a la hoja.", action: "Descarga el PDF de la etiqueta e imprímelo desde un visor PDF al 100% antes de cambiar ajustes del marketplace.", href: "/tools/pdf-analyzer", cta: "Revisar tamaño del PDF" },
-      { title: "Impresora o rollo nuevo", symptom: "Todas las etiquetas de esta impresora quedan ligeramente pequeñas.", action: "Imprime una hoja de calibración para saber si la reducción viene del driver o del archivo de etiqueta.", href: "/tools/calibration-sheet", cta: "Imprimir hoja de calibración" },
-    ],
-    "shipping-label-cut-off-when-printing": [
-      { title: "Falta un borde", symptom: "La dirección o el código de barras se corta a la izquierda, derecha, arriba o abajo.", action: "Haz coincidir tamaño de papel y orientación con el PDF antes de cambiar cualquier escala.", href: "/#checker", cta: "Revisar papel" },
-      { title: "El rollo térmico se desplaza", symptom: "La primera etiqueta está cerca, pero las siguientes se mueven de lado o hacia arriba.", action: "Usa una plantilla en blanco para aislar problemas de alineación del rollo y área imprimible.", href: "/4x6-shipping-label-template", cta: "Descargar plantilla 4×6" },
-      { title: "La impresora de hoja recorta", symptom: "La salida Letter o A4 corta la etiqueta cerca del margen no imprimible.", action: "Imprime una página de calibración y confirma los márgenes de la impresora antes de usar franqueo real.", href: "/tools/calibration-sheet", cta: "Imprimir hoja de calibración" },
-    ],
-    "shipping-label-barcode-not-scanning": [
-      { title: "El código de barras es demasiado pequeño", symptom: "Toda la etiqueta se redujo o las barras se ven comprimidas.", action: "Corrige primero la escala; las revisiones del código de barras no son fiables si toda la etiqueta tiene tamaño incorrecto.", href: "/tools/scale-calculator", cta: "Corregir escala" },
-      { title: "Se recortó el margen libre", symptom: "El código de barras toca texto, borde de etiqueta, cinta o pliegues del paquete.", action: "Usa el comprobador de imagen para estimar el margen libre alrededor del código de barras.", href: "/tools/barcode-quiet-zone-checker", cta: "Revisar margen libre" },
-      { title: "La impresión se ve gris o brillante", symptom: "El código está descolorido, con líneas, arrugado o cubierto por cinta brillante.", action: "Reimprime una prueba después de aumentar densidad o cambiar papel/cinta.", href: "/tools/test-print-pack", cta: "Descargar paquete de prueba" },
-    ],
-    "shipping-label-not-centered": [
-      { title: "Desplazamiento constante", symptom: "Todas las etiquetas empiezan demasiado a la izquierda, derecha, arriba o abajo.", action: "Imprime una hoja de calibración para separar offset del driver y diseño de la etiqueta.", href: "/tools/calibration-sheet", cta: "Imprimir hoja de calibración" },
-      { title: "Tamaño de medio incorrecto", symptom: "La vista previa está centrada, pero la salida física aparece desplazada o girada.", action: "Revisa la combinación de plataforma, transportista, papel e impresora antes de editar márgenes.", href: "/#checker", cta: "Revisar configuración" },
-      { title: "La plantilla también queda descentrada", symptom: "Una prueba en blanco 4×6 tiene el mismo problema de alineación.", action: "Corrige guías de papel, carga del rollo u offsets del driver antes de reimprimir franqueo.", href: "/4x6-shipping-label-template", cta: "Descargar plantilla 4×6" },
-    ],
-    "fit-to-page-vs-actual-size-shipping-label": [
-      { title: "Elegir la escala de impresión", symptom: "Ajustar a página parece más seguro en la vista previa, pero cambia el tamaño del código de barras.", action: "Usa primero Tamaño real y mide la salida en lugar de confiar solo en la vista previa.", href: "/tools/scale-calculator", cta: "Medir y calcular" },
-      { title: "No sabes qué tamaño tiene el PDF", symptom: "El archivo puede ser Letter, A4 o 4×6, y el cuadro de impresión está adivinando.", action: "Lee localmente el tamaño de página del PDF antes de elegir papel o escala.", href: "/tools/pdf-analyzer", cta: "Analizar PDF" },
-      { title: "Necesitas una prueba segura", symptom: "Vas a imprimir franqueo pagado con una configuración nueva.", action: "Imprime primero un paquete de prueba con marca de agua para no desperdiciar etiquetas reales.", href: "/tools/test-print-pack", cta: "Descargar paquete de prueba" },
-    ],
-  };
+type ReviewedTroublePage = Pick<SeoPage, "description" | "quickAnswer" | "updatedAt" | "evidenceNote" | "decisionTree" | "sections" | "faq" | "reviewChecklist" | "sources">;
 
-  return { ...shared, steps: trees[slug] ?? trees["shipping-label-printing-too-small"] };
+const reviewedTroublePages: Record<string, ReviewedTroublePage> = {
+  "shipping-label-printing-too-small": {
+    description: "Diagnostica una etiqueta de envío demasiado pequeña separando una hoja completa reducida, un error real de escala 4×6 y una impresión débil.",
+    quickAnswer: "Primero decide si se comprimió una página Letter/A4 completa en papel 4×6, si una página 4×6 real se redujo de forma uniforme o si solo falla la calidad de impresión. Haz coincidir la página de origen, el medio del driver y el papel físico antes de usar una escala personalizada; reimprime desde el PDF original sin modificar solo cuando una prueba en blanco salga bien.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Marco general de diagnóstico: Adobe documenta el comportamiento de Ajustar y Tamaño real, y Zebra documenta la calibración de medios térmicos. Estas fuentes respaldan las ramas de diagnóstico, no la aceptación por un transportista ni todos los modelos de impresora.",
+    decisionTree: {
+      headline: "Separa la reducción de página de una impresión deficiente",
+      intro: "Mide primero el límite de la página y sigue la rama que coincida con el PDF de origen, el medio físico y el síntoma impreso.",
+      firstAction: "No amplíes la etiqueta hasta saber si la página de origen es 4×6, Letter o A4.",
+      steps: [
+        { title: "La página PDF es mayor que el rollo", symptom: "Una página completa Letter o A4 se está ajustando a una sola etiqueta térmica 4×6.", action: "Inspecciona el cuadro de página del PDF. Obtén el formato 4×6 del emisor o extrae únicamente un área de etiqueta completa; no amplíes la salida miniaturizada.", href: "/tools/pdf-analyzer", cta: "Inspeccionar la página PDF" },
+        { title: "Todo el borde es uniformemente pequeño", symptom: "Un origen 4×6 real se imprime proporcionalmente más pequeño en un medio 4×6 del mismo tamaño.", action: "Confirma 4×6 en el driver, desactiva Ajustar, imprime una plantilla en blanco y calcula una corrección solo si el recorrido del medio ya coincide.", href: "/tools/scale-calculator", cta: "Medir el error de escala" },
+        { title: "Solo las barras o el texto se ven débiles", symptom: "El borde de la etiqueta es correcto, pero las líneas finas se ven borrosas, grises o cortadas.", action: "Trátalo como un problema de calidad, no de escala. Prueba densidad, velocidad, material y estado del cabezal antes de otra etiqueta real.", href: "/tools/test-print-pack", cta: "Probar la calidad de impresión" },
+      ],
+    },
+    sections: [
+      { heading: "1. Decide si es pequeña la página o solo la etiqueta", body: "Lee el cuadro de página del PDF antes de tocar la escala. Si una página Letter o A4 se ajusta a un rollo 4×6, todos los elementos quedan diminutos; si una página 4×6 real sale a 3,8×5,7 pulgadas, apunta a un cambio del driver o de escala. Si el límite físico es correcto pero las barras finas se ven débiles, pasa a comprobar la calidad en vez de ampliar la página." },
+      { heading: "2. Sigue la rama de impresora térmica", body: "Para un origen 4×6 independiente, configura tanto el driver del sistema como el diálogo de impresión con el medio 4×6 cargado. Desactiva Ajustar e imprime una plantilla 4×6 en blanco. Si también sale pequeña, revisa el medio del driver y la calibración específica del modelo antes de aplicar un porcentaje personalizado." },
+      { heading: "3. Sigue la rama de inkjet o láser", body: "En papel Letter o A4, conserva las dimensiones previstas de una etiqueta 4×6 real en vez de estirarla para llenar la hoja. Si el origen ya es una composición de hoja, selecciona exactamente ese tamaño. Adobe define Ajustar como redimensionar una página al área imprimible y Tamaño real como no aplicar escala; la vista previa no demuestra el tamaño físico." },
+      { heading: "4. Detente antes de reimprimir una etiqueta real", body: "No uses la impresión pequeña si cambió el código, su espacio blanco, la dirección, el número de seguimiento o el texto del servicio. Conserva la transacción y el PDF originales, exige una prueba en blanco medida y después usa la ruta de reimpresión vigente del emisor si sigue disponible. No compres franqueo duplicado solo para diagnosticar la impresora." },
+    ],
+    faq: [
+      { question: "¿Por qué un PDF Letter quedó diminuto en mi impresora térmica?", answer: "Es probable que el sistema ajustara toda la página Letter a una etiqueta 4×6. Obtén el formato 4×6 del emisor o extrae una sola etiqueta completa únicamente cuando la estructura del documento lo permita." },
+      { question: "¿Debo aumentar la escala por encima del 100%?", answer: "Solo después de que la página PDF, el medio del driver y el papel físico coincidan y una prueba en blanco medida aún muestre un error uniforme. Adivinar un valor mayor puede recortar otro borde." },
+      { question: "¿Qué cambia con una impresora inkjet o láser?", answer: "Una etiqueta 4×6 puede quedar sin cambios dentro de una hoja Letter o A4. Selecciona la hoja física y conserva el límite de la etiqueta en lugar de llenar la página." },
+      { question: "¿Qué cambia con una impresora térmica?", answer: "La página de origen y el driver deben coincidir con el rollo, y la impresora puede requerir una calibración de medios específica del modelo. No ajustes una hoja completa a una sola etiqueta del rollo." },
+      { question: "¿Cuándo debo detenerme y reimprimir?", answer: "Detente si cambió cualquier contenido crítico para el escaneo o la prueba en blanco aún falla. Reimprime la etiqueta original solo después de que la configuración corregida pase la prueba." },
+    ],
+    reviewChecklist: ["Identifica el tamaño de página del PDF antes de cambiar la escala.", "Usa la rama térmica o de hoja que coincida con el medio cargado.", "Exige una prueba en blanco medida antes de reimprimir una etiqueta real."],
+    sources: [
+      { label: "Tamaño de página para imprimir en Adobe Acrobat", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe define el comportamiento de Ajustar, Tamaño real, Reducir páginas grandes y la escala personalizada." },
+      { label: "Calibración de medios SmartCal de Zebra", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documenta cómo una impresora térmica representativa mide el material de etiqueta y los parámetros de detección." },
+    ],
+  },
+  "shipping-label-cut-off-when-printing": {
+    description: "Localiza si la etiqueta se recortó en el PDF de origen, el recorrido térmico o el área imprimible Letter/A4 y define una reimpresión segura.",
+    quickAnswer: "Compara el PDF original con la impresión. Si el borde ya falta en el archivo, regenera el documento en el flujo que lo emitió. Si solo se corta en papel, sigue la rama del rollo térmico o de la hoja; nunca reduzcas toda la etiqueta solo para revelar un borde perdido del código de barras.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Marco general de diagnóstico: Adobe respalda el comportamiento de tamaño del PDF y Zebra la rama de calibración térmica. Los botones, offsets y áreas imprimibles concretos deben consultarse en el manual del modelo exacto.",
+    decisionTree: {
+      headline: "Localiza dónde desapareció el borde",
+      intro: "Compara el PDF original con la salida física antes de cambiar la escala: un recorte en el origen y un recorte de impresora requieren soluciones distintas.",
+      firstAction: "Detente si falta cualquier código, dirección, texto de servicio o dato de enrutamiento.",
+      steps: [
+        { title: "El borde ya falta en el PDF", symptom: "El archivo descargado está incompleto antes de llegar al diálogo de impresión.", action: "Detente. Vuelve al flujo del pedido o envío que lo emitió y regenera el documento; la escala de impresora no puede restaurar contenido ausente.", href: "/tools/pdf-analyzer", cta: "Inspeccionar el PDF de origen" },
+        { title: "Siempre se recorta el mismo borde térmico", symptom: "El PDF está completo, pero cada etiqueta del rollo pierde el mismo lado.", action: "Haz coincidir el medio del driver, vuelve a cargar y centrar las guías y calibra la impresora. No reduzcas todo el código para ocultar un error de origen o avance.", href: "/tools/calibration-sheet", cta: "Probar la alineación térmica" },
+        { title: "Se recorta un borde de la hoja", symptom: "La salida Letter o A4 alcanza el área no imprimible de la impresora.", action: "Usa el tamaño de hoja y la orientación que coincidan con el origen. Imprime un límite en blanco antes de decidir si necesitas una composición de hoja nativa del flujo.", href: "/letter-shipping-label-template", cta: "Probar el límite de la hoja" },
+      ],
+    },
+    sections: [
+      { heading: "1. Encuentra el primer borde que falta", body: "Abre el PDF sin modificar e inspecciona todas las páginas antes de imprimir. Si el código, la dirección o la marca de servicio ya faltan, detente y vuelve al emisor: ningún ajuste puede reconstruir el origen. Si el PDF está completo, anota papel, escala, orientación y borde físico recortado." },
+      { heading: "2. Diagnostica un recorte térmico de un borde", body: "Si todas las etiquetas 4×6 pierden el mismo borde, confirma el medio del driver, vuelve a cargar y centrar las guías y ejecuta la calibración documentada. Si el recorte cambia en etiquetas sucesivas, investiga la detección de avance o el material suelto en vez de cambiar la escala del PDF." },
+      { heading: "3. Diagnostica un recorte en Letter o A4", body: "Una impresora de escritorio puede tener margen no imprimible. Adobe indica que Tamaño real no aplica escala y puede recortar una página que no cabe en el papel seleccionado. Usa el tamaño y orientación del origen o regenera una composición nativa; Ajustar puede ocultar el problema reduciendo todo." },
+      { heading: "4. Define la condición para reimprimir", body: "Una plantilla en blanco con el mismo visor, driver y medio debe imprimirse completa antes de otra etiqueta pagada. Reimprime desde el PDF original si se recortó el código, su zona libre, el seguimiento, la dirección, el servicio o una marca de enrutamiento. Escala al emisor si el origen sigue incompleto." },
+    ],
+    faq: [
+      { question: "¿Cómo sé si recortó el PDF o la impresora?", answer: "Si falta el borde en el PDF original, regenera el archivo. Si el PDF está completo pero una plantilla y la etiqueta pierden el mismo borde, el responsable es el recorrido de impresión." },
+      { question: "¿Por qué siempre falta el mismo borde térmico?", answer: "Un borde fijo apunta al tamaño del medio, las guías, el origen imprimible o la calibración. Sigue el manual del modelo exacto antes de usar offsets." },
+      { question: "¿Por qué cambia el borde recortado entre etiquetas?", answer: "Los bordes variables apuntan más a la detección de avance, el desplazamiento del rollo o guías sueltas que a un recorte fijo del PDF." },
+      { question: "¿Ajustar a página resuelve un recorte de hoja?", answer: "Puede mostrar el borde al redimensionar toda la página, pero también cambia el código de barras. Prefiere papel coincidente o un diseño de origen correcto." },
+      { question: "¿Cuándo debo detenerme?", answer: "Detente cuando falte contenido activo, una plantilla siga recortándose o el PDF de origen esté incompleto. Reimprime solo después de corregir el recorrido responsable." },
+    ],
+    reviewChecklist: ["Verifica que el borde exista en el PDF original.", "Usa el patrón fijo o cambiante del recorte para elegir la rama de impresora.", "Exige una plantilla en blanco completa antes de reimprimir franqueo."],
+    sources: [
+      { label: "Tamaño de página para imprimir en Adobe Acrobat", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe indica que Tamaño real imprime sin escala y recorta páginas o selecciones que no caben." },
+      { label: "Calibración de medios SmartCal de Zebra", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documenta la detección y calibración de medios térmicos representativos con separación, marca o continuos." },
+    ],
+  },
+  "shipping-label-barcode-not-scanning": {
+    description: "Diagnostica un código de etiqueta que no escanea revisando escala, zona libre, contraste, daños y salida sin prometer aceptación del transportista.",
+    quickAnswer: "Trata el fallo de un teléfono o lector como un síntoma, no como un veredicto del transportista. Restaura primero la geometría original y revisa después la zona libre, el contraste, los daños en las barras y la colocación plana. Reimprime desde el archivo original si el símbolo se redimensionó, recortó, rayó, arrugó o cubrió.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Marco general de diagnóstico: GS1 identifica factores habituales de calidad, Zebra documenta una ruta de calidad térmica y una fuente del transportista cubre la colocación. Esta página no verifica códigos ni garantiza su aceptación.",
+    decisionTree: {
+      headline: "Revisa la geometría antes de la calidad de impresión",
+      intro: "Un código puede fallar porque cambió toda la página, las barras se imprimieron mal o se dañaron el espacio circundante y la colocación.",
+      firstAction: "Un escaneo con teléfono es una pista, no una verificación normativa ni la aceptación del transportista.",
+      steps: [
+        { title: "La etiqueta se redimensionó o recortó", symptom: "El límite impreso difiere del origen o desapareció el espacio blanco alrededor del código.", action: "Corrige primero tamaño de página y escala. Una prueba de escaneo no aporta evidencia útil mientras todo el símbolo esté alterado.", href: "/tools/scale-calculator", cta: "Verificar la escala física" },
+        { title: "Las barras están tenues, rotas o ensanchadas", symptom: "El límite es correcto, pero rayas térmicas o tinta corrida cambian las barras.", action: "Ejecuta una prueba de calidad. En térmicas revisa material, densidad, velocidad y cabezal; en inkjet o láser usa una salida limpia y de alto contraste.", href: "/tools/test-print-pack", cta: "Probar la calidad" },
+        { title: "El código impreso parece limpio", symptom: "Aun así toca un borde, pliegue, cinta o impresión cercana, o solo una app de teléfono indica que escanea.", action: "Revisa el espacio libre y la colocación plana. Reimprime si está dañado y consulta al emisor o transportista si la aceptación sigue siendo incierta.", href: "/tools/barcode-quiet-zone-checker", cta: "Revisar el espacio circundante" },
+      ],
+    },
+    sections: [
+      { heading: "1. Restaura la geometría antes de probar el escaneo", body: "Compara el límite físico y el código con el PDF original. Si Ajustar, una captura, un recorte o el medio incorrecto cambió el símbolo o su espacio blanco, corrige primero página y escala. Escanear repetidamente una salida alterada no la valida." },
+      { heading: "2. Revisa zona libre, contraste y daños", body: "GS1 incluye el tamaño de la zona libre, contraste, tamaño del símbolo, altura de barras, interferencias del embalaje, deterioro y posición entre las comprobaciones habituales. Úsalas como categorías de diagnóstico, no como límites numéricos universales de un símbolo de transportista." },
+      { heading: "3. Separa calidad térmica y de hoja", body: "Para impresión térmica directa, prueba material, cabezal, densidad y velocidad con el manual del modelo; Zebra documenta que calor, velocidad y medio actúan juntos. En inkjet o láser, usa negro limpio sobre material blanco adecuado y rechaza tinta corrida, pérdidas o bajo contraste." },
+      { heading: "4. Detente ante un código obstruido o dudoso", body: "Mantén el código plano y lejos de pliegues, juntas y cinta brillante. Reimprime si las barras están rotas, falta espacio libre o la etiqueta está dañada. El éxito de una cámara solo es una comprobación rápida; pregunta al emisor o transportista si la entrega sigue siendo incierta." },
+    ],
+    faq: [
+      { question: "¿Un escaneo con teléfono demuestra que la etiqueta será aceptada?", answer: "No. Es una pista de diagnóstico, no una verificación normativa ni la aprobación del transportista." },
+      { question: "¿Qué reviso antes de cambiar la oscuridad de la impresora?", answer: "Confirma que el límite de página y el código no se redimensionaron ni recortaron. Los errores geométricos se resuelven antes de ajustar densidad." },
+      { question: "¿Qué deben probar quienes usan impresora térmica?", answer: "Usa el procedimiento del modelo exacto para comprobar material, cabezal, densidad y velocidad después de corregir tamaño y calibración." },
+      { question: "¿Qué deben probar quienes usan inkjet o láser?", answer: "Busca contraste negro-blanco, bordes limpios, tinta corrida, pérdidas y daños; mantén cinta y pliegues fuera del código." },
+      { question: "¿Cuándo conviene reimprimir en vez de repetir el escaneo?", answer: "Reimprime si el símbolo está redimensionado, recortado, rayado, borroso, arrugado, mojado o cubierto, o si falta el espacio circundante requerido." },
+    ],
+    reviewChecklist: ["Restaura la geometría original antes de probar escaneos.", "Revisa por separado zona libre, contraste, daños y colocación.", "Reimprime la salida dañada; no trates un escaneo de teléfono como aprobación."],
+    sources: [
+      { label: "Comprobaciones de calidad de códigos de barras de GS1", url: "https://support.gs1.org/support/solutions/articles/43000734141-what-should-i-check-to-ensure-good-quality-barcodes-", checkedAt: "2026-08-29", supports: "GS1 incluye zona libre, contraste, tamaño, altura de barras, daños, interferencias del embalaje y posición como factores de calidad." },
+      { label: "Ajuste de calidad de impresión térmica de Zebra", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/c-zd620-420-print-operations/t-zd421-zd621-ug-adjusting-the-print-quality.html", checkedAt: "2026-08-29", supports: "Zebra documenta la interacción entre calor o densidad, velocidad y material cargado en impresoras térmicas representativas." },
+      { label: "Colocación de etiquetas de envío de FedEx", url: "https://www.fedex.com/en-us/shipping/create-shipping-label.html", checkedAt: "2026-08-29", supports: "FedEx aconseja mantener los códigos planos, lejos de juntas y bordes y sin cinta transparente encima." },
+    ],
+  },
+  "shipping-label-not-centered": {
+    description: "Decide si una etiqueta descentrada es solo estética o nace del PDF, el avance térmico, el origen del driver o los márgenes de hoja.",
+    quickAnswer: "Una etiqueta no necesita márgenes blancos simétricos para ser utilizable. Confirma primero que el PDF esté completo y a la escala prevista. Corrige el avance térmico o el offset de origen solo si se repite el mismo desplazamiento medido; en A4 o Letter, no muevas contenido completo a Tamaño real salvo que esté recortado o girado.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Marco general de diagnóstico: las fuentes explican el tamaño del PDF y una calibración térmica representativa. No se presenta el centrado visual como requisito del transportista; los offsets del modelo exigen su manual.",
+    decisionTree: {
+      headline: "Decide si el centrado es estético o destructivo",
+      intro: "Localiza el desplazamiento en el PDF de origen, el recorrido térmico o el área imprimible de la hoja antes de mover contenido.",
+      firstAction: "No reduzcas una etiqueta completa solo para que el espacio blanco parezca simétrico.",
+      steps: [
+        { title: "El propio PDF está descentrado", symptom: "El cuadro de página o el diseño ya aparecen desplazados en el archivo descargado.", action: "Vuelve al formato coincidente del emisor o extrae intencionadamente una etiqueta completa. No añadas un offset de impresora para compensar un origen defectuoso.", href: "/tools/pdf-analyzer", cta: "Inspeccionar el cuadro PDF" },
+        { title: "Cada etiqueta térmica tiene el mismo offset", symptom: "Una plantilla 4×6 y la etiqueta real comienzan en la misma posición incorrecta.", action: "Vuelve a cargar el rollo, centra las guías, calibra la detección y solo entonces usa un offset horizontal o vertical documentado para tu modelo.", href: "/tools/calibration-sheet", cta: "Medir el desplazamiento" },
+        { title: "Solo la colocación en hoja parece desigual", symptom: "La etiqueta completa está a Tamaño real en Letter o A4, pero no se ve centrada.", action: "No muevas ni escales contenido crítico solo por simetría. Verifica que todo quepa en el área imprimible y reimprime solo si algo está recortado o girado.", href: "/letter-shipping-label-template", cta: "Comprobar el ajuste en hoja" },
+      ],
+    },
+    sections: [
+      { heading: "1. Separa el espacio estético del contenido perdido", body: "Inspecciona el PDF original y mide la salida. Si la etiqueta está completa, a Tamaño real y dentro del papel, el espacio exterior desigual de una hoja puede ser estético. Si se recorta un código, su zona libre, la dirección o una marca de servicio, trata el offset como fallo de impresión." },
+      { heading: "2. Rastrea un desplazamiento térmico", body: "Un desplazamiento repetible en una plantilla 4×6 y en la etiqueta real apunta a guías, detección, origen del driver o un ajuste de posición documentado. Vuelve a cargar y calibra primero. No reduzcas todo ni uses offsets no documentados para ocultar un problema de avance." },
+      { heading: "3. Rastrea la colocación en Letter o A4", body: "Confirma que hoja y orientación coincidan con el PDF. Tamaño real conserva dimensiones pero puede recortar si la página no cabe; Ajustar cambia dimensiones. Elige un diseño de origen compatible en vez de mover el código para lograr simetría visual." },
+      { heading: "4. Detente si la posición altera contenido activo", body: "Reimprime después de que pase la plantilla si la salida real está recortada, girada, doblada o demasiado cerca de un borde para pegarla plana. Si solo el PDF de origen está desplazado o incompleto, vuelve al flujo emisor en vez de compensarlo en la impresora." },
+    ],
+    faq: [
+      { question: "¿Una etiqueta debe estar centrada en papel Letter o A4?", answer: "No por simetría visual. Las comprobaciones importantes son contenido completo, escala prevista y posibilidad de pegarla plana sin cortar zonas activas." },
+      { question: "¿Por qué todas mis etiquetas térmicas se desplazan igual?", answer: "Un desplazamiento repetible apunta a guías, detección, origen del driver o un ajuste de posición. Prueba una plantilla y sigue el manual del modelo exacto." },
+      { question: "¿Debo reducir la etiqueta para centrarla?", answer: "No. Reducir cambia la geometría del código. Corrige medio, orientación, calibración o diseño de origen." },
+      { question: "¿Y si solo está descentrado el PDF original?", answer: "Vuelve al formato correcto del emisor o extrae intencionadamente una etiqueta completa cuando esté permitido. No superpongas un offset de impresora a un problema del origen." },
+      { question: "¿Cuándo debo reimprimir?", answer: "Reimprime si el desplazamiento recorta o gira contenido activo, impide una colocación plana o persiste tras probar la plantilla correcta." },
+    ],
+    reviewChecklist: ["Confirma si el offset es estético o recorta contenido activo.", "Calibra un desplazamiento térmico repetido antes de aplicar offsets.", "Reimprime solo después de que la plantilla coincidente quepa completa."],
+    sources: [
+      { label: "Tamaño de página para imprimir en Adobe Acrobat", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe distingue Tamaño real sin escala de Ajustar y documenta el riesgo de recorte cuando una página no cabe." },
+      { label: "Calibración de medios SmartCal de Zebra", url: "https://docs.zebra.com/us/en/printers/desktop/zd421-and-zd621-desktop-printers-user-guide/setup/running-a-smartcal-media-calibration.html", checkedAt: "2026-08-29", supports: "Zebra documenta carga, detección y calibración de medios en impresoras térmicas representativas." },
+    ],
+  },
+  "fit-to-page-vs-actual-size-shipping-label": {
+    description: "Elige Ajustar o Tamaño real según el PDF y el medio: cuándo Tamaño real conserva escala, cuándo recorta y cuándo regenerar la etiqueta.",
+    quickAnswer: "Usa Tamaño real / 100% cuando la página PDF y el medio cargado ya coinciden. Adobe define Ajustar como redimensionar al área imprimible del papel y Tamaño real como no aplicar escala; aun así, Tamaño real puede recortar una página que no cabe. Si origen y medio difieren, obtén el formato correcto en vez de suponer que un botón es seguro.",
+    updatedAt: "2026-08-29",
+    evidenceNote: "Marco general de diagnóstico: Adobe y Apple documentan el comportamiento de sus visores. El formato correcto de la etiqueta sigue procediendo del marketplace o transportista emisor, no de esta página.",
+    decisionTree: {
+      headline: "Elige la escala según la relación entre origen y medio",
+      intro: "Tamaño real conserva dimensiones; Ajustar las cambia. Ninguna opción repara una página de origen que no corresponde al medio seleccionado.",
+      firstAction: "Lee el tamaño de página del PDF y confirma el medio cargado antes de elegir una opción.",
+      steps: [
+        { title: "El origen y el medio ya coinciden", symptom: "La página PDF y el papel cargado son ambos 4×6, Letter o A4.", action: "Usa Tamaño real / 100% y verifica una prueba medida. Adobe define Tamaño real como impresión sin escala.", href: "/tools/scale-calculator", cta: "Medir el resultado" },
+        { title: "El origen es mayor que el medio", symptom: "Una página Letter o A4 se envía a una sola etiqueta de rollo 4×6.", action: "No uses Ajustar para miniaturizar toda la página. Obtén el formato correcto o extrae una etiqueta completa cuando la estructura lo permita.", href: "/tools/pdf-analyzer", cta: "Inspeccionar antes de convertir" },
+        { title: "Tamaño real recortaría la página", symptom: "La página de origen no cabe en la hoja seleccionada o en el área imprimible.", action: "Elige papel coincidente o regenera el diseño correcto. Adobe indica que Tamaño real puede recortar lo que no cabe: es una señal para detenerse, no para adivinar.", href: "/tools/test-print-pack", cta: "Probar el diseño coincidente" },
+      ],
+    },
+    sections: [
+      { heading: "1. Empieza por el origen y el medio físico", body: "Lee si la página PDF es 4×6, Letter, A4 o una hoja mayor que contiene una etiqueta pequeña. Confirma después el papel o rollo cargado en la impresora elegida. La escala debe decidirse al final, cuando esos dos datos coincidan." },
+      { heading: "2. Usa Tamaño real en un recorrido coincidente", body: "Adobe indica que Tamaño real imprime sin escala. Úsalo cuando una página 4×6 real va a un medio 4×6, o una página Letter/A4 a una hoja del mismo tamaño. Mide una prueba en blanco porque el driver final aún puede aplicar su propia configuración." },
+      { heading: "3. Trata Ajustar como una transformación", body: "Adobe indica que Ajustar reduce o amplía una página al área imprimible. Puede servir para documentos comunes, pero cambia la geometría del código. En macOS, Apple documenta Escalar para ajustar y opciones distintas para conservar toda la página o llenar y recortar el papel." },
+      { heading: "4. Detente si ninguna opción conserva el documento", body: "Si Tamaño real recorta contenido requerido y Ajustar lo miniaturiza o amplía, el diseño no corresponde al medio. Regenera el formato correcto del emisor, usa papel coincidente o extrae una etiqueta completa solo cuando el documento lo permita; no pruebes por tanteo con un código real." },
+    ],
+    faq: [
+      { question: "¿Tamaño real siempre es seguro para etiquetas de envío?", answer: "No. Conserva la escala, pero Adobe advierte que el contenido puede recortarse si la página no cabe en el papel elegido." },
+      { question: "¿Ajustar a página siempre está mal?", answer: "Es una operación de redimensionado documentada. No la uses cuando necesitas conservar las dimensiones emitidas del código; obtén un formato de origen coincidente." },
+      { question: "¿Qué uso para un PDF 4×6 real y un rollo 4×6?", answer: "Empieza con medio 4×6 y Tamaño real / 100%, y mide una prueba en blanco antes del franqueo real." },
+      { question: "¿Qué uso para un PDF Letter en una impresora térmica?", answer: "Ni Ajustar ni una ampliación a ciegas. Obtén un formato 4×6 o extrae una etiqueta completa solo si cabe todo el contenido requerido." },
+      { question: "¿Cuándo debo detenerme y regenerar?", answer: "Detente si Tamaño real recorta, Ajustar cambia el código, la página incluye documentos adyacentes necesarios o el emisor da una instrucción específica de formato." },
+    ],
+    reviewChecklist: ["Lee el tamaño del PDF y confirma el medio cargado.", "Usa Tamaño real solo cuando origen y medio coincidan.", "Regenera el formato correcto si Tamaño real recorta y Ajustar redimensiona."],
+    sources: [
+      { label: "Tamaño de página para imprimir en Adobe Acrobat", url: "https://helpx.adobe.com/acrobat/desktop/print-documents/set-up-and-print-pdfs/page-size.html", checkedAt: "2026-08-29", supports: "Adobe define el comportamiento de Ajustar, Tamaño real, Reducir páginas grandes y la escala personalizada." },
+      { label: "Opciones de impresión de Vista Previa de Apple", url: "https://support.apple.com/en-gb/guide/preview/prvw15175/mac", checkedAt: "2026-08-29", supports: "Apple documenta Escala, Escalar para ajustar, Imprimir imagen completa y Llenar todo el papel en Vista Previa." },
+    ],
+  },
+};
+
+function troubleshootingTree(slug: string): SeoPage["decisionTree"] {
+  return reviewedTroublePages[slug]?.decisionTree;
 }
 
 function troublePage(slug: string, symptom: string, fix: string): SeoPage {
-  return {
+  const base: SeoPage = {
     slug,
     kind: "troubleshooter",
     title: symptom,
@@ -141,6 +284,8 @@ function troublePage(slug: string, symptom: string, fix: string): SeoPage {
     ],
     related: commonRelated,
   };
+
+  return { ...base, ...reviewedTroublePages[slug] };
 }
 
 function commonFaq(name: string): FAQItem[] {

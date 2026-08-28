@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
-import { getSeoPage, seoPages } from "@/data/seo-pages";
+import { getLocalizedSeoPage, getSeoPage, seoPages } from "@/data/seo-pages";
 import { locales } from "@/i18n/routing";
 import { localeFromRequestPath, localeRedirectPath } from "@/proxy";
 import { alternateLanguages, availableLocalesForPath, hasLocalizedPath } from "./i18n";
@@ -207,6 +207,41 @@ describe("SEO metadata contracts", () => {
     const treeFingerprints = pages.map((page) => page?.decisionTree?.steps.map((step) => step.title).join(" | "));
     expect(new Set(sectionFingerprints).size).toBe(pages.length);
     expect(new Set(treeFingerprints).size).toBe(pages.length);
+
+    const localizedContracts = [
+      { locale: "es" as const, evidencePrefix: "Marco general de diagnóstico", stopPattern: /\b(detente|no uses|no reduzcas|no amplíes)\b/i, reprintPattern: /\b(reimprime|reimprimir|regenera|regenerar)\b/i },
+      { locale: "zh" as const, evidencePrefix: "通用排错框架", stopPattern: /(停止|不要)/, reprintPattern: /(重打|重新生成)/ },
+    ];
+
+    for (const contract of localizedContracts) {
+      const localizedPages = symptomSlugs.map((slug) => getLocalizedSeoPage(slug, contract.locale));
+      expect(localizedPages.every(Boolean)).toBe(true);
+
+      for (const [index, page] of localizedPages.entries()) {
+        expect(page?.updatedAt).toBe("2026-08-29");
+        expect(page?.evidenceNote).toContain(contract.evidencePrefix);
+        expect(page?.sources?.map((source) => source.url)).toEqual(pages[index]?.sources?.map((source) => source.url));
+        expect(page?.sources?.every((source) => source.checkedAt === "2026-08-29")).toBe(true);
+        expect(page?.decisionTree?.steps).toHaveLength(3);
+        expect(page?.sections).toHaveLength(4);
+        expect(page?.faq).toHaveLength(5);
+
+        const actionableCopy = [
+          page?.quickAnswer,
+          page?.decisionTree?.firstAction,
+          ...(page?.decisionTree?.steps.map((step) => `${step.symptom} ${step.action}`) ?? []),
+          ...(page?.sections.map((section) => `${section.heading} ${section.body}`) ?? []),
+          ...(page?.reviewChecklist ?? []),
+        ].join(" ");
+        expect(actionableCopy).toMatch(contract.stopPattern);
+        expect(actionableCopy).toMatch(contract.reprintPattern);
+      }
+
+      const localizedSectionFingerprints = localizedPages.map((page) => page?.sections.map((section) => section.heading).join(" | "));
+      const localizedTreeFingerprints = localizedPages.map((page) => page?.decisionTree?.steps.map((step) => step.title).join(" | "));
+      expect(new Set(localizedSectionFingerprints).size).toBe(symptomSlugs.length);
+      expect(new Set(localizedTreeFingerprints).size).toBe(symptomSlugs.length);
+    }
 
     const fbaWrongPaperCopy = JSON.stringify(getSeoPage("amazon-fba-label-wrong-paper-size"));
     expect(fbaWrongPaperCopy).toMatch(/box ID/i);
