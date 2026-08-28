@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   if (!isSupportedLocale(locale)) return {};
   return pageMetadata({
-    title: "About | Shipping Label Helper",
+    title: "About Our Shipping Label Tools",
     description: "About Shipping Label Helper, a static-first tool site for ecommerce sellers fixing shipping label size, scale and print alignment problems.",
     path: "/about",
     locale,

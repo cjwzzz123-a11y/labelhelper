@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Breadcrumb } from "@/components/Breadcrumb";
 
 export const metadata: Metadata = {
-  title: "About | Shipping Label Helper",
+  title: "About Our Shipping Label Tools",
   description: "About Shipping Label Helper, a static-first tool site for ecommerce sellers fixing shipping label size, scale and print alignment problems.",
   alternates: { canonical: "/about" },
 };
