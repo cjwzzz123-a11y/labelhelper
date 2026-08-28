@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -19,6 +20,10 @@ const copy = {
     eyebrow: "Problem finder",
     h1: "Fix the print problem you can see.",
     intro: "This page is only for problems after a bad print: wrong scale, wrong PDF page size, cut-off output or barcode scan risk.",
+    documentEyebrow: "Document workflow",
+    documentTitle: "Split a multi-label PDF without uploading it.",
+    documentBody: "Use the local international label splitter when one PDF contains several complete label pages. Inspect every extracted page and keep customs, SSCC and carrier documents together when the issuer requires them.",
+    documentCta: "Open international label splitter",
   },
   zh: {
     title: "问题定位 | 修复运单标签打印问题",
@@ -27,6 +32,10 @@ const copy = {
     eyebrow: "问题定位",
     h1: "按你看到的问题来修复。",
     intro: "这个页面只处理已经打印出错的问题：比例不对、PDF 页面尺寸不对、被裁切/不居中，或条码扫描风险。",
+    documentEyebrow: "文档工作流",
+    documentTitle: "无需上传即可拆分多标签 PDF。",
+    documentBody: "当一个 PDF 含有多个完整标签页时，可使用本地国际运单拆分工具。请逐页检查输出；如果签发方要求，请把海关、SSCC 与承运商文件保持在一起。",
+    documentCta: "打开英文国际运单拆分工具（EN）",
   },
 };
 
@@ -68,6 +77,19 @@ export default async function LocaleToolsPage({ params }: PageProps) {
         <div className="mt-8">
           <FixPrintIssueTool locale={locale} />
         </div>
+
+        <section className="mt-10 rounded-3xl border border-sky-100 bg-white p-6 shadow-sm">
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-sky-700">{pageCopy.documentEyebrow}</p>
+          <h2 className="mt-2 text-2xl font-black tracking-tight">{pageCopy.documentTitle}</h2>
+          <p className="mt-3 max-w-3xl leading-7 text-slate-600">{pageCopy.documentBody}</p>
+          <Link
+            href={localePath("/tools/international-label-splitter")}
+            hrefLang="en"
+            className="mt-5 inline-flex rounded-full bg-[#12324A] px-5 py-3 text-sm font-bold text-white hover:bg-[#1d4d70]"
+          >
+            {pageCopy.documentCta}
+          </Link>
+        </section>
       </section>
     </main>
   );

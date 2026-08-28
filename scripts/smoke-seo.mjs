@@ -205,6 +205,11 @@ try {
     }
   }
 
+  const toolsHub = await request("/tools");
+  if (!internalPaths(toolsHub.body).includes("/tools/international-label-splitter")) {
+    throw new Error("/tools: missing direct international label splitter link from the rendered locale hub");
+  }
+
   for (const path of imagePaths) {
     const response = await request(path);
     if (response.status !== 200 || response.contentType !== "image/png") throw new Error(`social image ${path}: HTTP ${response.status} ${response.contentType}`);
