@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { availableLocalesForPath, localeFromPath, localeNames, localizedPath, localeSwitcherPath, locales, type Locale } from "@/lib/i18n";
+import { availableLocalesForPath, hasLocalizedPath, localeFromPath, localeNames, localizedPath, localeSwitcherPath, locales, safeLocalizedPath, type Locale } from "@/lib/i18n";
 
 type NavItem = {
   href: string;
@@ -47,14 +47,17 @@ export function SiteHeader() {
           <nav className="flex min-w-0 gap-1 overflow-x-auto rounded-2xl bg-slate-100 p-1 text-sm font-semibold text-slate-600 xl:justify-end xl:overflow-visible" aria-label="Primary navigation">
             {nav.map((item) => {
               const active = item.href === activeNavHref;
+              const opensEnglishFallback = locale !== "en" && !hasLocalizedPath(item.href, locale);
               return (
                 <Link
                   key={item.href}
-                  href={localizedPath(item.href, locale)}
+                  href={safeLocalizedPath(item.href, locale)}
                   aria-current={active ? "page" : undefined}
+                  title={opensEnglishFallback ? tCommon("opensEnglish") : undefined}
                   className={`min-w-fit rounded-xl px-3 py-2 leading-tight transition ${active ? "bg-[#12324A] text-white shadow-sm" : "text-slate-600 hover:bg-white/70 hover:text-slate-950"}`}
                 >
                   {item.namespace === "common" ? tCommon(item.key) : tNav(item.key)}
+                  {opensEnglishFallback ? <span aria-label={tCommon("opensEnglish")} className="ml-1 text-[0.65rem] opacity-75">EN</span> : null}
                 </Link>
               );
             })}

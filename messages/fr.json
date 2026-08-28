@@ -4,7 +4,8 @@
     "language": "Langue",
     "comingSoon": "bientôt disponible",
     "tagline": "Vérifier taille et échelle d’impression",
-    "ctaSize": "Commencer"
+    "ctaSize": "Commencer",
+    "opensEnglish": "Ouvre une page en anglais"
   },
   "nav": {
     "checkLabel": "Vérifier",

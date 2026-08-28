@@ -4,7 +4,8 @@
     "language": "Sprache",
     "comingSoon": "demnächst",
     "tagline": "Etikettgröße und Druckskalierung prüfen",
-    "ctaSize": "Prüfung starten"
+    "ctaSize": "Prüfung starten",
+    "opensEnglish": "Öffnet eine englische Seite"
   },
   "nav": {
     "checkLabel": "Etikett prüfen",

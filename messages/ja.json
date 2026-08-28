@@ -4,7 +4,8 @@
     "language": "言語",
     "comingSoon": "近日公開",
     "tagline": "ラベルサイズと印刷倍率を確認",
-    "ctaSize": "チェック開始"
+    "ctaSize": "チェック開始",
+    "opensEnglish": "英語ページを開きます"
   },
   "nav": {
     "checkLabel": "ラベル確認",

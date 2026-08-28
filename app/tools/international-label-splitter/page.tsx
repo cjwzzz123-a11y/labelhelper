@@ -92,7 +92,7 @@ export default function InternationalLabelSplitterPage() {
         </SeoSection>
         <div className="flex flex-wrap gap-3">
           <Link href="/guides" className="rounded-full bg-[#12324A] px-4 py-2 text-sm font-bold text-white hover:bg-[#1d4d70]">Open guides and downloads</Link>
-          <Link href="/tools/size-checker" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-white">Check label size</Link>
+          <Link href="/#checker" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-white">Check label size</Link>
           <Link href="/tools/calibration-sheet" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold hover:bg-white">Print calibration sheet</Link>
         </div>
       </section>

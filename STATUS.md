@@ -5,8 +5,8 @@
 - Project: Shipping Label Helper
 - Repository path: `labelhelper`
 - Branch: `main`
-- SEO optimization round: first batch deployed; evidence-sensitive content batch validated locally and pending push
-- Validation status: 38 tests, lint, Next.js 16.3.3 build, 143-URL SEO smoke, and production dependency audit passed
+- SEO optimization round: multi-round technical SEO, evidence, platform, symptom, and navigation work deployed; direct-link cleanup validated for deployment
+- Validation status: 38 tests, lint, Next.js 16.3.3 build, 143-URL locale-aware SEO smoke, 149 direct internal paths, and production dependency audit passed
 
 ## Latest SEO work
 
@@ -18,6 +18,9 @@
 - Production-crawled 143/143 sitemap pages after `c36d603`; every page returned 200 and exposed an Open Graph image, with no duplicate title or description groups.
 - Rewrote three high-risk carrier-handling pages around first-party evidence, explicit reprint conditions, and non-guarantee language.
 - Rebuilt the four Amazon and five core-symptom long-tail pages with distinct device/workflow decisions, visible evidence scope, stop/reprint gates and current source citations.
+- Replaced the retired FedEx label-help URL with the current official label-creation guide and verified the new destination returns HTTP 200.
+- Removed 40 avoidable internal redirect hops: localized navigation now links directly to the available English fallback and marks it `EN`, while the size-checker call to action points directly to the homepage checker anchor.
+- Tightened the SEO smoke test so a crawled internal link must return direct HTTP 200; redirects are accepted only in the six explicit legacy-route contracts.
 
 - Expanded programmatic SEO coverage and internal guide hub coverage already present in working tree.
 - Fixed high-priority technical SEO risks before deployment:
@@ -33,5 +36,5 @@
 
 ## Deployment state
 
-- Vercel successfully deployed first-round commit `c36d603` on 2026-08-29 (Asia/Shanghai).
-- Push the validated evidence-sensitive follow-up, then confirm its exact production SHA and recrawl production.
+- Vercel successfully deployed the evidence/content sequence through `956396d` on 2026-08-29 (Asia/Shanghai).
+- Confirm the exact production SHA for the direct-link cleanup and recrawl the production site after deployment.

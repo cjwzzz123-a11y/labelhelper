@@ -246,7 +246,7 @@ export function InternationalLabelSplitter({ locale = defaultLocale }: { locale?
         )}
 
         <div className="flex flex-wrap gap-3">
-          <Link href={safeLocalizedPath("/tools/size-checker", locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-[#12324A] hover:bg-white">Size checker</Link>
+          <Link href={safeLocalizedPath("/#checker", locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-[#12324A] hover:bg-white">Size checker</Link>
           <Link href={safeLocalizedPath("/tools/calibration-sheet", locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-[#12324A] hover:bg-white">Calibration sheet</Link>
           <Link href={safeLocalizedPath("/pricing", locale)} className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-[#12324A] hover:bg-white">Pro Toolkit</Link>
         </div>

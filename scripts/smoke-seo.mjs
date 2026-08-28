@@ -200,7 +200,9 @@ try {
 
   for (const path of linkedPaths) {
     const response = await request(path);
-    if (response.status < 200 || response.status >= 400) throw new Error(`internal link ${path}: HTTP ${response.status}`);
+    if (response.status !== 200) {
+      throw new Error(`internal link ${path}: expected direct HTTP 200, received ${response.status}${response.location ? ` -> ${response.location}` : ""}`);
+    }
   }
 
   for (const path of imagePaths) {
