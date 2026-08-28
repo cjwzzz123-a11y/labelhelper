@@ -116,26 +116,65 @@ function carrierPage(slug: string, name: string, carrier: Carrier): SeoPage {
 }
 
 function templatePage(slug: string, label: string): SeoPage {
+  const content = label === "4×6" ? {
+    quickAnswer: "Use this blank 4 × 6 inch file to test a thermal roll or matching 4×6 sheet before printing postage. Print at 100% / Actual Size, measure both edges, and stop if the PDF page, driver media and loaded stock do not all agree on 4×6.",
+    sections: [
+      { heading: "Use this test for a 4×6 media path", body: "This template isolates the path used by common thermal shipping-label printers and by sheet media cut to 4×6. Run it after changing a roll, printer, driver, computer or PDF viewer. It does not prove that a carrier barcode will be accepted; it only tests physical page size, feed and alignment." },
+      { heading: "Make all three size settings agree", body: "Confirm that the source PDF page is 4 × 6 inches, the operating-system or printer driver is set to 4×6, and the loaded media is actually 4×6. Print at 100% / Actual Size with browser headers, footers and Fit disabled. Do not use a custom percentage to compensate for the wrong driver media." },
+      { heading: "Read the shape of the failed test", body: "A uniformly small or large border points to scaling. The same missing edge on every label points to media width, guides or print origin. A boundary that moves between labels points to feed or sensing. Faint bars or streaks are print-quality symptoms, not page-size evidence." },
+      { heading: "Pass before printing live postage", body: "Measure a complete 4 × 6 inch boundary and confirm that it repeats on a second blank test. If the edge is clipped or the feed changes, follow the exact printer model's media-loading and calibration instructions. The blank file has no address, tracking number or paid postage." },
+    ],
+    faq: [
+      { question: "Is the blank 4×6 PDF a shipping label?", answer: "No. It contains no address, tracking barcode or postage; it is a physical calibration fixture." },
+      { question: "What should match before I print?", answer: "The PDF page, driver media setting and loaded stock should all be 4 × 6 inches." },
+      { question: "Why is every test uniformly too small?", answer: "A Fit or scale setting, or a driver/page-size mismatch, is more likely than roll alignment. Restore matching sizes and Actual Size first." },
+      { question: "Why does the missing edge move between labels?", answer: "Variable placement points to roll guides, feed or media sensing. Use the exact printer model's loading and calibration procedure." },
+      { question: "When can I reprint paid postage?", answer: "Only after a measured blank test repeats at the intended boundary without clipping. Then reprint the original label through the issuer's allowed workflow." },
+    ],
+    reviewChecklist: ["Confirm source PDF, driver and media all say 4×6.", "Measure both physical edges at Actual Size.", "Require a repeatable blank test before reprinting postage."],
+  } : label === "A4" ? {
+    quickAnswer: "Use this 210 × 297 mm blank page to test an A4 sheet-printing path. Select A4 paper and 100% / Actual Size, check orientation and the printer's non-printable margins, and do not convert a workflow-required A4 document into a 4×6 label just to fill different media.",
+    sections: [
+      { heading: "Use A4 only for an A4 source workflow", body: "This template checks a desktop inkjet or laser path that is supposed to output an A4 page. It is useful after changing paper trays, printer defaults or PDF viewers. A true 4×6 source may be placed unchanged on a larger sheet, but stretching it to fill A4 changes its geometry." },
+      { heading: "Set the sheet contract", body: "Load A4 paper, choose A4 in the driver and print the A4 PDF at 100% / Actual Size in the intended orientation. Disable browser headers and footers. Do not choose Letter merely because it looks similar: Letter and A4 have different dimensions and printable areas." },
+      { heading: "Separate printable margins from scale", body: "If the measured page is proportionally wrong, inspect scaling. If only an outer edge is absent while interior measurements remain correct, the printer's non-printable margin is the likely boundary. Prefer the issuer's A4 layout or a printer-supported margin path instead of shrinking scan-critical content without evidence." },
+      { heading: "Protect multi-document pages", body: "An issued A4 file may contain more than one label, customs material or other required shipment content. Inspect every page before extracting anything. This blank template cannot decide document meaning and never authorizes cropping or discarding adjacent content." },
+    ],
+    faq: [
+      { question: "What size is A4?", answer: "A4 is 210 × 297 mm. The PDF page, driver selection and loaded sheet should agree on that size." },
+      { question: "Can I select Letter instead?", answer: "Not for a size test. Letter and A4 differ, so substituting one can create clipping or unexpected whitespace." },
+      { question: "Should an A4 page be printed with Fit?", answer: "Start with 100% / Actual Size on matching A4 paper. Fit changes the page geometry and can hide a source-to-media mismatch." },
+      { question: "Can I crop an A4 shipping document to 4×6?", answer: "Only when the issuing workflow identifies a complete standalone label and permits that path. Stop if the page contains required adjacent content or its meaning is uncertain." },
+      { question: "What does a clipped outer border prove?", answer: "It can reveal the printer's non-printable area, but it does not by itself prove that the live label should be scaled. Check the source workflow and printer documentation." },
+    ],
+    reviewChecklist: ["Confirm the source, driver and loaded sheet are A4.", "Check every page for required adjacent content.", "Separate non-printable margins from true scale error."],
+  } : {
+    quickAnswer: "Use this 8.5 × 11 inch blank page to test a US Letter sheet-printing path. Select Letter paper and 100% / Actual Size, verify orientation and printable margins, and keep any smaller label area at its source dimensions instead of enlarging it to fill the sheet.",
+    sections: [
+      { heading: "Use Letter for a Letter source or sheet workflow", body: "This template tests an inkjet or laser printer loaded with 8.5 × 11 inch paper. Run it after a tray, driver or viewer change. A standalone 4×6 label can sit on Letter paper at its original size; it should not be enlarged simply to use more of the sheet." },
+      { heading: "Match the PDF, driver and tray", body: "Choose Letter in the printer driver and print the Letter PDF at 100% / Actual Size in the intended orientation. Disable browser headers, footers and Fit. Do not silently substitute A4: the two sheet formats have different height, width and margin behavior." },
+      { heading: "Diagnose clipping without shrinking the barcode", body: "A proportional size error points to scaling. A missing sheet edge with correct interior measurements points to the device's printable area or orientation. Use a workflow-native Letter layout or correct paper selection before shrinking a complete carrier label." },
+      { heading: "Keep issued content intact", body: "Before cutting or extracting a label from a live Letter PDF, inspect every page and identify the document type. Packing slips, customs forms or multiple unique labels may be required. The blank test confirms the sheet path only; it cannot authorize removing issued content." },
+    ],
+    faq: [
+      { question: "What size is US Letter?", answer: "US Letter is 8.5 × 11 inches. Match that size in the PDF, printer driver and loaded tray for this test." },
+      { question: "Is Letter the same as A4?", answer: "No. Their dimensions differ, so swapping them can change margins or clip an edge." },
+      { question: "Should a 4×6 label fill the Letter sheet?", answer: "No. Keep a true 4×6 label at 4 × 6 inches and use the extra sheet area as whitespace unless the issuer provides a different native layout." },
+      { question: "Why is only the outside border clipped?", answer: "The selected orientation or the printer's non-printable area may be responsible. Confirm those before changing the scale of the label content." },
+      { question: "When should I stop?", answer: "Stop if the source size is unclear, required adjacent documents would be removed, or the measured blank page still does not match the selected Letter path." },
+    ],
+    reviewChecklist: ["Confirm the PDF, driver and tray are Letter.", "Keep a true 4×6 label at its original size on the sheet.", "Inspect every live page before extracting or cutting content."],
+  };
+
   return {
     slug,
     kind: "template",
     title: `${label} Shipping Label Template Download`,
     description: `Download a blank ${label} shipping label template and check print scale before printing carrier labels.`,
     h1: `${label} Shipping Label Template`,
-    quickAnswer: `Download the ${label} blank template, print it at 100% scale, and confirm the edges and barcode area line up before printing real postage. The template is for calibration only and does not create postage.`,
-    sections: [
-      { heading: `When to use a ${label} template`, body: "Use a blank template to confirm your printer driver, paper, margins and orientation before printing an actual shipping label. It is especially useful after installing a new printer, changing browsers, switching PDF viewers or loading a new label roll." },
-      { heading: "Print settings", body: "Use 100% / Actual Size. Disable Fit to Page, Shrink Oversized Pages and browser headers or footers. Match the paper size in the print dialog to the template size, then check that the border prints at the expected physical size." },
-      { heading: "After printing", body: "Measure the output with a ruler. If it is smaller or larger than expected, use the scale calculator before printing real labels. If the border is clipped, check orientation, margins and whether the printer supports borderless output for that paper size." },
-      { heading: "How this differs from postage", body: "This template is a blank test file. It does not include a carrier barcode, tracking number, recipient address or postage payment. Use it to validate hardware and print settings, then print the real label from your platform or carrier account." },
-    ],
-    faq: [
-      { question: "Is this a postage label?", answer: "No. It is a blank test template for checking printer scale and alignment." },
-      { question: "Can I use it with a thermal printer?", answer: "Yes for 4×6. A4 and Letter templates are intended for sheet printers." },
-      { question: "Should I print at 100%?", answer: "Yes. Start with 100% / Actual Size for calibration." },
-      { question: "What if the printed template is slightly smaller?", answer: "Use the scale calculator to estimate a corrected print percentage, then rerun the template before printing postage." },
-      { question: "Why are the template edges clipped?", answer: "The paper size, orientation, driver margins or printable area probably do not match the template. Check those settings before blaming the label file." },
-    ],
+    updatedAt: "2026-08-29",
+    evidenceNote: "This blank-file workflow verifies physical page size, feed and printable boundaries. It does not verify a carrier barcode, authorize document conversion or guarantee carrier acceptance.",
+    ...content,
     related: commonRelated,
   };
 }

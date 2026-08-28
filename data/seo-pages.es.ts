@@ -56,26 +56,65 @@ function carrierPage(slug: string, name: string, carrier: Carrier): SeoPage {
 }
 
 function templatePage(slug: string, label: string): SeoPage {
+  const content = label === "4×6" ? {
+    quickAnswer: "Usa este archivo en blanco de 4 × 6 pulgadas para probar un rollo térmico o una hoja 4×6 antes de imprimir franqueo. Imprime al 100% / Tamaño real, mide ambos lados y detente si la página PDF, el medio del driver y el material cargado no coinciden en 4×6.",
+    sections: [
+      { heading: "Prueba un recorrido de medio 4×6", body: "Esta plantilla aísla el recorrido de impresoras térmicas comunes y de hojas cortadas a 4×6. Úsala después de cambiar rollo, impresora, driver, equipo o visor PDF. Solo comprueba tamaño físico, avance y alineación; no demuestra que un código de transportista será aceptado." },
+      { heading: "Haz coincidir los tres tamaños", body: "Confirma una página PDF de 4 × 6 pulgadas, medio 4×6 en el sistema o driver y material físico 4×6. Usa 100% / Tamaño real y desactiva encabezados, pies y Ajustar. No compenses con un porcentaje personalizado un medio incorrecto en el driver." },
+      { heading: "Interpreta la forma del fallo", body: "Un borde uniformemente pequeño o grande apunta a escala. El mismo lado ausente en cada etiqueta apunta a anchura, guías u origen. Una posición que cambia apunta a avance o detección. Barras tenues o rayas indican calidad de impresión, no tamaño de página." },
+      { heading: "Exige una prueba repetible", body: "Mide un límite completo de 4 × 6 pulgadas y repítelo en una segunda prueba en blanco. Si hay recorte o cambia el avance, sigue la carga y calibración del modelo exacto. El archivo no contiene dirección, seguimiento ni franqueo pagado." },
+    ],
+    faq: [
+      { question: "¿El PDF 4×6 en blanco es una etiqueta real?", answer: "No. No contiene dirección, código de seguimiento ni franqueo; es una prueba física de calibración." },
+      { question: "¿Qué debe coincidir antes de imprimir?", answer: "La página PDF, el medio del driver y el material cargado deben ser 4 × 6 pulgadas." },
+      { question: "¿Por qué toda la prueba queda pequeña?", answer: "Es más probable un ajuste de escala o una discordancia de página/driver. Restaura tamaños coincidentes y Tamaño real antes de corregir porcentajes." },
+      { question: "¿Por qué cambia el borde ausente?", answer: "Una posición variable apunta a guías, avance o detección. Usa el procedimiento del modelo exacto." },
+      { question: "¿Cuándo puedo reimprimir franqueo?", answer: "Cuando una prueba en blanco medida se repita sin recortes; luego usa la ruta de reimpresión permitida por el emisor." },
+    ],
+    reviewChecklist: ["Confirma 4×6 en PDF, driver y medio.", "Mide ambos lados físicos a Tamaño real.", "Exige una prueba repetible antes de reimprimir franqueo."],
+  } : label === "A4" ? {
+    quickAnswer: "Usa esta página en blanco de 210 × 297 mm para probar una ruta de impresión A4. Elige papel A4 y 100% / Tamaño real, revisa orientación y márgenes no imprimibles, y no conviertas un documento A4 exigido por el flujo a 4×6 solo para llenar otro medio.",
+    sections: [
+      { heading: "Usa A4 para un origen o flujo A4", body: "La plantilla comprueba una impresora inkjet o láser que debe producir una página A4. Úsala tras cambiar bandeja, valores del driver o visor. Una etiqueta 4×6 real puede conservar su tamaño sobre una hoja mayor; estirarla para llenar A4 cambia su geometría." },
+      { heading: "Define el contrato de la hoja", body: "Carga A4, selecciona A4 en el driver e imprime el PDF A4 al 100% / Tamaño real con la orientación prevista. Desactiva encabezados y pies. No elijas Letter por parecido: ambos formatos tienen dimensiones y áreas imprimibles distintas." },
+      { heading: "Separa márgenes de errores de escala", body: "Si todas las medidas cambian proporcionalmente, revisa la escala. Si falta solo un borde externo y las medidas interiores son correctas, el límite probable es el área no imprimible. Prefiere el diseño A4 del emisor o una ruta de margen admitida antes de reducir contenido crítico." },
+      { heading: "Protege documentos de varias partes", body: "Un archivo A4 emitido puede incluir varias etiquetas, aduanas u otro contenido necesario. Revisa todas las páginas antes de extraer. La plantilla en blanco no identifica el significado del documento ni autoriza descartar contenido contiguo." },
+    ],
+    faq: [
+      { question: "¿Qué tamaño tiene A4?", answer: "A4 mide 210 × 297 mm. La página, el driver y la hoja cargada deben coincidir." },
+      { question: "¿Puedo seleccionar Letter?", answer: "No para esta prueba. Letter y A4 difieren y sustituirlos puede provocar recorte o espacio inesperado." },
+      { question: "¿Debo usar Ajustar?", answer: "Empieza con 100% / Tamaño real sobre A4 coincidente. Ajustar cambia la geometría y puede ocultar una discordancia." },
+      { question: "¿Puedo recortar un documento A4 a 4×6?", answer: "Solo si el emisor identifica una etiqueta completa independiente y permite esa ruta. Detente si hay contenido contiguo obligatorio o el significado es incierto." },
+      { question: "¿Qué demuestra un borde exterior recortado?", answer: "Puede revelar el área no imprimible, pero no prueba que debas reducir la etiqueta real. Revisa el flujo de origen y el manual de la impresora." },
+    ],
+    reviewChecklist: ["Confirma A4 en origen, driver y hoja.", "Revisa todas las páginas y contenido contiguo.", "Distingue margen no imprimible de escala incorrecta."],
+  } : {
+    quickAnswer: "Usa esta página en blanco de 8,5 × 11 pulgadas para probar una ruta US Letter. Elige Letter y 100% / Tamaño real, revisa orientación y márgenes, y conserva cualquier etiqueta menor en sus dimensiones de origen en vez de ampliarla para llenar la hoja.",
+    sections: [
+      { heading: "Usa Letter para un origen o flujo Letter", body: "Esta plantilla prueba una impresora inkjet o láser cargada con papel de 8,5 × 11 pulgadas. Úsala tras cambiar bandeja, driver o visor. Una etiqueta 4×6 independiente puede quedar a su tamaño en Letter; no debe ampliarse solo para ocupar más hoja." },
+      { heading: "Haz coincidir PDF, driver y bandeja", body: "Selecciona Letter en el driver e imprime el PDF Letter al 100% / Tamaño real con la orientación prevista. Desactiva encabezados, pies y Ajustar. No sustituyas A4: los formatos difieren en ancho, alto y comportamiento de márgenes." },
+      { heading: "Diagnostica recortes sin reducir el código", body: "Un error proporcional apunta a escala. Un borde de hoja ausente con medidas interiores correctas apunta al área imprimible o a orientación. Usa un diseño Letter nativo o corrige el papel antes de reducir una etiqueta completa." },
+      { heading: "Conserva intacto el contenido emitido", body: "Antes de cortar o extraer una etiqueta de un PDF Letter real, revisa cada página y clasifica el documento. Albaranes, aduanas o varias etiquetas únicas pueden ser obligatorios. La prueba en blanco valida la hoja, no autoriza eliminar contenido." },
+    ],
+    faq: [
+      { question: "¿Qué tamaño tiene US Letter?", answer: "US Letter mide 8,5 × 11 pulgadas. Haz coincidir PDF, driver y bandeja." },
+      { question: "¿Letter es igual que A4?", answer: "No. Sus dimensiones difieren y el cambio puede modificar márgenes o recortar un borde." },
+      { question: "¿Una etiqueta 4×6 debe llenar la hoja Letter?", answer: "No. Conserva una etiqueta 4×6 real en 4 × 6 pulgadas salvo que el emisor entregue otro diseño nativo." },
+      { question: "¿Por qué solo se recorta el borde exterior?", answer: "La orientación o el área no imprimible puede ser responsable. Confírmalo antes de cambiar la escala del contenido." },
+      { question: "¿Cuándo debo detenerme?", answer: "Cuando el tamaño de origen sea incierto, se perderían documentos obligatorios o la página en blanco aún no coincida con Letter." },
+    ],
+    reviewChecklist: ["Confirma Letter en PDF, driver y bandeja.", "Conserva una etiqueta 4×6 en su tamaño original.", "Revisa todas las páginas antes de extraer contenido."],
+  };
+
   return {
     slug,
     kind: "template",
     title: `Descarga de plantilla de etiqueta ${label}`,
     description: `Descarga una plantilla en blanco de etiqueta ${label} y comprueba la escala antes de imprimir etiquetas de transportista.`,
     h1: `Plantilla de etiqueta de envío ${label}`,
-    quickAnswer: `Descarga la plantilla en blanco ${label}, imprímela al 100% y confirma que los bordes y el área del código de barras queden alineados antes de imprimir franqueo real. La plantilla solo sirve para calibración y no crea franqueo.`,
-    sections: [
-      { heading: `Cuándo usar una plantilla ${label}`, body: "Usa una plantilla en blanco para confirmar driver, papel, márgenes y orientación antes de imprimir una etiqueta real. Es especialmente útil después de instalar una impresora nueva, cambiar de navegador, cambiar de visor PDF o cargar un rollo nuevo." },
-      { heading: "Ajustes de impresión", body: "Usa 100% / Tamaño real. Desactiva Ajustar a página, Reducir páginas grandes y encabezados o pies del navegador. Haz que el tamaño de papel del diálogo de impresión coincida con la plantilla y revisa que el borde salga al tamaño físico esperado." },
-      { heading: "Después de imprimir", body: "Mide el resultado con una regla. Si queda más pequeño o más grande de lo esperado, usa la calculadora de escala antes de imprimir etiquetas reales. Si se recorta el borde, revisa orientación, márgenes y si la impresora admite el área imprimible de ese papel." },
-      { heading: "Diferencia frente a una etiqueta con franqueo", body: "Esta plantilla es un archivo de prueba en blanco. No incluye código de barras del transportista, número de seguimiento, dirección de destino ni pago de franqueo. Úsala para validar hardware y ajustes, y luego imprime la etiqueta real desde tu plataforma o cuenta del transportista." },
-    ],
-    faq: [
-      { question: "¿Esto es una etiqueta con franqueo?", answer: "No. Es una plantilla de prueba en blanco para revisar escala y alineación." },
-      { question: "¿Puedo usarla con una impresora térmica?", answer: "Sí para 4×6. Las plantillas A4 y Letter están pensadas principalmente para impresoras de hoja." },
-      { question: "¿Debo imprimir al 100%?", answer: "Sí. Para calibrar, empieza con 100% / Tamaño real." },
-      { question: "¿Qué hago si la plantilla impresa queda un poco pequeña?", answer: "Usa la calculadora de escala para estimar un porcentaje corregido, vuelve a imprimir la plantilla y solo después imprime franqueo." },
-      { question: "¿Por qué se recortan los bordes de la plantilla?", answer: "Probablemente el tamaño de papel, la orientación, los márgenes del driver o el área imprimible no coinciden con la plantilla. Revisa esos ajustes primero." },
-    ],
+    updatedAt: "2026-08-29",
+    evidenceNote: "Este flujo con archivo en blanco verifica tamaño físico, avance y límites imprimibles. No verifica códigos, autoriza conversiones ni garantiza aceptación por el transportista.",
+    ...content,
     related: commonRelated,
   };
 }
