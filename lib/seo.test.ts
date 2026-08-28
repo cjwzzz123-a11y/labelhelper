@@ -163,6 +163,30 @@ describe("SEO metadata contracts", () => {
     expect(new Set(firstHeadings).size).toBe(slugs.length);
   });
 
+  it("keeps 4x6, A4 and Letter template workflows distinct in every published locale", () => {
+    const slugs = ["4x6-shipping-label-template", "a4-shipping-label-template", "letter-shipping-label-template"];
+    const localizedSets = [
+      { locale: "en", pages: slugs.map((slug) => getSeoPage(slug)), dimensions: ["4 × 6", "210 × 297", "8.5 × 11"] },
+      { locale: "es", pages: slugs.map((slug) => getLocalizedSeoPage(slug, "es")), dimensions: ["4 × 6", "210 × 297", "8,5 × 11"] },
+      { locale: "zh", pages: slugs.map((slug) => getLocalizedSeoPage(slug, "zh")), dimensions: ["4 × 6", "210 × 297", "8.5 × 11"] },
+    ];
+
+    for (const localized of localizedSets) {
+      expect(localized.pages.every(Boolean)).toBe(true);
+      for (const [index, page] of localized.pages.entries()) {
+        expect(page?.updatedAt).toBe("2026-08-29");
+        expect(page?.evidenceNote?.length).toBeGreaterThan(40);
+        expect(page?.quickAnswer).toContain(localized.dimensions[index]);
+        expect(page?.sections).toHaveLength(4);
+        expect(page?.faq).toHaveLength(5);
+        expect(page?.reviewChecklist).toHaveLength(3);
+      }
+
+      const headingFingerprints = localized.pages.map((page) => page?.sections.map((section) => section.heading).join(" | "));
+      expect(new Set(headingFingerprints).size).toBe(slugs.length);
+    }
+  });
+
   it("keeps the nine reviewed long-tail pages evidence-scoped and independently actionable", () => {
     const symptomSlugs = [
       "shipping-label-printing-too-small",
